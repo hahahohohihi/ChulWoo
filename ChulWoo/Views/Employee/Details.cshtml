@@ -1,0 +1,250 @@
+﻿@model ChulWoo.Models.Employee
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Employee</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DepartmentVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DepartmentVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DepartmentKr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DepartmentKr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankAccount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankAccount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankLocation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TexNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TexNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobPosition)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JobPosition)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sex)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sex)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegistrationNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegistrationNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegistrationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegistrationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegistrationPosition)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegistrationPosition)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tel1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tel1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tel2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tel2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResignDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResignDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResignNoteVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResignNoteVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResignNoteKr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResignNoteKr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Adress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Adress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.People)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.People)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Religion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Religion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EducationLevel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EducationLevel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MajorVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MajorVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MajorKr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MajorKr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Marriage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Marriage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DependentChild)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DependentChild)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DependentParents)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DependentParents)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
