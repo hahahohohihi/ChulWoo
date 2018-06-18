@@ -10,7 +10,7 @@ using System.Web.Mvc;
 using ChulWoo.DAL;
 using ChulWoo.Models;
 
-namespace ChulWoo.Controllers
+namespace ChulWoo.Controllers 
 {
     public class EmployeeController : Controller
     {

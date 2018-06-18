@@ -15,7 +15,7 @@ namespace ChulWoo.Models
         public virtual ICollection<Contract> Contracts { get; set; }
 
         // 키값(인사) 키값(인사)
-        public virtual ICollection<Personnel> Personnels { get; set; }
+        public virtual ICollection<Personnel> Personnels { get; set; } 
 
         // 부서 부서(베트남)
         [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]

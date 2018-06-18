@@ -7,7 +7,7 @@
     using ChulWoo.Models;
     using System.Collections.Generic;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ChulWoo.DAL.ChulWooContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ChulWoo.DAL.ChulWooContext> 
     {
         public Configuration()
         {

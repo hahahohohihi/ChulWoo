@@ -13,7 +13,7 @@ namespace ChulWoo.Models
 
         // 키값(직원테이블) 키값(직원테이블)
         public int EmployeeID { get; set; }
-        public virtual Employee Employee { get; set; }
+        public virtual Employee Employee { get; set; } 
 
         // 계약시작 계약시작
         [DataType(DataType.Date)]

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using ChulWoo.Models;
 using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data.Entity.ModelConfiguration.Conventions; 
 
 namespace ChulWoo.DAL
 {

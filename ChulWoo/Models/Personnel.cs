@@ -17,7 +17,7 @@ namespace ChulWoo.Models
 
         // 시작날짜 시작날짜
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)] 
         public DateTime? StartDate { get; set; }
 
         // 끝날짜 끝날짜
