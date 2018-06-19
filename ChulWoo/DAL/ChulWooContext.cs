@@ -17,10 +17,13 @@ namespace ChulWoo.DAL
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<Personnel> Personnels { get; set; }
+        public DbSet<Resign> Resigns { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
+            modelBuilder.Entity<Employee>().MapToStoredProcedures();
         }
     }
 }

@@ -15,7 +15,10 @@ namespace ChulWoo.Models
         public virtual ICollection<Contract> Contracts { get; set; }
 
         // 키값(인사) 키값(인사)
-        public virtual ICollection<Personnel> Personnels { get; set; } 
+        public virtual ICollection<Personnel> Personnels { get; set; }
+
+        // 키값(퇴직정보) 키값(퇴직정보)
+        public virtual Resign Resign { get; set; }
 
         // 부서 부서(베트남)
         [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
@@ -82,17 +85,6 @@ namespace ChulWoo.Models
         [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
         public string Email { get; set; }
 
-        // 퇴사일 퇴사일
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? ResignDate { get; set; }
-
-        // 퇴사사유 퇴사사유(베트남)
-        public string ResignNoteVn { get; set; }
-
-        // 퇴사사유 퇴사사유(한글)
-        public string ResignNoteKr { get; set; }
-
         // 주소 직원주소
         public string Adress { get; set; }
 
@@ -131,6 +123,11 @@ namespace ChulWoo.Models
         // 노동연령을넘은 부양가족수 노동연령을넘은 부양가족수
         [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
         public string DependentParents { get; set; }
+
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
     }
 }
 

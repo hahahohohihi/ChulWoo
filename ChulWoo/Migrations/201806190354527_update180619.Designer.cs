@@ -4,16 +4,16 @@ namespace ChulWoo.Migrations
     using System.CodeDom.Compiler;
     using System.Data.Entity.Migrations;
     using System.Data.Entity.Migrations.Infrastructure;
-    using System.Resources; 
+    using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class InitialCreate : IMigrationMetadata
+    public sealed partial class update180619 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(update180619));
         
         string IMigrationMetadata.Id
         {
-            get { return "201806160835326_InitialCreate"; }
+            get { return "201806190354527_update180619"; }
         }
         
         string IMigrationMetadata.Source

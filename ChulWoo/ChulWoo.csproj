@@ -19,7 +19,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort /> 
+    <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -161,14 +161,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201806160835326_InitialCreate.cs" />
-    <Compile Include="Migrations\201806160835326_InitialCreate.Designer.cs">
-      <DependentUpon>201806160835326_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201806190354527_update180619.cs" />
+    <Compile Include="Migrations\201806190354527_update180619.Designer.cs">
+      <DependentUpon>201806190354527_update180619.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contract.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Personnel.cs" />
+    <Compile Include="Models\Resign.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -233,8 +234,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201806160835326_InitialCreate.resx">
-      <DependentUpon>201806160835326_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201806190354527_update180619.resx">
+      <DependentUpon>201806190354527_update180619.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
