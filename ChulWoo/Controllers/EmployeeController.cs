@@ -21,7 +21,8 @@ namespace ChulWoo.Controllers
         public async Task<ActionResult> Index()
         {
             var employees = db.Employees.Include(e => e.Resign)
-                .Include(e => e.Contracts.Select(c => c.Employee));
+                .Include(e => e.Contracts.Select(c => c.Employee))
+                .OrderBy(e => e.ID);
             return View(employees);
 //            return View(await db.Employees.ToListAsync());
         }
@@ -71,7 +72,11 @@ namespace ChulWoo.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = await db.Employees.FindAsync(id);
+//            Employee employee = await db.Employees.FindAsync(id);
+            Employee employee = db.Employees
+                .Include(e => e.Resign)
+                .Where(e => e.ID == id)
+                .Single();
             if (employee == null)
             {
                 return HttpNotFound();
@@ -87,14 +92,19 @@ namespace ChulWoo.Controllers
         public async Task<ActionResult> Edit(int? id, byte[] rowVersion)
         {
             string[] fieldsToBind = new string[] { "DepartmentVn", "DepartmentKr", "Name", "EmployeeNo", "BankAccount", "BankLocation", "TexNo", "JobPosition",
-                "Sex", "BirthDate", "RegistrationNo", "RegistrationDate", "RegistrationPosition", "Tel1", "Tel2", "Email", 
-                "Adress", "People", "Religion", "Country", "EducationLevel", "MajorVn", "MajorKr", "Marriage", "DependentChild", "DependentParents" };
+                "Sex", "BirthDate", "RegistrationNo", "RegistrationDate", "RegistrationPosition", "Tel1", "Tel2", "Email", "Adress", "People", "Religion",
+                "Country", "EducationLevel", "MajorVn", "MajorKr", "Marriage", "DependentChild", "DependentParents", "RowVersion", "Resign" };
 
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var employeeToUpdate = await db.Employees.FindAsync(id);
-            if( employeeToUpdate == null )
+//            var employeeToUpdate = await db.Employees.FindAsync(id);
+            Employee employeeToUpdate = db.Employees
+                .Include(e => e.Resign)
+                .Where(e => e.ID == id)
+                .Single();
+
+            if ( employeeToUpdate == null )
             {
                 Employee deleteEmployee = new Employee();
                 TryUpdateModel(deleteEmployee, fieldsToBind);
@@ -102,10 +112,12 @@ namespace ChulWoo.Controllers
                 return View(deleteEmployee);
             }
 
-            if( TryUpdateModel(employeeToUpdate, fieldsToBind) )
+            if ( TryUpdateModel(employeeToUpdate, fieldsToBind) )
             {
                 try
                 {
+                    if (employeeToUpdate.Resign.ResignDate == null)
+                        employeeToUpdate.Resign = null;
                     db.Entry(employeeToUpdate).OriginalValues["RowVersion"] = rowVersion;
                     await db.SaveChangesAsync();
 
@@ -175,7 +187,14 @@ namespace ChulWoo.Controllers
                             ModelState.AddModelError("DependentChild", "Current value: " + databaseValues.DependentChild);
                         if (databaseValues.DependentParents != clientValues.DependentParents)
                             ModelState.AddModelError("DependentParents", "Current value: " + databaseValues.DependentParents);
-
+/*  동시성충돌 해결안됨
+                        if (databaseValues.Resign != null && clientValues.Resign != null && databaseValues.Resign.ResignDate != clientValues.Resign.ResignDate)
+                            ModelState.AddModelError("ResignDate", "Current value: " + String.Format("{0:d}", databaseValues.Resign.ResignDate));
+                        if (databaseValues.Resign != null && clientValues.Resign != null && databaseValues.Resign.ResignNoteVn != clientValues.Resign.ResignNoteVn)
+                            ModelState.AddModelError("ResignNoteVn", "Current value: " + databaseValues.Resign.ResignNoteVn);
+                        if (databaseValues.Resign != null && clientValues.Resign != null && databaseValues.Resign.ResignNoteKr != clientValues.Resign.ResignNoteKr)
+                            ModelState.AddModelError("ResignNoteKr", "Current value: " + databaseValues.Resign.ResignNoteKr);
+*/
                         ModelState.AddModelError(string.Empty, "The record you attempted to edit "
                             + "was modified by another user after you got the original value. The "
                             + "edit operation was canceled and the current values in the database "
@@ -227,11 +246,24 @@ namespace ChulWoo.Controllers
         // POST: Employee/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(Employee employee)
+        public async Task<ActionResult> Delete(int? id)
         {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            Employee employee = db.Employees
+                .Include(e => e.Resign)
+                .Where(e => e.ID == id)
+                .Single();
+
+            if (employee == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
             try
             {
-                db.Entry(employee).State = EntityState.Deleted;
+                //                db.Entry(employee).State = EntityState.Deleted;
+                db.Employees.Remove(employee);
+
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

@@ -218,6 +218,32 @@
             @Html.DisplayFor(model => model.DependentParents)
         </dd>
 
+        @if (Model.Resign != null)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Resign.ResignDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Resign.ResignDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Resign.ResignNoteVn)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Resign.ResignNoteVn)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Resign.ResignNoteKr)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Resign.ResignNoteKr)
+            </dd>
+        }
     </dl>
 </div>
 <p>
