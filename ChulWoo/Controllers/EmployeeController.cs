@@ -10,12 +10,14 @@ using System.Web.Mvc;
 using ChulWoo.DAL;
 using ChulWoo.Models;
 using System.Data.Entity.Infrastructure;
+using ChulWoo.Viewmodel;
 
 namespace ChulWoo.Controllers 
 {
     public class EmployeeController : Controller
     {
         private ChulWooContext db = new ChulWooContext();
+        private int deleteContractID;
          
         // GET: Employee
         public async Task<ActionResult> Index()
@@ -23,23 +25,117 @@ namespace ChulWoo.Controllers
             var employees = db.Employees.Include(e => e.Resign)
                 .Include(e => e.Contracts.Select(c => c.Employee))
                 .OrderBy(e => e.ID);
-            return View(employees);
+            return View(await employees.ToListAsync());
 //            return View(await db.Employees.ToListAsync());
         }
 
         // GET: Employee/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public async Task<ActionResult> Details(int? id, int? contractsID)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            if( contractsID != null )
+            {
+                Contract contract = await db.Contracts.FindAsync(contractsID);
+                if (contract != null)
+                {
+                    //                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    try
+                    {
+                        //                db.Entry(employee).State = EntityState.Deleted;
+                        db.Contracts.Remove(contract);
+
+                        await db.SaveChangesAsync();
+                        //                return RedirectToAction("Details", id);
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        return RedirectToAction("Details", id);
+                        //                return RedirectToAction("Delete", new { concurrencyError = true, id = employee.ID });
+                    }
+                    catch (DataException /* dex */)
+                    {
+                        //Log the error (uncomment dex variable name after DataException and add a line here to write a log.
+                        ModelState.AddModelError(string.Empty, "Unable to delete. Try again, and if the problem persists contact your system administrator.");
+                        return RedirectToAction("Details", id);
+                        //                return View(employee);
+                    }
+                }
             }
-            Employee employee = await db.Employees.FindAsync(id);
-            if (employee == null)
+
+            //            Employee employee = await db.Employees.FindAsync(id);
+            var employee = new EmployeeExtendData();
+            employee.Employee = db.Employees.Include(e => e.Resign)
+                .Where(e => e.ID == id)
+                .Include(e => e.Contracts.Select(c => c.Employee))
+                .Include(e => e.Personnels.Select(p => p.Employee))
+                .Single();
+
+            //            employee.Contracts = employee.Contracts.OrderBy(c => c.StartDate);
+            //            employee.Contracts = employee.Contracts.OrderByDescending(c => c.StartDate);
+
+            if (employee.Employee == null)
             {
                 return HttpNotFound();
             }
+
             return View(employee);
+        }
+        [HttpPost]
+        public async Task<ActionResult> Details(int? id, EmployeeExtendData employeeEx)
+        {
+            if (ModelState.IsValid && employeeEx.Contract.StartDate != null && employeeEx.Contract.EndDate != null && 
+                employeeEx.Contract.Type != null && employeeEx.Contract.Salary != null )
+            {
+                employeeEx.Contract.EmployeeID = (int)id;
+                db.Contracts.Add(employeeEx.Contract);
+                await db.SaveChangesAsync();
+//                return RedirectToAction("Details", id);
+            }
+/*
+            employeeEx.Employee = db.Employees.Include(e => e.Resign)
+                .Where(e => e.ID == id)
+                .Include(e => e.Contracts.Select(c => c.Employee))
+                .Include(e => e.Personnels.Select(p => p.Employee))
+                .Single();
+
+            return View(employeeEx);*/
+            return RedirectToAction("Details", id );
+        }
+
+        public async Task<ActionResult> DeleteContract(int? id, int? contractsID)
+        {
+            if (id == null || contractsID == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            Contract contract = await db.Contracts.FindAsync(contractsID);
+            if (contract == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            deleteContractID = (int)id;
+
+            try
+            {
+                //                db.Entry(employee).State = EntityState.Deleted;
+                db.Contracts.Remove(contract);
+
+                await db.SaveChangesAsync();
+//                return RedirectToAction("Details", id);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return RedirectToAction("Details", id);
+//                return RedirectToAction("Delete", new { concurrencyError = true, id = employee.ID });
+            }
+            catch (DataException /* dex */)
+            {
+                //Log the error (uncomment dex variable name after DataException and add a line here to write a log.
+                ModelState.AddModelError(string.Empty, "Unable to delete. Try again, and if the problem persists contact your system administrator.");
+                return RedirectToAction("Details", id);
+                //                return View(employee);
+            }
+            return RedirectToAction("Details", deleteContractID);
         }
 
         // GET: Employee/Create
