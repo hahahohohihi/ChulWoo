@@ -10,5 +10,6 @@ namespace ChulWoo.Viewmodel
     {
         public Employee Employee { get; set; }
         public Contract Contract { get; set; }
+        public Personnel Personnel { get; set; }
     }
 }
