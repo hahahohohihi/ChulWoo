@@ -19,6 +19,13 @@ namespace ChulWoo.DAL
         public DbSet<Personnel> Personnels { get; set; }
         public DbSet<Resign> Resigns { get; set; }
 
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<Company> Companys { get; set; }
+        public DbSet<MaterialBuy> MaterialBuys { get; set; }
+        public DbSet<MaterialBuyUnit> MaterialBuyUnits { get; set; }
+        public DbSet<MaterialUnitPrice> MaterialUnitPrices { get; set; }
+        public DbSet<MaterialName> MaterialNames { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

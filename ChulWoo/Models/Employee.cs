@@ -18,6 +18,7 @@ namespace ChulWoo.Models
         public virtual ICollection<Personnel> Personnels { get; set; }
 
         // 키값(퇴직정보) 키값(퇴직정보)
+        public int ResignID { get; set; }
         public virtual Resign Resign { get; set; }
 
         // 부서 부서(베트남)
