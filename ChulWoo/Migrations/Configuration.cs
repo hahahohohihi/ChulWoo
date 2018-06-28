@@ -94,6 +94,88 @@
             };
             resign.ForEach(s => context.Resigns.Add(s));
             context.SaveChanges();
+
+            var company = new List<Company>
+            {
+                new Company { Name = "Company A", Address = "AAA", Tel = "1111111111", Texcode = "11111111" },
+                new Company { Name = "Company B", Address = "BBB", Tel = "2222222222", Texcode = "22222222" },
+                new Company { Name = "Company C", Address = "CCC", Tel = "3333333333", Texcode = "33333333" }
+            };
+            company.ForEach(s => context.Companys.Add(s));
+            context.SaveChanges();
+
+            var project = new List<Project>
+            {
+                new Project { CompanyID = company.Single(e => e.Name == "Company A").ID, Name = "Project A", Date = DateTime.Parse("2016-08-06"), MaterialBuys = new List<MaterialBuy>() },
+                new Project { CompanyID = company.Single(e => e.Name == "Company B").ID, Name = "Project B", Date = DateTime.Parse("2017-01-10"), MaterialBuys = new List<MaterialBuy>() },
+                new Project { CompanyID = company.Single(e => e.Name == "Company C").ID, Name = "Project C", Date = DateTime.Parse("2017-08-16"), MaterialBuys = new List<MaterialBuy>() }
+            };
+            project.ForEach(s => context.Projects.AddOrUpdate(p => p.Name, s));
+            //            project.ForEach(s => context.Projects.Add(s));
+            context.SaveChanges();
+
+            var materialname = new List<MaterialName>
+            {
+                new MaterialName { Name = "Material A1", Sort = "AAA" },
+                new MaterialName { Name = "Material A2", Sort = "AAA" },
+                new MaterialName { Name = "Material B1", Sort = "BBB" },
+                new MaterialName { Name = "Material B2", Sort = "BBB" },
+                new MaterialName { Name = "Material C1", Sort = "CCC" },
+                new MaterialName { Name = "Material C2", Sort = "CCC" }
+            };
+            materialname.ForEach(s => context.MaterialNames.Add(s));
+            context.SaveChanges();
+
+            var materialunitprice = new List<MaterialUnitPrice>
+            {
+                new MaterialUnitPrice{ MaterialNameID = materialname.Single(e => e.Name == "Material A1").ID, CompanyID = company.Single(e => e.Name == "Company A").ID,
+                    Date = DateTime.Parse("2016-08-06"), Unit = "", Price = 1000000},
+                new MaterialUnitPrice{ MaterialNameID = materialname.Single(e => e.Name == "Material A2").ID, CompanyID = company.Single(e => e.Name == "Company A").ID,
+                    Date = DateTime.Parse("2016-08-06"), Unit = "", Price = 2000000},
+                new MaterialUnitPrice{ MaterialNameID = materialname.Single(e => e.Name == "Material B1").ID, CompanyID = company.Single(e => e.Name == "Company B").ID,
+                    Date = DateTime.Parse("2016-08-06"), Unit = "", Price = 3000000},
+                new MaterialUnitPrice{ MaterialNameID = materialname.Single(e => e.Name == "Material B2").ID, CompanyID = company.Single(e => e.Name == "Company B").ID,
+                    Date = DateTime.Parse("2016-08-06"), Unit = "", Price = 4000000},
+                new MaterialUnitPrice{ MaterialNameID = materialname.Single(e => e.Name == "Material C1").ID, CompanyID = company.Single(e => e.Name == "Company C").ID,
+                    Date = DateTime.Parse("2016-08-06"), Unit = "", Price = 5000000},
+                new MaterialUnitPrice{ MaterialNameID = materialname.Single(e => e.Name == "Material C2").ID, CompanyID = company.Single(e => e.Name == "Company C").ID,
+                    Date = DateTime.Parse("2016-08-06"), Unit = "", Price = 6000000}
+            };
+            materialunitprice.ForEach(s => context.MaterialUnitPrices.Add(s));
+            context.SaveChanges();
+
+            var materialbuyunit = new List<MaterialBuyUnit>
+            {
+                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 1000000).ID, Quantity = 1, Weight =0, Date =DateTime.Parse("2016-08-06")},
+                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 2000000).ID, Quantity = 1, Weight =0, Date =DateTime.Parse("2016-08-06")},
+                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 3000000).ID, Quantity = 1, Weight =0, Date =DateTime.Parse("2016-08-06")},
+                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 4000000).ID, Quantity = 1, Weight =0, Date =DateTime.Parse("2016-08-06")},
+                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 5000000).ID, Quantity = 1, Weight =0, Date =DateTime.Parse("2016-08-06")},
+                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 6000000).ID, Quantity = 1, Weight =0, Date =DateTime.Parse("2016-08-06")},
+            };
+            materialbuyunit.ForEach(s => context.MaterialBuyUnits.Add(s));
+            context.SaveChanges();
+
+            var materialbuy = new List<MaterialBuy>
+            {
+                new MaterialBuy{ CompanyID = company.Single(e => e.Name == "Company A").ID, ProjectID = project.Single(e => e.Name == "Project A").ID, MaterialBuyUnits = new List<MaterialBuyUnit>()},
+                new MaterialBuy{ CompanyID = company.Single(e => e.Name == "Company B").ID, ProjectID = project.Single(e => e.Name == "Project B").ID, MaterialBuyUnits = new List<MaterialBuyUnit>()},
+                new MaterialBuy{ CompanyID = company.Single(e => e.Name == "Company C").ID, ProjectID = project.Single(e => e.Name == "Project C").ID, MaterialBuyUnits = new List<MaterialBuyUnit>()},
+            };
+            materialbuy[0].MaterialBuyUnits.Add(materialbuyunit[0]);
+            materialbuy[0].MaterialBuyUnits.Add(materialbuyunit[1]);
+            materialbuy[1].MaterialBuyUnits.Add(materialbuyunit[2]);
+            materialbuy[1].MaterialBuyUnits.Add(materialbuyunit[3]);
+            materialbuy[2].MaterialBuyUnits.Add(materialbuyunit[4]);
+            materialbuy[2].MaterialBuyUnits.Add(materialbuyunit[5]);
+            materialbuy.ForEach(s => context.MaterialBuys.Add(s));
+            context.SaveChanges();
+
+
+            project[0].MaterialBuys.Add(materialbuy[0]);
+            project[1].MaterialBuys.Add(materialbuy[1]);
+            project[2].MaterialBuys.Add(materialbuy[2]);
+
         }
     }
 }

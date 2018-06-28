@@ -15,6 +15,8 @@ namespace ChulWoo.Models
         public int CompanyID { get; set; }
         public virtual Company Company { get; set; }
 
+        public virtual ICollection<MaterialBuy> MaterialBuys { get; set; }
+
         // 프로젝트이름 프로젝트이름
         [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
         public string Name { get; set; }

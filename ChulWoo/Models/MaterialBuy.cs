@@ -19,6 +19,6 @@ namespace ChulWoo.Models
         public virtual Project Project { get; set; }
 
         // 키값(단가) 키값(단가)
-        public virtual ICollection<MaterialBuyUnit> MaterialBuyUnit { get; set; }
+        public virtual ICollection<MaterialBuyUnit> MaterialBuyUnits { get; set; }
     }
 }

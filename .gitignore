@@ -259,3 +259,6 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/ChulWoo/Migrations/201806280434297_update180628.cs
+/ChulWoo/Migrations/201806280434297_update180628.Designer.cs
+/ChulWoo/Migrations/201806280434297_update180628.resx

@@ -12,6 +12,10 @@ namespace ChulWoo.Models
 
         // 구분 구분
         [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
+        public string Name { get; set; }
+
+        // 구분 구분
+        [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
         public string Sort { get; set; }
     }
 }
