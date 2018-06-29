@@ -27,10 +27,13 @@ namespace ChulWoo.DAL
         public DbSet<MaterialName> MaterialNames { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
+        { 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             modelBuilder.Entity<Employee>().MapToStoredProcedures();
+//            modelBuilder.Entity<Personnel>().MapToStoredProcedures();
+//           modelBuilder.Entity<Project>().MapToStoredProcedures();
+//            modelBuilder.Entity<Company>().MapToStoredProcedures();
         }
     }
 }

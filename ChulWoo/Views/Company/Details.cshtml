@@ -43,7 +43,84 @@
         </dd>
 
     </dl>
-</div>
+
+
+
+    @if (Model.Projects.Count != 0)
+    {
+        <h3>Project</h3>
+
+        <table class="table">
+            <tr>
+                <th>Project Name</th>
+                <th>Date</th>
+            </tr>
+
+            @foreach (var item in Model.Projects)
+            {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.Date
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+
+
+        @if (Model.MaterialBuys.Count != 0)
+        {
+            <h3>Material Sell</h3>
+
+            foreach (var item in Model.MaterialBuys)
+            {
+                <dl>
+                    <dt>
+                        @Html.DisplayNameFor(model => item.Date)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => item.Date)
+                    </dd>
+
+                    <table class="table">
+                        <tr>
+                            <th>Project Name</th>
+                            <th>Material Name</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Price</th>
+                        </tr>
+                        @foreach (var unit in item.MaterialBuyUnits)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Project.Name
+                                </td>
+                                <td>
+                                    @unit.MaterialUnitPrice.MaterialName.Name
+                                </td>
+                                <td>
+                                    @unit.Quantity
+                                </td>
+                                <td>
+                                    @unit.MaterialUnitPrice.Price
+                                </td>
+                                <td>
+                                    @{
+                                        var price = unit.Quantity * unit.MaterialUnitPrice.Price;
+                                    }
+                                    @price
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </dl>
+            }
+        }
+    </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")

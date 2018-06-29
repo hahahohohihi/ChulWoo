@@ -11,6 +11,12 @@ namespace ChulWoo.Models
         // 키값(회사) 키값(회사)
         public int ID { get; set; }
 
+        // 진행프로젝트
+        public virtual ICollection<Project> Projects { get; set; }
+
+        // 판매한 제품들
+        public virtual ICollection<MaterialBuy> MaterialBuys { get; set; }
+
         // 회사이름 회사이름
         [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
         public string Name { get; set; }

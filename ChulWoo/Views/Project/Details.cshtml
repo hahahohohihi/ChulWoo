@@ -38,48 +38,55 @@
 
 
 
-    <h3>Contracts</h3>
+    @if (Model.MaterialBuys.Count != 0)
+    {
+        <h3>Material Buy</h3>
 
-    <table class="table">
-        <tr>
-            <th>Company Name</th>
-            <th>Material Name</th>
-            <th>Quantity</th>
-            <th>Unit Price</th>
-            <th>Price</th>
-        </tr>
-        @if (Model.MaterialBuys.Count != 0)
+        foreach (var item in Model.MaterialBuys)
         {
+            <dl>
+                <dt>
+                    @Html.DisplayNameFor(model => item.Date)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => item.Date)
+                </dd>
 
-            foreach (var item in Model.MaterialBuys)
-            {
-                foreach (var unit in item.MaterialBuyUnits)
-                {
+                <table class="table">
                     <tr>
-                        <td>
-                            @item.Company.Name
-                        </td>
-                        <td>
-                            @unit.MaterialUnitPrice.MaterialName.Name
-                        </td>
-                        <td>
-                            @unit.Quantity
-                        </td>
-                        <td>
-                            @unit.MaterialUnitPrice.Price
-                        </td>
-                        <td>
-                            @{
-                                var price = unit.Quantity * unit.MaterialUnitPrice.Price;
-                            }
-                            @price
-                        </td>
+                        <th>Company Name</th>
+                        <th>Material Name</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Price</th>
                     </tr>
-                }
-            }
+                    @foreach (var unit in item.MaterialBuyUnits)
+                    {
+                        <tr>
+                            <td>
+                                @item.Company.Name
+                            </td>
+                            <td>
+                                @unit.MaterialUnitPrice.MaterialName.Name
+                            </td>
+                            <td>
+                                @unit.Quantity
+                            </td>
+                            <td>
+                                @unit.MaterialUnitPrice.Price
+                            </td>
+                            <td>
+                                @{
+                                    var price = unit.Quantity * unit.MaterialUnitPrice.Price;
+                                }
+                                @price
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </dl>
         }
-    </table>
-
+    }
 
 
 </div>

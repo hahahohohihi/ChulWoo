@@ -19,6 +19,10 @@ namespace ChulWoo.Controllers
         // GET: Company
         public async Task<ActionResult> Index()
         {
+            var companys = db.Companys.Include(c => c.Projects.Select(p => p.Company))
+                .Include(c => c.MaterialBuys.Select(mb => mb.Project))
+                .OrderBy(c => c.Name);
+
             return View(await db.Companys.ToListAsync());
         }
 
@@ -29,7 +33,13 @@ namespace ChulWoo.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Company company = await db.Companys.FindAsync(id);
+
+//            Company company = await db.Companys.FindAsync(id);
+            var company = db.Companys.Include(c => c.Projects.Select(p => p.Company))
+                .Include(c => c.MaterialBuys.Select(mb => mb.Project))
+                .Where(c => c.ID == id)
+                .Single();
+
             if (company == null)
             {
                 return HttpNotFound();
