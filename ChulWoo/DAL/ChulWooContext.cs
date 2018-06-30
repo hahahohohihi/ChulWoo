@@ -14,6 +14,7 @@ namespace ChulWoo.DAL
         {
         }
 
+        public DbSet<User> Users { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<Personnel> Personnels { get; set; }

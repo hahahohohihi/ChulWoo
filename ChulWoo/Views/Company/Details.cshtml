@@ -71,56 +71,65 @@
     }
 
 
-        @if (Model.MaterialBuys.Count != 0)
+    @if (Model.MaterialBuys.Count != 0)
+    {
+        <h3>Material Sell</h3>
+
+        foreach (var item in Model.MaterialBuys)
         {
-            <h3>Material Sell</h3>
-
-            foreach (var item in Model.MaterialBuys)
-            {
-                <dl>
-                    <dt>
-                        @Html.DisplayNameFor(model => item.Date)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => item.Date)
-                    </dd>
-
-                    <table class="table">
-                        <tr>
-                            <th>Project Name</th>
-                            <th>Material Name</th>
-                            <th>Quantity</th>
-                            <th>Unit Price</th>
-                            <th>Price</th>
-                        </tr>
-                        @foreach (var unit in item.MaterialBuyUnits)
-                        {
-                            <tr>
-                                <td>
-                                    @item.Project.Name
-                                </td>
-                                <td>
-                                    @unit.MaterialUnitPrice.MaterialName.Name
-                                </td>
-                                <td>
-                                    @unit.Quantity
-                                </td>
-                                <td>
-                                    @unit.MaterialUnitPrice.Price
-                                </td>
-                                <td>
-                                    @{
-                                        var price = unit.Quantity * unit.MaterialUnitPrice.Price;
-                                    }
-                                    @price
-                                </td>
-                            </tr>
-                        }
-                    </table>
-                </dl>
-            }
+            <table class="table">
+                <tr>
+                    <td colspan="2" >
+                        <dl class="dl-horizontal">
+                            <dt>
+                                Project Name
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => item.Project.Name)
+                            </dd>
+                        </dl>
+                    </td>
+                    <td colspan="2" >
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => item.Date)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => item.Date)
+                            </dd>
+                        </dl>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Material Name</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Price</th>
+                </tr>
+                @foreach (var unit in item.MaterialBuyUnits)
+                {
+                    <tr>
+                        <td>
+                            @unit.MaterialUnitPrice.MaterialName.Name
+                        </td>
+                        <td>
+                            @unit.Quantity
+                        </td>
+                        <td>
+                            @unit.MaterialUnitPrice.Price
+                        </td>
+                        <td>
+                            @{
+                                var price = unit.Quantity * unit.MaterialUnitPrice.Price;
+                            }
+                            @price
+                        </td>
+                    </tr>
+                }
+            </table>
         }
-    </div>
+    }
+</div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
