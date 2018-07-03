@@ -25,14 +25,24 @@
                     <li>@Html.ActionLink("홈", "Index", "Home")</li>
                     <li>@Html.ActionLink("정보", "About", "Home")</li>
                     <li>@Html.ActionLink("연락처", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Employee", "Index", "Employee")</li>
-                    <li>@Html.ActionLink("Personnel", "Index", "Personnel")</li>
-                    <li>@Html.ActionLink("Project", "Index", "Project")</li>
-                    <li>@Html.ActionLink("Company", "Index", "Company")</li>
-                    <li>@Html.ActionLink("MaterialBuy", "Index", "MaterialBuy")</li>
+                    @if (Context.Session["LoginUserID"] != null)
+                    {
+                        <li>@Html.ActionLink("Employee", "Index", "Employee")</li>
+                        <li>@Html.ActionLink("Personnel", "Index", "Personnel")</li>
+                        <li>@Html.ActionLink("Project", "Index", "Project")</li>
+                        <li>@Html.ActionLink("Company", "Index", "Company")</li>
+                        <li>@Html.ActionLink("MaterialBuy", "Index", "MaterialBuy")</li>
+                    }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li>@Html.ActionLink("Login", "Login", "Account")</li>
+                    @if (Context.Session["LoginUserID"] == null)
+                    {
+                        <li>@Html.ActionLink("Login", "Login", "Account")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                    }
                 </ul>
             </div>
         </div>

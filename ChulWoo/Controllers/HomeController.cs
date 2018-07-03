@@ -10,6 +10,8 @@ namespace ChulWoo.Controllers
     {
         public ActionResult Index()
         {
+            if(Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
             return View();
         }
 

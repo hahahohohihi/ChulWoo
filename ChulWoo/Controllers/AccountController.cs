@@ -21,16 +21,46 @@ namespace ChulWoo.Controllers
         [HttpPost]
         public ActionResult Login(User model)
         {
-            return View();
+            if( ModelState.IsValid )
+            {
+                var user = db.Users.FirstOrDefault(u => u.UserID.Equals(model.UserID));
+                if( user == null )
+                {
+                    ModelState.AddModelError(string.Empty, "Notthing UserID");
+                }
+                else
+                {
+                    if(user.UserPassword == null || user.UserPassword.Equals(""))
+                        return RedirectToAction("Register", "Account", model);
+                    else if( user.UserPassword.Equals(model.UserPassword))
+                    {
+                        Session["LoginUserID"] = user.ID;
+                        Session["LoginUserEmployeeID"] = user.EmployeeID;
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                        ModelState.AddModelError(string.Empty, "Recheck UserPassword");
+                }
+            }
+            return View(model);
         }
 
-        public ActionResult Register()
+        public ActionResult Logout()
         {
-            return View();
+            Session.Remove("LoginUserID");
+            Session.Remove("LoginUserEmployeeID");
+
+            return RedirectToAction("Index", "Home");
         }
 
-        [HttpPost]
         public ActionResult Register(User model)
+        {
+            return View(model);
+        }
+
+
+        [HttpPost, ActionName("Register")]
+        public ActionResult RegisterConfirmed(User model)
         {
             if( ModelState.IsValid )
             {
