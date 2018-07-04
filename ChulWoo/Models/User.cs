@@ -6,6 +6,11 @@ using System.Web;
 
 namespace ChulWoo.Models
 {
+    public enum Security
+    {
+        Public, Personnel, Translation, Power, Admin
+    }
+
     public class User
     {
         public int ID { get; set; }
@@ -20,5 +25,6 @@ namespace ChulWoo.Models
 
         public string UserPassword { get; set; }
 
+        public Security? Security { get; set; }
     }
 }

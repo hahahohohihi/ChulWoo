@@ -16,6 +16,7 @@
 
         protected override void Seed(ChulWoo.DAL.ChulWooContext context)
         {
+/*
             var employees = new List<Employee>
             {
                 new Employee{DepartmentVn="",DepartmentKr="",Name="Lee Kang Su",EmployeeNo="CW002NN",BankAccount="0731-000-720-705",BankLocation="VCB Bắc Giang",
@@ -27,7 +28,7 @@
                     TexNo ="",JobPosition="Phó giám đốc",Sex="Nam",BirthDate=DateTime.Parse("1952-03-03"),RegistrationNo="M01255413",RegistrationDate=DateTime.Parse("2010-09-15"),
                     RegistrationPosition="Bộ lao động và thương mại Hàn Quốc",Tel1="098-938-9040",Tel2="",Email="",
                     Adress="Yên Dũng- Bắc Giang",People="",Religion="",Country="Hàn Quốc",EducationLevel="",MajorVn="",MajorKr="",
-                    Marriage="Đã kết hôn",DependentChild="",DependentParents=""},
+        Users            Marriage="Đã kết hôn",DependentChild="",DependentParents=""},
                 new Employee{DepartmentVn="Bộ phận hành chính",DepartmentKr="",Name="Trương Thị Sinh",EmployeeNo="CW0003",BankAccount="0731-000-687-102",BankLocation="VCB Bắc Giang",
                     TexNo ="8119415119",JobPosition="Nấu ăn",Sex="Nữ",BirthDate=DateTime.Parse("1985-07-20"),RegistrationNo="122137505",RegistrationDate=DateTime.Parse("2011-05-20"),
                     RegistrationPosition="CA Bắc Giang",Tel1="01693-242-713",Tel2="",Email="",
@@ -178,7 +179,7 @@
             project[0].MaterialBuys.Add(materialbuy[0]);
             project[1].MaterialBuys.Add(materialbuy[1]);
             project[2].MaterialBuys.Add(materialbuy[2]);
-
+*/
         }
     }
 }

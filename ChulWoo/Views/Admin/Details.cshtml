@@ -1,0 +1,50 @@
+﻿@model ChulWoo.Models.User
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee.DepartmentVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employee.DepartmentVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPassword)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserPassword)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Security)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Security)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

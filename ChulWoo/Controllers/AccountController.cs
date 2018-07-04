@@ -36,6 +36,7 @@ namespace ChulWoo.Controllers
                     {
                         Session["LoginUserID"] = user.ID;
                         Session["LoginUserEmployeeID"] = user.EmployeeID;
+                        Session["LoginUserEmployeeName"] = user.Employee.Name;
                         return RedirectToAction("Index", "Home");
                     }
                     else
@@ -49,6 +50,7 @@ namespace ChulWoo.Controllers
         {
             Session.Remove("LoginUserID");
             Session.Remove("LoginUserEmployeeID");
+            Session.Remove("LoginUserEmployeeName");
 
             return RedirectToAction("Index", "Home");
         }
