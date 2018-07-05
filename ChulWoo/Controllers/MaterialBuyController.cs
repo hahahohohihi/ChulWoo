@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using ChulWoo.DAL;
 using ChulWoo.Models;
+using ChulWoo.Viewmodel;
 
 namespace ChulWoo.Controllers
 {
@@ -77,9 +78,12 @@ namespace ChulWoo.Controllers
             {
                 return HttpNotFound();
             }
+            var materialBuyData = new MaterialBuyData();
+            materialBuyData.MaterialBuy = materialBuy;
+
             ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", materialBuy.CompanyID);
             ViewBag.ProjectID = new SelectList(db.Projects, "ID", "Name", materialBuy.ProjectID);
-            return View(materialBuy);
+            return View(materialBuyData);
         }
 
         // POST: MaterialBuy/Edit/5
@@ -87,17 +91,24 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,CompanyID,ProjectID,Date")] MaterialBuy materialBuy)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,CompanyID,ProjectID,Date")] MaterialBuyData materialBuyData)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(materialBuy).State = EntityState.Modified;
+                db.Entry(materialBuyData).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", materialBuy.CompanyID);
-            ViewBag.ProjectID = new SelectList(db.Projects, "ID", "Name", materialBuy.ProjectID);
-            return View(materialBuy);
+            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", materialBuyData.MaterialBuy.CompanyID);
+            ViewBag.ProjectID = new SelectList(db.Projects, "ID", "Name", materialBuyData.MaterialBuy.ProjectID);
+            return View(materialBuyData);
+        }
+
+        [HttpPost]
+        public JsonResult Edit(string Prefix)
+        {
+            var names = db.MaterialNames.Where(m => m.Name.ToLower().StartsWith(Prefix.ToLower())).Select(m => new { m.Name }).ToList();
+            return Json(names, JsonRequestBehavior.AllowGet);
         }
 
         // GET: MaterialBuy/Delete/5

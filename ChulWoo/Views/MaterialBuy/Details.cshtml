@@ -35,6 +35,49 @@
         </dd>
 
     </dl>
+
+    @{
+        var priceall = 0;
+    <table class="table">
+        <tr>
+            <th>Material Name</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Price</th>
+        </tr>
+        @foreach (var unit in Model.MaterialBuyUnits)
+        {
+            <tr>
+                <td>
+                    @unit.MaterialUnitPrice.MaterialName.Name
+                </td>
+                <td>
+                    @unit.Quantity
+                </td>
+                <td>
+                    @unit.MaterialUnitPrice.Price
+                </td>
+                <td>
+                    @{
+                        var price = unit.Quantity * unit.MaterialUnitPrice.Price;
+                    }
+                    @price
+                </td>
+            </tr>
+            priceall += (int) @unit.Quantity * @unit.MaterialUnitPrice.Price;
+        }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>@priceall</td>
+            </tr>
+        
+    </table>
+    }
+
+
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |

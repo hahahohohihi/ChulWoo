@@ -40,7 +40,7 @@ namespace ChulWoo.Controllers
         // GET: Admin/Create
         public ActionResult Create()
         {
-            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "DepartmentVn");
+            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "Name");
             return View();
         }
 
@@ -58,7 +58,7 @@ namespace ChulWoo.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "DepartmentVn", user.EmployeeID);
+            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "Name", user.EmployeeID);
             return View(user);
         }
 
@@ -74,7 +74,7 @@ namespace ChulWoo.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "DepartmentVn", user.EmployeeID);
+            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "Name", user.EmployeeID);
             return View(user);
         }
 
@@ -91,7 +91,7 @@ namespace ChulWoo.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "DepartmentVn", user.EmployeeID);
+            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "Name", user.EmployeeID);
             return View(user);
         }
 
