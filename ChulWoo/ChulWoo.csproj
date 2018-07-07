@@ -248,13 +248,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807020829417_180702.cs" />
-    <Compile Include="Migrations\201807020829417_180702.Designer.cs">
-      <DependentUpon>201807020829417_180702.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807040951369_180704.cs" />
-    <Compile Include="Migrations\201807040951369_180704.Designer.cs">
-      <DependentUpon>201807040951369_180704.cs</DependentUpon>
+    <Compile Include="Migrations\201807060644137_create.cs" />
+    <Compile Include="Migrations\201807060644137_create.Designer.cs">
+      <DependentUpon>201807060644137_create.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Company.cs" />
@@ -331,11 +327,6 @@
     <Content Include="Views\Project\Details.cshtml" />
     <Content Include="Views\Project\Edit.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
-    <Content Include="Views\MaterialBuy\Create.cshtml" />
-    <Content Include="Views\MaterialBuy\Delete.cshtml" />
-    <Content Include="Views\MaterialBuy\Details.cshtml" />
-    <Content Include="Views\MaterialBuy\Edit.cshtml" />
-    <Content Include="Views\MaterialBuy\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
@@ -343,6 +334,12 @@
     <Content Include="Views\Admin\Details.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\MaterialBuy\Create.cshtml" />
+    <Content Include="Views\MaterialBuy\Delete.cshtml" />
+    <Content Include="Views\MaterialBuy\Details.cshtml" />
+    <Content Include="Views\MaterialBuy\Edit.cshtml" />
+    <Content Include="Views\MaterialBuy\Index.cshtml" />
+    <Content Include="Views\MaterialBuy\EditAddUnit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -361,11 +358,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201807020829417_180702.resx">
-      <DependentUpon>201807020829417_180702.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807040951369_180704.resx">
-      <DependentUpon>201807040951369_180704.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807060644137_create.resx">
+      <DependentUpon>201807060644137_create.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

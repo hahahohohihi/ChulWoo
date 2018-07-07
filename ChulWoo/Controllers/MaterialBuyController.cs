@@ -39,35 +39,7 @@ namespace ChulWoo.Controllers
             return View(materialBuy);
         }
 
-        // GET: MaterialBuy/Create
-        public ActionResult Create()
-        {
-            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name");
-            ViewBag.ProjectID = new SelectList(db.Projects, "ID", "Name");
-            return View();
-        }
-
-        // POST: MaterialBuy/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,CompanyID,ProjectID,Date")] MaterialBuy materialBuy)
-        {
-            if (ModelState.IsValid)
-            {
-                db.MaterialBuys.Add(materialBuy);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", materialBuy.CompanyID);
-            ViewBag.ProjectID = new SelectList(db.Projects, "ID", "Name", materialBuy.ProjectID);
-            return View(materialBuy);
-        }
-
-        // GET: MaterialBuy/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> EditAddUnit(int? id)
         {
             if (id == null)
             {
@@ -91,7 +63,71 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,CompanyID,ProjectID,Date")] MaterialBuyData materialBuyData)
+        public async Task<ActionResult> EditAddUnit(MaterialBuyData materialBuyData)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(materialBuyData).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", materialBuyData.MaterialBuy.CompanyID);
+            ViewBag.ProjectID = new SelectList(db.Projects, "ID", "Name", materialBuyData.MaterialBuy.ProjectID);
+            return View(materialBuyData);
+        }
+
+        // GET: MaterialBuy/Create
+        public ActionResult Create()
+        {
+            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name");
+            ViewBag.ProjectID = new SelectList(db.Projects, "ID", "Name");
+            return View();
+        }
+
+        // POST: MaterialBuy/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create([Bind(Include = "ID,CompanyID,ProjectID,Date")] MaterialBuy materialBuy)
+        {
+            if (ModelState.IsValid)
+            {
+                db.MaterialBuys.Add(materialBuy);
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("Edit", new { id = materialBuy.ID });
+            }
+
+            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", materialBuy.CompanyID);
+            ViewBag.ProjectID = new SelectList(db.Projects, "ID", "Name", materialBuy.ProjectID);
+            return View(materialBuy);
+        }
+
+        // GET: MaterialBuy/Edit/5
+        public async Task<ActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            MaterialBuy materialBuy = await db.MaterialBuys.FindAsync(id);
+            if (materialBuy == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", materialBuy.CompanyID);
+            ViewBag.ProjectID = new SelectList(db.Projects, "ID", "Name", materialBuy.ProjectID);
+            return View(materialBuy);
+        }
+
+        // POST: MaterialBuy/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(MaterialBuyData materialBuyData)
         {
             if (ModelState.IsValid)
             {
@@ -105,7 +141,7 @@ namespace ChulWoo.Controllers
         }
 
         [HttpPost]
-        public JsonResult Edit(string Prefix)
+        public JsonResult Edit2(string Prefix)
         {
             var names = db.MaterialNames.Where(m => m.Name.ToLower().StartsWith(Prefix.ToLower())).Select(m => new { m.Name }).ToList();
             return Json(names, JsonRequestBehavior.AllowGet);

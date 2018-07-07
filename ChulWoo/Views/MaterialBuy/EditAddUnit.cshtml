@@ -1,0 +1,160 @@
+﻿@model ChulWoo.Viewmodel.MaterialBuyData
+
+@{
+    ViewBag.Title = "EditAddUnit";
+}
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Mname").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/MaterialBuy/Edit2",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.Name, value: item.Name };
+                        }))
+
+                    }
+                })
+            }
+        });
+    })
+</script>
+
+
+<h2>EditAddUnit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>MaterialBuy</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MaterialBuy.ID)
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.MaterialBuy.Company.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MaterialBuy.Company.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MaterialBuy.Project.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MaterialBuy.Project.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MaterialBuy.Date)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MaterialBuy.Date)
+            </dd>
+
+        </dl>
+        <h4>Material Unit</h4>
+
+        <table class="table">
+            <tr>
+                <th></th>
+                <th>Material Name</th>
+                <th>Unit</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Price</th>
+            </tr>
+            @if (Model.MaterialBuy.MaterialBuyUnits != null && Model.MaterialBuy.MaterialBuyUnits.Count != 0)
+            {
+
+                foreach (var item in Model.MaterialBuy.MaterialBuyUnits)
+                {
+                    string selectedRow = "";
+                    if (item.ID == ViewBag.CourseID)
+                    {
+                        selectedRow = "success";
+                    }
+                    <tr class="@selectedRow">
+                        <td>
+                            @Html.ActionLink("Delete", "Details", new { id = Model.MaterialBuy.ID, contractsID = item.ID })
+                        </td>
+                        <td>
+                            @item.MaterialUnitPrice.MaterialName.Name
+                        </td>
+                        <td>
+                            @item.MaterialUnitPrice.Unit
+                        </td>
+                        <td>
+                            @item.Quantity
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.MaterialUnitPrice.Price)
+                        </td>
+                        <td>
+                            @{
+                                var price = item.Quantity * item.MaterialUnitPrice.Price;
+                            }
+                            @price
+                            @Html.DisplayFor(model => price, new { htmlAttributes = new { @type = "number" } })
+                        </td>
+                    </tr>
+                }
+            }
+
+            <tr>
+                <th>
+                    <input type="submit" value="Add" class="btn btn-default" />
+                </th>
+                <th>
+                    @Html.EditorFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.Name, new { htmlAttributes = new { @id = "Mname", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.Name, "", new { @class = "text-danger" })
+                </th>
+                <th>
+                    @Html.EnumDropDownListFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Unit, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Unit, "", new { @class = "text-danger" })
+                </th>
+                <th>
+                    @Html.EditorFor(model => model.MaterialBuyUnit.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MaterialBuyUnit.Quantity, "", new { @class = "text-danger" })
+                </th>
+                <th>
+                    @Html.EditorFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Price, "", new { @class = "text-danger" })
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </table>
+
+
+
+
+
+
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

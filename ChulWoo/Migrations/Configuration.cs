@@ -16,7 +16,7 @@
 
         protected override void Seed(ChulWoo.DAL.ChulWooContext context)
         {
-/*
+
             var employees = new List<Employee>
             {
                 new Employee{DepartmentVn="",DepartmentKr="",Name="Lee Kang Su",EmployeeNo="CW002NN",BankAccount="0731-000-720-705",BankLocation="VCB Bắc Giang",
@@ -28,7 +28,7 @@
                     TexNo ="",JobPosition="Phó giám đốc",Sex="Nam",BirthDate=DateTime.Parse("1952-03-03"),RegistrationNo="M01255413",RegistrationDate=DateTime.Parse("2010-09-15"),
                     RegistrationPosition="Bộ lao động và thương mại Hàn Quốc",Tel1="098-938-9040",Tel2="",Email="",
                     Adress="Yên Dũng- Bắc Giang",People="",Religion="",Country="Hàn Quốc",EducationLevel="",MajorVn="",MajorKr="",
-        Users            Marriage="Đã kết hôn",DependentChild="",DependentParents=""},
+                    Marriage="Đã kết hôn",DependentChild="",DependentParents=""},
                 new Employee{DepartmentVn="Bộ phận hành chính",DepartmentKr="",Name="Trương Thị Sinh",EmployeeNo="CW0003",BankAccount="0731-000-687-102",BankLocation="VCB Bắc Giang",
                     TexNo ="8119415119",JobPosition="Nấu ăn",Sex="Nữ",BirthDate=DateTime.Parse("1985-07-20"),RegistrationNo="122137505",RegistrationDate=DateTime.Parse("2011-05-20"),
                     RegistrationPosition="CA Bắc Giang",Tel1="01693-242-713",Tel2="",Email="",
@@ -130,29 +130,29 @@
             var materialunitprice = new List<MaterialUnitPrice>
             {
                 new MaterialUnitPrice{ MaterialNameID = materialname.Single(e => e.Name == "Material A1").ID, CompanyID = company.Single(e => e.Name == "Company A").ID,
-                    Date = DateTime.Parse("2016-08-06"), Unit = "", Price = 1000000},
+                    Date = DateTime.Parse("2016-08-06"), Unit = Unit.Quantity, Price = 1000000},
                 new MaterialUnitPrice{ MaterialNameID = materialname.Single(e => e.Name == "Material A2").ID, CompanyID = company.Single(e => e.Name == "Company A").ID,
-                    Date = DateTime.Parse("2016-08-06"), Unit = "", Price = 2000000},
+                    Date = DateTime.Parse("2016-08-06"), Unit = Unit.Quantity, Price = 2000000},
                 new MaterialUnitPrice{ MaterialNameID = materialname.Single(e => e.Name == "Material B1").ID, CompanyID = company.Single(e => e.Name == "Company B").ID,
-                    Date = DateTime.Parse("2016-08-06"), Unit = "", Price = 3000000},
+                    Date = DateTime.Parse("2016-08-06"), Unit = Unit.Quantity, Price = 3000000},
                 new MaterialUnitPrice{ MaterialNameID = materialname.Single(e => e.Name == "Material B2").ID, CompanyID = company.Single(e => e.Name == "Company B").ID,
-                    Date = DateTime.Parse("2016-08-06"), Unit = "", Price = 4000000},
+                    Date = DateTime.Parse("2016-08-06"), Unit = Unit.Quantity, Price = 4000000},
                 new MaterialUnitPrice{ MaterialNameID = materialname.Single(e => e.Name == "Material C1").ID, CompanyID = company.Single(e => e.Name == "Company C").ID,
-                    Date = DateTime.Parse("2016-08-06"), Unit = "", Price = 5000000},
+                    Date = DateTime.Parse("2016-08-06"), Unit = Unit.Quantity, Price = 5000000},
                 new MaterialUnitPrice{ MaterialNameID = materialname.Single(e => e.Name == "Material C2").ID, CompanyID = company.Single(e => e.Name == "Company C").ID,
-                    Date = DateTime.Parse("2016-08-06"), Unit = "", Price = 6000000}
+                    Date = DateTime.Parse("2016-08-06"), Unit = Unit.Quantity, Price = 6000000}
             };
             materialunitprice.ForEach(s => context.MaterialUnitPrices.Add(s));
             context.SaveChanges();
 
             var materialbuyunit = new List<MaterialBuyUnit>
             {
-                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 1000000).ID, Quantity = 1, Weight =0},
-                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 2000000).ID, Quantity = 1, Weight =0},
-                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 3000000).ID, Quantity = 1, Weight =0},
-                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 4000000).ID, Quantity = 1, Weight =0},
-                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 5000000).ID, Quantity = 1, Weight =0},
-                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 6000000).ID, Quantity = 1, Weight =0}
+                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 1000000).ID, Quantity = 2},
+                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 2000000).ID, Quantity = 3},
+                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 3000000).ID, Quantity = 4},
+                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 4000000).ID, Quantity = 5},
+                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 5000000).ID, Quantity = 6},
+                new MaterialBuyUnit{ MaterialUnitPriceID = materialunitprice.Single(e => e.Price == 6000000).ID, Quantity = 7}
             };
             materialbuyunit.ForEach(s => context.MaterialBuyUnits.Add(s));
             context.SaveChanges();
@@ -179,7 +179,19 @@
             project[0].MaterialBuys.Add(materialbuy[0]);
             project[1].MaterialBuys.Add(materialbuy[1]);
             project[2].MaterialBuys.Add(materialbuy[2]);
-*/
+
+
+
+            var user = new List<User>
+            {
+                new User{ EmployeeID = 1, UserID = "hahaha", UserPassword ="1012", Security = Security.Admin},
+                new User{ EmployeeID = 2, UserID = "test1", UserPassword ="", Security = Security.Power},
+                new User{ EmployeeID = 3, UserID = "test2", UserPassword ="", Security =Security.Translation},
+                new User{ EmployeeID = 4, UserID = "test3", UserPassword ="", Security =Security.Personnel},
+                new User{ EmployeeID = 5, UserID = "test4", UserPassword ="", Security =Security.Public},
+            };
+            user.ForEach(s => context.Users.Add(s));
+            context.SaveChanges();
         }
     }
 }

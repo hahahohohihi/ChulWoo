@@ -5,34 +5,6 @@
 }
 
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("[id=Mname]").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: "/MaterialBuy/Edit/1",
-                    type: "POST",
-                    dataType: "json",
-                    data: { Prefix: request.term },
-                    success: function (data) {
-                        response($.map(data, function (item) {
-                            return { label: item.Name, value: item.Name };
-                        }))
-
-                    }
-                })
-            },
-            messages: {
-                noResults: "", results: ""
-            }
-        });
-    })
-</script>
-
-
 <h2>Edit</h2>
 
 
@@ -75,75 +47,6 @@
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
-
-        <h3>Material Unit</h3>
-
-        <table class="table">
-            <tr>
-                <th></th>
-                <th>Material Name</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Price</th>
-            </tr>
-            @if (Model.MaterialBuy.MaterialBuyUnits.Count != 0)
-            {
-
-                foreach (var item in Model.MaterialBuy.MaterialBuyUnits)
-                {
-                    string selectedRow = "";
-                    if (item.ID == ViewBag.CourseID)
-                    {
-                        selectedRow = "success";
-                    }
-                    <tr class="@selectedRow">
-                        <td>
-                            @Html.ActionLink("Delete", "Details", new { id = Model.MaterialBuy.ID, contractsID = item.ID })
-                        </td>
-                        <td>
-                            @item.MaterialUnitPrice.MaterialName.Name
-                        </td>
-                        <td>
-                            @item.Quantity
-                        </td>
-                        <td>
-                            @item.MaterialUnitPrice.Price
-                        </td>
-                        <td>
-                            @{
-                                var price = item.Quantity * item.MaterialUnitPrice.Price;
-                            }
-                            @price
-                        </td>
-                    </tr>
-                }
-            }
-
-            <tr>
-                <th>
-                    <input type="submit" value="Add" class="btn btn-default" />
-                </th>
-                <th>
-                    @Html.EditorFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.Name, new { htmlAttributes = new { @id = "Mname", @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.Name, "", new { @class = "text-danger" })
-                </th>
-                <th>
-                    @Html.EditorFor(model => model.MaterialBuyUnit.Quantity, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.MaterialBuyUnit.Quantity, "", new { @class = "text-danger" })
-                </th>
-                <th>
-                    @Html.EditorFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Price, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Price, "", new { @class = "text-danger" })
-                </th>
-                <th>
-
-                </th>
-            </tr>
-        </table>
-
-
-
-
 
 
 

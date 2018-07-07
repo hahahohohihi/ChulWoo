@@ -16,8 +16,5 @@ namespace ChulWoo.Models
 
         // 수량 수량
         public int? Quantity { get; set; }
-
-        // 무게 무게
-        public int? Weight { get; set; }
     }
 }

@@ -6,6 +6,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ChulWoo.Models
 {
+    public enum Unit
+    {
+        Quantity, Weight, Set
+    }
+
     public class MaterialUnitPrice
     {
         public int ID { get; set; }
@@ -24,10 +29,10 @@ namespace ChulWoo.Models
         public DateTime? Date { get; set; }
 
         // 단위 단위
-        [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
-        public string Unit { get; set; }
+        public Unit Unit { get; set; }
 
         // 가격 가격
+        [DisplayFormat(DataFormatString = "{0:0,0}", ApplyFormatInEditMode = true)]
         public int Price { get; set; }
 
     }
