@@ -53,8 +53,6 @@ namespace ChulWoo.Controllers
             var materialBuyData = new MaterialBuyData();
             materialBuyData.MaterialBuy = materialBuy;
 
-            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", materialBuy.CompanyID);
-            ViewBag.ProjectID = new SelectList(db.Projects, "ID", "Name", materialBuy.ProjectID);
             return View(materialBuyData);
         }
 
@@ -67,12 +65,40 @@ namespace ChulWoo.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(materialBuyData).State = EntityState.Modified;
+                //                db.Entry(materialBuyData).State = EntityState.Modified;
+                MaterialName mName = db.MaterialNames.FirstOrDefault(m => m.Name.Equals(materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.Name));
+                if(mName != null)
+                {
+                    materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialNameID = mName.ID;
+                    materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName = mName;
+                }
+                else
+                {
+                    db.MaterialNames.Add(materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName);
+                }
+                MaterialBuy materialBuy = db.MaterialBuys.FirstOrDefault(m => m.ID == materialBuyData.MaterialBuy.ID);
+                materialBuyData.MaterialBuyUnit.MaterialUnitPrice.CompanyID = materialBuy.CompanyID;
+                materialBuyData.MaterialBuyUnit.MaterialUnitPrice.Date = materialBuy.Date;
+
+                MaterialUnitPrice muPrice = db.MaterialUnitPrices.OrderBy(m => m.Date)
+                    .FirstOrDefault(m => m.MaterialName.Name.Equals(materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.Name));
+
+                if (muPrice == null || muPrice.Price != materialBuyData.MaterialBuyUnit.MaterialUnitPrice.Price)
+                {
+                    db.MaterialUnitPrices.Add(materialBuyData.MaterialBuyUnit.MaterialUnitPrice);
+                }
+                else
+                {
+                    materialBuyData.MaterialBuyUnit.MaterialUnitPrice = muPrice;
+                    materialBuyData.MaterialBuyUnit.MaterialUnitPriceID = muPrice.ID;
+                }
+
+                db.MaterialBuyUnits.Add(materialBuyData.MaterialBuyUnit);
+                materialBuy.MaterialBuyUnits.Add(materialBuyData.MaterialBuyUnit);
+
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("EditAddUnit", new { id = materialBuyData.MaterialBuy.ID });
             }
-            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", materialBuyData.MaterialBuy.CompanyID);
-            ViewBag.ProjectID = new SelectList(db.Projects, "ID", "Name", materialBuyData.MaterialBuy.ProjectID);
             return View(materialBuyData);
         }
 
@@ -127,17 +153,17 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(MaterialBuyData materialBuyData)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,CompanyID,ProjectID,Date")] MaterialBuy materialBuy)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(materialBuyData).State = EntityState.Modified;
+                db.Entry(materialBuy).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", materialBuyData.MaterialBuy.CompanyID);
-            ViewBag.ProjectID = new SelectList(db.Projects, "ID", "Name", materialBuyData.MaterialBuy.ProjectID);
-            return View(materialBuyData);
+            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", materialBuy.CompanyID);
+            ViewBag.ProjectID = new SelectList(db.Projects, "ID", "Name", materialBuy.ProjectID);
+            return View(materialBuy);
         }
 
         [HttpPost]
@@ -171,6 +197,24 @@ namespace ChulWoo.Controllers
             db.MaterialBuys.Remove(materialBuy);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> DeleteUnit(int id, int unitid)
+        {
+            MaterialBuyUnit materialBuyUnit = await db.MaterialBuyUnits.FindAsync(unitid);
+            int unitcount = db.MaterialBuyUnits.Count(m => m.MaterialUnitPriceID == materialBuyUnit.MaterialUnitPriceID);
+            if( unitcount <= 1 )
+            {
+                int namecount = db.MaterialUnitPrices.Count(m => m.CompanyID == materialBuyUnit.MaterialUnitPrice.MaterialNameID);
+                if (namecount <= 1)
+                    db.MaterialNames.Remove(materialBuyUnit.MaterialUnitPrice.MaterialName);
+
+                db.MaterialUnitPrices.Remove(materialBuyUnit.MaterialUnitPrice);
+            }
+
+            db.MaterialBuyUnits.Remove(materialBuyUnit);
+            await db.SaveChangesAsync();
+            return RedirectToAction("EditAddUnit", new { id = id });
         }
 
         protected override void Dispose(bool disposing)
