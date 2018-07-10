@@ -4,53 +4,29 @@
     ViewBag.Title = "About";
 }
 
+<head>
+    <meta charset="utf-8">
+    <title>A4</title>
+    <!-- Normalize or reset CSS with your favorite library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+    <!-- Load paper.css for happy printing -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
+    <!-- Set page size here: A5, A4 or A3 -->
+    <!-- Set also "landscape" if you need -->
+    <style>@page { size: A4 }</style>
+</head>
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#Nametest").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: "/Home/About",
-                    type: "POST",
-                    dataType: "json",
-                    data: { Prefix: request.term },
-                    success: function (data) {
-                        response($.map(data, function (item) {
-                            return { label: item.Name, value: item.Name };
-                        }))
+    <!-- Set "A5", "A4" or "A3" for class name -->
+    <!-- Set also "landscape" if you need -->
+    <body class="A5">
 
-                    }
-                })
-            },
-            messages: {
-                noResults: "", results: ""
-            }
-        });
-    })
-</script>
+        <!-- Each sheet element should have the class "sheet" -->
+        <!-- "padding-**mm" is optional: you can set 10, 15, 20 or 25 -->
+        <section class="sheet padding-10mm">
 
+            <!-- Write HTML just like a web page -->
+            <article>This is an A5 document.</article>
 
+        </section>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-
-        <hr />
-
-        <div class="form-group">
-
-            <div class="col-md-12">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @id = "Nametest", @class = "form-control" } })
-
-            </div>
-        </div>
-
-    </div>
-}
-
-
+    </body>

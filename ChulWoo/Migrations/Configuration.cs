@@ -16,7 +16,7 @@
 
         protected override void Seed(ChulWoo.DAL.ChulWooContext context)
         {
-
+/*
             var employees = new List<Employee>
             {
                 new Employee{DepartmentVn="",DepartmentKr="",Name="Lee Kang Su",EmployeeNo="CW002NN",BankAccount="0731-000-720-705",BankLocation="VCB Bắc Giang",
@@ -192,6 +192,7 @@
             };
             user.ForEach(s => context.Users.Add(s));
             context.SaveChanges();
+*/
         }
     }
 }

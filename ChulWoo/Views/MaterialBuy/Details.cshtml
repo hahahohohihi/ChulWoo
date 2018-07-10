@@ -1,85 +1,221 @@
 ﻿@model ChulWoo.Models.MaterialBuy
 
 @{
+    Layout = null;
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<!DOCTYPE html>
 
-<div>
-    <h4>MaterialBuy</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Company.Name)
-        </dt>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
 
-        <dd>
-            @Html.DisplayFor(model => model.Company.Name)
-        </dd>
+    <title>Details</title>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.Name)
-        </dt>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
 
-        <dd>
-            @Html.DisplayFor(model => model.Project.Name)
-        </dd>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css" />
+    @Styles.Render("/paper.css")
+    <!-- Set page size here: A5, A4 or A3 -->
+    <!-- Set also "landscape" if you need -->
+    @*    <style>@page { size: A4 }</style>*@
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-
-    </dl>
-
-    @{
-        var priceall = 0;
-    <table class="table">
-        <tr>
-            <th>Material Name</th>
-            <th>Quantity</th>
-            <th>Unit Price</th>
-            <th>Price</th>
-        </tr>
-        @foreach (var unit in Model.MaterialBuyUnits)
-        {
-            <tr>
-                <td>
-                    @unit.MaterialUnitPrice.MaterialName.Name
-                </td>
-                <td>
-                    @unit.Quantity
-                </td>
-                <td>
-                    @unit.MaterialUnitPrice.Price
-                </td>
-                <td>
-                    @{
-                        var price = unit.Quantity * unit.MaterialUnitPrice.Price;
-                    }
-                    @price
-                </td>
-            </tr>
-            priceall += (int) @unit.Quantity * @unit.MaterialUnitPrice.Price;
+    <style type="text/css">
+        body {
+            font: 100%/1.4 Verdana, Arial, Helvetica, sans-serif;
+            background-color: #42413C;
+            margin: 0;
+            padding: 0;
+            color: #000;
+            font-size: 9pt;
         }
+
+        /* ~~ 요소/태그 선택기 ~~ */
+        ul, ol, dl { /* 브라우저마다 다르므로 목록의 패딩과 여백을 0으로 지정하는 것이 가장 좋습니다. 일관성을 위해, 여기에서 또는 포함하고 있는 목록 항목(LI, DT, DD)에서 원하는 크기를 지정할 수 있습니다. 보다 구체적인 선택기를 쓰지 않는 한 여기에서 수행한 작업은 .nav 목록에 계단식으로 표시됩니다. */
+            padding: 0;
+            margin: 0;
+        }
+
+        h1, h2, h3, h4, h5, h6, p {
+            margin-top: 0; /* 위쪽 여백을 제거하면 포함된 div에서 여백이 이스케이프되는 문제를 방지할 수 있습니다. 나머지 아래쪽 여백은 이어지는 요소에서 이 문제를 보류합니다. */
+            padding-right: 15px;
+            padding-left: 15px; /* div에 직접 추가하는 대신 div 내에 있는 요소의 측면에 패딩을 추가하면 상자 모델 수학이 제거됩니다. 측면 패딩이 있는 중첩된 div를 대체 메서드로 사용할 수도 있습니다. */
+            padding-bottom: -10px;
+            margin: 0;
+        }
+
+        p {
+            font-size: 9pt;
+            line-height: 5mm
+        }
+
+        a img { /* 이 선택기는 링크로 둘러싸인 이미지 주변에 있는 일부 브라우저에 표시된 파란색 기본 테두리를 제거합니다. */
+            border: none;
+        }
+        /* ~~ 사이트 링크의 스타일링은 커서 놓기 효과를 생성하는 선택기 그룹을 포함하여 이 순서대로 남아 있어야 합니다. ~~ */
+        a:link {
+            color: #42413C;
+            text-decoration: underline; /* 매우 독특하게 보이도록 링크에 스타일을 지정하는 경우를 제외하고는 시각적으로 빠르게 식별되도록 밑줄을 적용하는 것이 가장 좋습니다. */
+        }
+
+        a:visited {
+            color: #6E6C64;
+            text-decoration: underline;
+        }
+
+        a:hover, a:active, a:focus { /* 이 선택기 그룹은 마우스를 사용하는 사람과 동일한 커서 놓기 환경을 키보드 탐색기에 제공합니다. */
+            text-decoration: none;
+        }
+
+        /* ~~ 이 고정 폭 컨테이너는 다른 모든 요소를 둘러쌉니다. ~~ */
+        .container {
+            width: 960px;
+            background-color: #FFF;
+            margin: 0 auto; /* 측면 자동 값, 폭으로 연결, 레이아웃 가운데 정렬 */
+        }
+
+        .content {
+            padding: 10px 0;
+        }
+
+        .fltrt { /* 이 클래스는 페이지에서 오른쪽 요소를 부동화하는 데 사용될 수 있습니다. 부동화된 요소는 페이지에서 옆에 있는 다른 요소의 앞쪽에 배치되어야 합니다. */
+            float: right;
+            margin-left: 8px;
+        }
+
+        .fltlft { /* 이 클래스는 페이지에서 왼쪽 요소를 부동화하는 데 사용될 수 있습니다. 부동화된 요소는 페이지에서 옆에 있는 다른 요소의 앞쪽에 배치되어야 합니다. */
+            float: left;
+            margin-right: 8px;
+        }
+
+        .clearfloat { /* .container에서 overflow:hidden이 제거된 경우 <br /> 이 클래스는 마지막 부동 div(#container 내) 뒤에 오는 최종 요소로 빈 div에 배치될 수 있습니다. */
+            clear: both;
+            height: 0;
+            font-size: 1px;
+            line-height: 0px;
+        }
+    </style>
+</head>
+
+<body class="A4">
+    <section class="sheet padding-10mm">
+        <h1 align="center">PURCHASE REQUISITION</h1>
+        <table width="100%" border="0">
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>@priceall</td>
+                <td colspan="2"><p align="center">Yêu cầu mua hàng</p></td>
             </tr>
-        
-    </table>
-    }
+            <tr>
+                <td height="77" width="50%">
+                    Name ( Tên ) : @ViewBag.eName<br />
+                    Department ( Bộ phận ) : @ViewBag.DepartmentVn<br />
+                    Used purpose(Mục đích sử dụng) : @Html.DisplayFor(model => model.Project.Name)
+                </td>
+                <td>
+                    Date ( Ngày ) : @Html.DisplayFor(model => model.Date)<br />
+                    Vendor(Nhà cung cấp) : @Html.DisplayFor(model => model.Company.Name)<br />&nbsp;
+                </td>
+            </tr>
+        </table>
+        <table width="100%" border="1">
+            <tr>
+                <th width="6%">No<br />Stt</div></th>
+                <th width="40%">Name<br />Tên</div></th>
+                <th width="10%">Unit<br />Mã/ĐVT</div></th>
+                <th width="10%">Q.ty<br />S.lg</div></th>
+                <th width="16%">Unit Price<br />Giá</div></th>
+                <th width="18%">Amount<br />Thành tiền</div></th>
+            </tr>
+            @{
+                var totalPrice = 0;
+                var count = 1;
+                foreach (var unit in Model.MaterialBuyUnits)
+                {
+                    <tr>
+                        <td height="30"><div align="center">@count</div></td>
+                        <td><div align="center">@unit.MaterialUnitPrice.MaterialName.Name</div></td>
+                        <td><div align="center">@unit.MaterialUnitPrice.Unit</div></td>
+                        <td><div align="center">@unit.Quantity</div></td>
+                        <td><div align="center">@Html.DisplayFor(model => unit.MaterialUnitPrice.Price)</div></td>
+                        <td>
+                            <div align="center">
+                                @{
+                                    var price = unit.Quantity * unit.MaterialUnitPrice.Price;
+                                    totalPrice = totalPrice+(int)price;
+                                }
+                                @String.Format("{0:0,0}", price)
+                            </div>
+                        </td>
+                    </tr>
+                    count++;
+                }
 
+                for (; count <= 13; count++)
+                {
+                    <tr>
+                        <td height="30">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="4" rowspan="3">asdasddadadada</td>
+                    <th height="30">tổng trước thuế</th>
+                    <th>
+                        @String.Format("{0:0,0}", totalPrice)
+                    </th>
+                </tr>
+                <tr>
+                    <th height="30">V.A.T</th>
+                    <th>
+                        @{
+                            var vat = totalPrice * 0.1;
+                        }
+                        @String.Format("{0:0,0}", vat)
+                    </th>
+                </tr>
+                <tr>
+                    <th height="30">Tổng(Total)</th>
+                    <th>
+                        @{
+                            var grandTotal = totalPrice + @vat;
+                        }
+                        @String.Format("{0:0,0}", grandTotal)
+                    </th>
+                </tr>
+            }
+        </table>
+        <br />
+        <br />
+        <table width="100%" border="1">
+            <tr>
+                <th width="25%">Prepared by :</th>
+                <th colspan="2">Approved by :</th>
+                <th width="25%">Managed by :</th>
+            </tr>
+            <tr>
+                <th rowspan="2">&nbsp;</th>
+                <th width="25%">Dept.Head<br />trưởng bộ phận</th>
+                <th width="25%">Chairman<br />chủ tịch</th>
+                <th>Account Dept.<br />kế toán</th>
+            </tr>
+            <tr>
+                <td height="132">&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+        The original signed copy to be kept by Account. Dept<br />
+        Bản gốc được lưu bởi Bộ phận kế toán
+        <br>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </section>
+</body>
+</html>
 
-
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

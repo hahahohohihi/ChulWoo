@@ -26,6 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -252,6 +253,10 @@
     <Compile Include="Migrations\201807060644137_create.Designer.cs">
       <DependentUpon>201807060644137_create.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807100930432_changeMaterialBuy.cs" />
+    <Compile Include="Migrations\201807100930432_changeMaterialBuy.Designer.cs">
+      <DependentUpon>201807100930432_changeMaterialBuy.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Contract.cs" />
@@ -293,6 +298,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Content\paper.css" />
+    <Content Include="Content\paper.min.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -340,9 +347,10 @@
     <Content Include="Views\MaterialBuy\Edit.cshtml" />
     <Content Include="Views\MaterialBuy\Index.cshtml" />
     <Content Include="Views\MaterialBuy\EditAddUnit.cshtml" />
+    <Content Include="Views\MaterialBuy\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="Content\App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -360,6 +368,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201807060644137_create.resx">
       <DependentUpon>201807060644137_create.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807100930432_changeMaterialBuy.resx">
+      <DependentUpon>201807100930432_changeMaterialBuy.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

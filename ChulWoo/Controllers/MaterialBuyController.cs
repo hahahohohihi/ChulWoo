@@ -36,6 +36,10 @@ namespace ChulWoo.Controllers
             {
                 return HttpNotFound();
             }
+            int eID = Convert.ToInt32(Session["LoginUserEmployeeID"]);
+            Employee employee = db.Employees.FirstOrDefault(e => e.ID == eID);
+            ViewBag.eName = employee.Name;
+            ViewBag.eDepartment = employee.DepartmentVn;
             return View(materialBuy);
         }
 
