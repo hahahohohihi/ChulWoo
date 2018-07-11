@@ -1,50 +1,307 @@
 ﻿@model ChulWoo.Models.Personnel
 
 @{
+    Layout = null;
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Personnel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Employee.DepartmentVn)
-        </dt>
+<!DOCTYPE html>
 
-        <dd>
-            @Html.DisplayFor(model => model.Employee.DepartmentVn)
-        </dd>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
 
-        <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
+    <title>Details</title>
 
-        <dd>
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css" />
+    @Styles.Render("/paper.css")
+    <!-- Set page size here: A5, A4 or A3 -->
+    <!-- Set also "landscape" if you need -->
+    @*    <style>@page { size: A4 }</style>*@
 
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
+    <style type="text/css">
+        body {
+            font: 100%/1.4 Verdana, Arial, Helvetica, sans-serif;
+            background-color: #42413C;
+            margin: 0;
+            padding: 0;
+            color: #000;
+            font-size: 9pt;
+        }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
+        /* ~~ 요소/태그 선택기 ~~ */
+        ul, ol, dl { /* 브라우저마다 다르므로 목록의 패딩과 여백을 0으로 지정하는 것이 가장 좋습니다. 일관성을 위해, 여기에서 또는 포함하고 있는 목록 항목(LI, DT, DD)에서 원하는 크기를 지정할 수 있습니다. 보다 구체적인 선택기를 쓰지 않는 한 여기에서 수행한 작업은 .nav 목록에 계단식으로 표시됩니다. */
+            padding: 0;
+            margin: 0;
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.Type)
-        </dd>
+        h1, h2, h3, h4, h5, h6, p {
+            margin-top: 0; /* 위쪽 여백을 제거하면 포함된 div에서 여백이 이스케이프되는 문제를 방지할 수 있습니다. 나머지 아래쪽 여백은 이어지는 요소에서 이 문제를 보류합니다. */
+            padding-right: 15px;
+            padding-left: 15px; /* div에 직접 추가하는 대신 div 내에 있는 요소의 측면에 패딩을 추가하면 상자 모델 수학이 제거됩니다. 측면 패딩이 있는 중첩된 div를 대체 메서드로 사용할 수도 있습니다. */
+            padding-bottom: -10px;
+            margin: 0;
+        }
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+        p {
+            font-size: 9pt;
+            line-height: 5mm
+        }
+
+        a img { /* 이 선택기는 링크로 둘러싸인 이미지 주변에 있는 일부 브라우저에 표시된 파란색 기본 테두리를 제거합니다. */
+            border: none;
+        }
+        /* ~~ 사이트 링크의 스타일링은 커서 놓기 효과를 생성하는 선택기 그룹을 포함하여 이 순서대로 남아 있어야 합니다. ~~ */
+        a:link {
+            color: #42413C;
+            text-decoration: underline; /* 매우 독특하게 보이도록 링크에 스타일을 지정하는 경우를 제외하고는 시각적으로 빠르게 식별되도록 밑줄을 적용하는 것이 가장 좋습니다. */
+        }
+
+        a:visited {
+            color: #6E6C64;
+            text-decoration: underline;
+        }
+
+        a:hover, a:active, a:focus { /* 이 선택기 그룹은 마우스를 사용하는 사람과 동일한 커서 놓기 환경을 키보드 탐색기에 제공합니다. */
+            text-decoration: none;
+        }
+
+        /* ~~ 이 고정 폭 컨테이너는 다른 모든 요소를 둘러쌉니다. ~~ */
+        .container {
+            width: 960px;
+            background-color: #FFF;
+            margin: 0 auto; /* 측면 자동 값, 폭으로 연결, 레이아웃 가운데 정렬 */
+        }
+
+        .content {
+            padding: 10px 0;
+        }
+
+        .fltrt { /* 이 클래스는 페이지에서 오른쪽 요소를 부동화하는 데 사용될 수 있습니다. 부동화된 요소는 페이지에서 옆에 있는 다른 요소의 앞쪽에 배치되어야 합니다. */
+            float: right;
+            margin-left: 8px;
+        }
+
+        .fltlft { /* 이 클래스는 페이지에서 왼쪽 요소를 부동화하는 데 사용될 수 있습니다. 부동화된 요소는 페이지에서 옆에 있는 다른 요소의 앞쪽에 배치되어야 합니다. */
+            float: left;
+            margin-right: 8px;
+        }
+
+        .clearfloat { /* .container에서 overflow:hidden이 제거된 경우 <br /> 이 클래스는 마지막 부동 div(#container 내) 뒤에 오는 최종 요소로 빈 div에 배치될 수 있습니다. */
+            clear: both;
+            height: 0;
+            font-size: 1px;
+            line-height: 0px;
+        }
+    </style>
+</head>
+
+
+<body class="A4">
+    <section class="sheet padding-10mm">
+        <br>
+        <h1 align="center">LEAVE APPLICATION</h1>
+        <table width="100%" border="0">
+            <tr>
+                <td height="24" colspan="2"><p align="center">Đơn xin nghỉ(휴가신청서)</p></td>
+            </tr>
+            <tr>
+                <td height="21" />
+            </tr>
+            <tr>
+                <td height="21" width="50%">Full name/ Họ và tên(이름):@Html.DisplayFor(model => model.Employee.Name)</td>
+                <td>Department / Bộ phận(부서):@Html.DisplayFor(model => model.Employee.DepartmentVn)</td>
+            </tr>
+            <tr>
+                <td height="21">Designation/vị trí(직함):</td>
+                <td>Date /Ngày(날짜):@Html.DisplayFor(model => model.SendDate)</td>
+            </tr>
+            <tr>
+                <td height="21">Reason/ Lý do(이유):@Html.DisplayFor(model => model.Reason)</td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+        <br />
+        <table width="100%" border="1">
+            <tr>
+                <th width="23%">Type of leave<br>Loại ngày nghỉ<br>휴일 종류</div></th>
+                <th width="13%">From(M/D/Y)<br>Từ ngày<br>날짜 부터</div></th>
+                <th width="13%">To(D/M/Y)<br>Đến ngày<br>날짜 까지</div></th>
+                <th width="22%">Total no. of leaving days<br>Tổng số ngày nghỉ<br>총휴일</div></th>
+                <th width="29%">Remarks<br>Ghi chú<br>비고</div></th>
+            </tr>
+            <tr>
+                <th height="30">Annual Leave<br>Nghỉ phép năm<br>연차휴가</th>
+                @if (Model.Type == ChulWoo.Models.PersonnelType.AnnualLeave)
+                {
+                    <td><div align="center">@Html.DisplayFor(model => model.StartDate)</div></td>
+                    <td><div align="center">@Html.DisplayFor(model => model.EndDate)</div></td>
+                    <td><div align="center">@ViewBag.TotalDays</div></td>
+                    <td><div align="center"><b>Balance/Ngày phép còn lại:@ViewBag.TotalHolydays<br>잔여 휴가일:@ViewBag.TotalHolydays</b></div></td>
+                }
+                else
+                {
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><div align="center"><b>Balance/Ngày phép còn lại:@ViewBag.TotalHolydays<br>잔여 휴가일:@ViewBag.TotalHolydays</b></div></td>
+                }
+            </tr>
+            <tr>
+                <th height="30">Sick Leave<br>Nghỉ ốm<br>병가<br></th>
+                @if (Model.Type == ChulWoo.Models.PersonnelType.SickLeave)
+                {
+                    <td><div align="center">@Html.DisplayFor(model => model.StartDate)</div></td>
+                    <td><div align="center">@Html.DisplayFor(model => model.EndDate)</div></td>
+                    <td><div align="center">@ViewBag.TotalDays</div></td>
+                    <td><div align="center">&nbsp;</div></td>
+                }
+                else
+                {
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                }
+            </tr>
+            <tr>
+                <th height="30">Maternity Leave<br>Nghỉ thai sản<br>임신휴가</th>
+                @if (Model.Type == ChulWoo.Models.PersonnelType.MaternityLeave)
+                {
+                    <td><div align="center">@Html.DisplayFor(model => model.StartDate)</div></td>
+                    <td><div align="center">@Html.DisplayFor(model => model.EndDate)</div></td>
+                    <td><div align="center">@ViewBag.TotalDays</div></td>
+                    <td><div align="center">&nbsp;</div></td>
+                }
+                else
+                {
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                }
+            </tr>
+            <tr>
+                <th height="30">Compassionate Leave<br>Nghỉ tang<br>장례 휴가</th>
+                @if (Model.Type == ChulWoo.Models.PersonnelType.CompassionateLeave)
+                {
+                    <td><div align="center">@Html.DisplayFor(model => model.StartDate)</div></td>
+                    <td><div align="center">@Html.DisplayFor(model => model.EndDate)</div></td>
+                    <td><div align="center">@ViewBag.TotalDays</div></td>
+                    <td><div align="center">&nbsp;</div></td>
+                }
+                else
+                {
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                }
+            </tr>
+            <tr>
+                <th height="30">Marriage Leave<br>Nghỉ cưới<br>결혼 휴가</th>
+                @if (Model.Type == ChulWoo.Models.PersonnelType.MarriageLeave)
+                {
+                    <td><div align="center">@Html.DisplayFor(model => model.StartDate)</div></td>
+                    <td><div align="center">@Html.DisplayFor(model => model.EndDate)</div></td>
+                    <td><div align="center">@ViewBag.TotalDays</div></td>
+                    <td><div align="center">&nbsp;</div></td>
+                }
+                else
+                {
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                }
+            </tr>
+            <tr>
+                <th height="30">No-pay  Leave<br>Nghỉ không lương<br>무급 휴가</th>
+                @if (Model.Type == ChulWoo.Models.PersonnelType.NopayLeave)
+                {
+                    <td><div align="center">@Html.DisplayFor(model => model.StartDate)</div></td>
+                    <td><div align="center">@Html.DisplayFor(model => model.EndDate)</div></td>
+                    <td><div align="center">@ViewBag.TotalDays</div></td>
+                    <td><div align="center">&nbsp;</div></td>
+                }
+                else
+                {
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                }
+            </tr>
+            <tr>
+                <th height="30">Hospitalization Leave<br>Nghỉ nằm viện<br>입원 휴가</th>
+                @if (Model.Type == ChulWoo.Models.PersonnelType.HospitalizationLeave)
+                {
+                    <td><div align="center">@Html.DisplayFor(model => model.StartDate)</div></td>
+                    <td><div align="center">@Html.DisplayFor(model => model.EndDate)</div></td>
+                    <td><div align="center">@ViewBag.TotalDays</div></td>
+                    <td><div align="center">&nbsp;</div></td>
+                }
+                else
+                {
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                }
+            </tr>
+            <tr>
+                <th height="30">Other Leaves<br>Nghỉ khác<br>다른 종류 휴가</th>
+                @if (Model.Type == ChulWoo.Models.PersonnelType.OtherLeave)
+                {
+                    <td><div align="center">@Html.DisplayFor(model => model.StartDate)</div></td>
+                    <td><div align="center">@Html.DisplayFor(model => model.EndDate)</div></td>
+                    <td><div align="center">@ViewBag.TotalDays</div></td>
+                    <td><div align="center">&nbsp;</div></td>
+                }
+                else
+                {
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                }
+            </tr>
+        </table>
+        <br>
+        <table width="100%" border="1">
+            <tr>
+                <th width="25%">Applicant's Signature<br>Chữ ký người xin nghỉ<br>서명자</th>
+                <th width="25%">Dept. Head<br>Giám đốc bộ phận<br>결재자</th>
+                <th width="25%">Endorsed by HR Dept.<br>Nhân sự<br>인사팀</th>
+                <th width="25%">Management Director<br>Giám đốc điều hành<br>법인장</th>
+            </tr>
+            <tr>
+                <td height="105">&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+        <br />
+        <b>
+            Procedure:  Applicant Head Dept. Ms/Mr………………… ( Admin )<br>
+            ** Note / Lưu ý:<br>
+        </b>
+        All leave should be applied for 7 days in advance as per Company Regulations (except urgent cases). Please ensure immediately submit this form to Personal Administration Team Leader after get approval from Dept. Head or Management Director.<br>
+        Ghi chú: Đơn xin nghỉ phải nộp trước 7 ngày theo Quy định của Công ty (trừ trường hợp khẩn cấp). Đơn xin nghỉ phải nộp ngay lên Bộ phận Hành Chính Nhân Sự sau khi có chữ ký của Trưởng Bộ Phận hoặc  Giám Đốc điều hành.
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </section>
+</body>
+</html>
+
+
+
+
+
+

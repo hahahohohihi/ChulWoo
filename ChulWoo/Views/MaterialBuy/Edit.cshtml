@@ -45,7 +45,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextAreaFor(model => model.Note, new { htmlAttributes = new { @class = "form-control", row = "5" } })
+            @Html.TextAreaFor(model => model.Note, new { @Style = "height:100px; width:100%;" })
             @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -54,7 +54,7 @@
         @Html.LabelFor(model => model.VAT, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             <div class="checkbox">
-                @Html.EditorFor(model => model.VAT)
+                @Html.CheckBoxFor(model => model.VAT)
                 @Html.ValidationMessageFor(model => model.VAT, "", new { @class = "text-danger" })
             </div>
         </div>

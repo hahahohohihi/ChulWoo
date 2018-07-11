@@ -162,7 +162,14 @@
                     </tr>
                 }
                 <tr>
-                    <td colspan="4" rowspan="3">asdasddadadada</td>
+                    @if(Model.Note == null)
+                    {
+                        <td colspan="4" rowspan="3" style="padding-left:10px;">&nbsp;</td>
+                    }
+                    else
+                    {
+                        <td colspan="4" rowspan="3" style="padding-left:10px;">@Html.Raw(Model.Note.Replace(Environment.NewLine, "<br/>"))</td>
+                    }
                     <th height="30">tổng trước thuế</th>
                     <th>
                         @String.Format("{0:0,0}", totalPrice)
@@ -173,8 +180,12 @@
                     <th>
                         @{
                             var vat = totalPrice * 0.1;
+                            if (Model.VAT == false)
+                            {
+                                vat = 0;
+                            }
                         }
-                        @String.Format("{0:0,0}", vat)
+                        @String.Format("{0:0,0; 0,0; 0}", vat)
                     </th>
                 </tr>
                 <tr>
@@ -183,7 +194,7 @@
                         @{
                             var grandTotal = totalPrice + @vat;
                         }
-                        @String.Format("{0:0,0}", grandTotal)
+                        @String.Format("{0:0,0; 0,0; 0}", grandTotal)
                     </th>
                 </tr>
             }

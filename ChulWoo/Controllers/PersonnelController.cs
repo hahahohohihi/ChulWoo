@@ -35,13 +35,51 @@ namespace ChulWoo.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.TotalDays = Convert.ToInt32(((TimeSpan)(personnel.EndDate - personnel.StartDate)).TotalDays) + 1;
+
+            int year = personnel.SendDate.Value.Year;
+            DateTime temp = new DateTime(year, 1, 1);
+            int holydayCount = GetDiffMonths(temp, (DateTime)personnel.EndDate);
+
+            List<Personnel> personnels = db.Personnels.Where(p => p.EmployeeID == personnel.EmployeeID &&
+                                                                p.ID != id &&
+                                                                p.StartDate.Value.Year == year &&
+                                                                p.Type == PersonnelType.AnnualLeave).ToList();
+            int count = 0;
+            foreach( Personnel item in personnels )
+            {
+                count += Convert.ToInt32(((TimeSpan)(item.EndDate - item.StartDate)).TotalDays) + 1;
+            }
+
+            ViewBag.TotalHolydays = holydayCount - count;
+
+
             return View(personnel);
+        }
+
+        public int GetDiffMonths(DateTime from, DateTime to)
+        {
+            int diff = 0;
+            DateTime added = from;
+
+            while (true)
+            {
+                added = added.AddMonths(1);
+
+                if (added > to)
+                {
+                    return diff;
+                }
+
+                diff++;
+            }
         }
 
         // GET: Personnel/Create
         public ActionResult Create()
         {
-            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "DepartmentVn");
+            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "Name");
             return View();
         }
 
@@ -50,16 +88,17 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,EmployeeID,StartDate,EndDate,Type")] Personnel personnel)
+        public async Task<ActionResult> Create([Bind(Include = "ID,EmployeeID,SendDate,Reason,StartDate,EndDate,Type")] Personnel personnel)
         {
             if (ModelState.IsValid)
             {
+                personnel.SendDate = DateTime.Today;
                 db.Personnels.Add(personnel);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "DepartmentVn", personnel.EmployeeID);
+            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "Name", personnel.EmployeeID);
             return View(personnel);
         }
 
@@ -75,7 +114,7 @@ namespace ChulWoo.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "DepartmentVn", personnel.EmployeeID);
+            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "Name", personnel.EmployeeID);
             return View(personnel);
         }
 
@@ -84,7 +123,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,EmployeeID,StartDate,EndDate,Type")] Personnel personnel)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,EmployeeID,SendDate,Reason,StartDate,EndDate,Type")] Personnel personnel)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +131,7 @@ namespace ChulWoo.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "DepartmentVn", personnel.EmployeeID);
+            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "Name", personnel.EmployeeID);
             return View(personnel);
         }
 

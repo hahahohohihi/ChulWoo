@@ -157,7 +157,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,CompanyID,ProjectID,Date")] MaterialBuy materialBuy)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,CompanyID,ProjectID,Date,Note,VAT")] MaterialBuy materialBuy)
         {
             if (ModelState.IsValid)
             {

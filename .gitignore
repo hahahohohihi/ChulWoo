@@ -276,3 +276,6 @@ __pycache__/
 /ChulWoo/Migrations/201807060644137_create.cs
 /ChulWoo/Views/MaterialBuy_
 /ChulWoo/Controllers/MaterialBuyController_.cs
+/ChulWoo/Migrations/201807110842206_changePersonnel.resx
+/ChulWoo/Migrations/201807110842206_changePersonnel.Designer.cs
+/ChulWoo/Migrations/201807110842206_changePersonnel.cs

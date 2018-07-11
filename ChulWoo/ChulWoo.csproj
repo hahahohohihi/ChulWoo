@@ -257,6 +257,10 @@
     <Compile Include="Migrations\201807100930432_changeMaterialBuy.Designer.cs">
       <DependentUpon>201807100930432_changeMaterialBuy.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807110842206_changePersonnel.cs" />
+    <Compile Include="Migrations\201807110842206_changePersonnel.Designer.cs">
+      <DependentUpon>201807110842206_changePersonnel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Contract.cs" />
@@ -371,6 +375,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807100930432_changeMaterialBuy.resx">
       <DependentUpon>201807100930432_changeMaterialBuy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807110842206_changePersonnel.resx">
+      <DependentUpon>201807110842206_changePersonnel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

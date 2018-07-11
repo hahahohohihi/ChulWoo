@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace ChulWoo.Models
 {
@@ -29,6 +30,7 @@ namespace ChulWoo.Models
 
         public string Note { get; set; }
 
+        [DefaultValue(true)]
         public bool VAT { get; set; }
     }
 }
