@@ -30,6 +30,7 @@ namespace ChulWoo.Models
         public string Type { get; set; }
 
         // 급여 급여
+        [DisplayFormat(DataFormatString = "{0:0,0}", ApplyFormatInEditMode = true)]
         public int? Salary { get; set; }
     }
 }

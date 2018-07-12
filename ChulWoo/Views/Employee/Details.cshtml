@@ -271,16 +271,16 @@
                         @Html.ActionLink("Delete", "Details", new { id = Model.Employee.ID, contractsID = item.ID })
                     </td>
                     <td>
-                        @item.StartDate
+                        @Html.DisplayFor(model => item.StartDate)
                     </td>
                     <td>
-                        @item.EndDate
+                        @Html.DisplayFor(model => item.EndDate)
                     </td>
                     <td>
-                        @item.Type
+                        @Html.DisplayFor(model => item.Type)
                     </td>
                     <td>
-                        @item.Salary
+                        @Html.DisplayFor(model => item.Salary)
                     </td>
                 </tr>
             }
@@ -335,13 +335,13 @@
                         @Html.ActionLink("Select", "Index", new { courseID = item.ID })
                     </td>
                     <td>
-                        @item.StartDate
+                        @Html.DisplayFor(model => item.StartDate)
                     </td>
                     <td>
-                        @item.EndDate
+                        @Html.DisplayFor(model => item.EndDate)
                     </td>
                     <td>
-                        @item.Type
+                        @Html.DisplayFor(model => item.Type)
                     </td>
                 </tr>
             }
