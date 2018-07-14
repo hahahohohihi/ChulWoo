@@ -8,7 +8,7 @@ using ChulWoo.DAL;
 
 namespace ChulWoo.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private ChulWooContext db = new ChulWooContext();
 

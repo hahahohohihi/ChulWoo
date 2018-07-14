@@ -12,7 +12,7 @@ using ChulWoo.Models;
 
 namespace ChulWoo.Controllers
 {
-    public class ProjectController : Controller
+    public class ProjectController : BaseController
     {
         private ChulWooContext db = new ChulWooContext();
 

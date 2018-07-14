@@ -12,7 +12,7 @@ using ChulWoo.Models;
 
 namespace ChulWoo.Controllers
 {
-    public class CompanyController : Controller
+    public class CompanyController : BaseController
     {
         private ChulWooContext db = new ChulWooContext();
 
@@ -39,6 +39,8 @@ namespace ChulWoo.Controllers
                 .Include(c => c.MaterialBuys.Select(mb => mb.Project))
                 .Where(c => c.ID == id)
                 .Single();
+            company.Projects = company.Projects.OrderByDescending(m => m.Date).ToList();
+            company.MaterialBuys = company.MaterialBuys.OrderByDescending(m => m.Date).ToList();
 
             if (company == null)
             {

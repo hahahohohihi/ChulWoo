@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChulWoo.LocalResource;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,9 +21,11 @@ namespace ChulWoo.Models
         public virtual Employee Employee { get; set; }
 
 
+        [Display(Name = "UserID", ResourceType = typeof(Resource))]
         [Required(ErrorMessage = "input User ID")]
         public string UserID { get; set; }
 
+        [Display(Name = "UserPassword", ResourceType = typeof(Resource))]
         public string UserPassword { get; set; }
 
         public Security? Security { get; set; }

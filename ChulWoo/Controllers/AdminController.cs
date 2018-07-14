@@ -11,7 +11,7 @@ using ChulWoo.Models;
 
 namespace ChulWoo.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
         private ChulWooContext db = new ChulWooContext();
 

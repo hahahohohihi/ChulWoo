@@ -14,7 +14,7 @@ using ChulWoo.Viewmodel;
 
 namespace ChulWoo.Controllers 
 {
-    public class EmployeeController : Controller
+    public class EmployeeController : BaseController
     {
         private ChulWooContext db = new ChulWooContext();
         private int deleteContractID;
@@ -72,8 +72,8 @@ namespace ChulWoo.Controllers
                 .Include(e => e.Personnels.Select(p => p.Employee))
                 .Single();
 
-            //            employee.Contracts = employee.Contracts.OrderBy(c => c.StartDate);
-            //            employee.Contracts = employee.Contracts.OrderByDescending(c => c.StartDate);
+            employee.Employee.Personnels = employee.Employee.Personnels.OrderBy(p => p.StartDate).ToList();
+            employee.Employee.Contracts = employee.Employee.Contracts.OrderBy(c => c.StartDate).ToList();
 
             if (employee.Employee == null)
             {

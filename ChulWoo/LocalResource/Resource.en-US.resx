@@ -118,42 +118,42 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AnnualLeave" xml:space="preserve">
-    <value>Nghỉ phép năm</value>
+    <value>Annual Leave</value>
   </data>
   <data name="CompassionateLeave" xml:space="preserve">
-    <value>Nghỉ tang</value>
+    <value>Compassionate Leave</value>
   </data>
   <data name="EndDate" xml:space="preserve">
-    <value>enddate</value>
+    <value>EndDate</value>
   </data>
   <data name="HospitalizationLeave" xml:space="preserve">
-    <value>Nghỉ nằm viện</value>
+    <value>Hospitalization Leave</value>
   </data>
   <data name="MarriageLeave" xml:space="preserve">
-    <value>Nghỉ cưới</value>
+    <value>Marriage Leave</value>
   </data>
   <data name="MaternityLeave" xml:space="preserve">
-    <value>Nghỉ thai sản</value>
+    <value>Maternity Leave</value>
   </data>
   <data name="NopayLeave" xml:space="preserve">
-    <value>Nghỉ không lương</value>
+    <value>No-pay Leave</value>
   </data>
   <data name="OtherLeave" xml:space="preserve">
-    <value>Nghỉ khác</value>
+    <value>Other Leave</value>
   </data>
   <data name="SickLeave" xml:space="preserve">
-    <value>Nghỉ ốm</value>
+    <value>Sick Leave</value>
   </data>
   <data name="StartDate" xml:space="preserve">
-    <value>startdate</value>
+    <value>StartDate</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>type</value>
+    <value>Type</value>
   </data>
   <data name="UserID" xml:space="preserve">
-    <value>id</value>
+    <value>ID</value>
   </data>
   <data name="UserPassword" xml:space="preserve">
-    <value>password</value>
+    <value>Password</value>
   </data>
 </root>

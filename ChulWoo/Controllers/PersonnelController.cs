@@ -9,10 +9,11 @@ using System.Web;
 using System.Web.Mvc;
 using ChulWoo.DAL;
 using ChulWoo.Models;
+using ChulWoo.Helper;
 
 namespace ChulWoo.Controllers
 {
-    public class PersonnelController : Controller
+    public class PersonnelController : BaseController
     {
         private ChulWooContext db = new ChulWooContext();
 
@@ -169,5 +170,6 @@ namespace ChulWoo.Controllers
             }
             base.Dispose(disposing);
         }
+
     }
 }

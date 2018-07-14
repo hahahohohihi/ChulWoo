@@ -73,13 +73,13 @@
                                 @unit.Quantity
                             </td>
                             <td>
-                                @unit.MaterialUnitPrice.Price
+                                @Html.DisplayFor(model => unit.MaterialUnitPrice.Price)
                             </td>
                             <td>
                                 @{
                                     var price = unit.Quantity * unit.MaterialUnitPrice.Price;
                                 }
-                                @price
+                                @String.Format("{0:0,0}", price)
                             </td>
                         </tr>
                     }

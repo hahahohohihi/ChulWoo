@@ -13,7 +13,7 @@ using ChulWoo.Viewmodel;
 
 namespace ChulWoo.Controllers
 {
-    public class MaterialBuyController : Controller
+    public class MaterialBuyController : BaseController
     {
         private ChulWooContext db = new ChulWooContext();
 
