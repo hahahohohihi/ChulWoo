@@ -12,128 +12,113 @@ using ChulWoo.Models;
 
 namespace ChulWoo.Controllers
 {
-    public class ProjectController : BaseController
+    public class BoardController : Controller
     {
         private ChulWooContext db = new ChulWooContext();
 
-        // GET: Project
+        // GET: Board
         public async Task<ActionResult> Index()
         {
-            var projects = db.Projects.Include(p => p.Company)
-                .Include(p => p.MaterialBuys.Select(mb => mb.Project))
-                .OrderBy(p => p.Date);
-//            var projects = db.Projects.Include(p => p.Company);
-            return View(await projects.ToListAsync());
+            var boards = db.Boards.Include(b => b.Employee);
+            return View(await boards.ToListAsync());
         }
 
-        // GET: Project/Details/5
+        // GET: Board/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //            Project project = await db.Projects.FindAsync(id);
-
-            var project = db.Projects.Include(p => p.Company)
-                .Include(p => p.MaterialBuys.Select(mb => mb.Project))
-                .Where(p => p.ID == id)
-                .Single();
-
-            if (project == null)
+            Board board = await db.Boards.FindAsync(id);
+            if (board == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+            return View(board);
         }
 
-        // GET: Project/Create
+        // GET: Board/Create
         public ActionResult Create()
         {
-            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name");
+            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "Name");
             return View();
         }
 
-        // POST: Project/Create
+        // POST: Board/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,CompanyID,Name,Date,Company")] Project project)
+        public async Task<ActionResult> Create([Bind(Include = "ID,EmployeeID,TitleVn,TitleKr,NoteVn,NoteKr,Date")] Board board)
         {
-            Company company = db.Companys.FirstOrDefault(c => c.Name.Equals(project.Company.Name));
-            if (company != null && ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                db.Projects.Add(project);
-                project.CompanyID = company.ID;
-
+                board.Date = (DateTime)DateTime.Today;
+                db.Boards.Add(board);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-//            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", project.CompanyID);
-            return View(project);
+            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "Name", board.EmployeeID);
+            return View(board);
         }
 
-        // GET: Project/Edit/5
+        // GET: Board/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = await db.Projects.FindAsync(id);
-            if (project == null)
+            Board board = await db.Boards.FindAsync(id);
+            if (board == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", project.CompanyID);
-            return View(project);
+            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "Name", board.EmployeeID);
+            return View(board);
         }
 
-        // POST: Project/Edit/5
+        // POST: Board/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,CompanyID,Name,Date,Company")] Project project)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,EmployeeID,TitleVn,TitleKr,NoteVn,NoteKr,Date")] Board board)
         {
-            Company company = db.Companys.FirstOrDefault(c => c.Name.Equals(project.Company.Name));
-            if (company != null && ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                db.Entry(project).State = EntityState.Modified;
-                project.CompanyID = project.Company.ID;
-
+                db.Entry(board).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
-//            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", project.CompanyID);
-            return View(project);
+            ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "Name", board.EmployeeID);
+            return View(board);
         }
 
-        // GET: Project/Delete/5
+        // GET: Board/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = await db.Projects.FindAsync(id);
-            if (project == null)
+            Board board = await db.Boards.FindAsync(id);
+            if (board == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+            return View(board);
         }
 
-        // POST: Project/Delete/5
+        // POST: Board/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Project project = await db.Projects.FindAsync(id);
-            db.Projects.Remove(project);
+            Board board = await db.Boards.FindAsync(id);
+            db.Boards.Remove(board);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

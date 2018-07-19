@@ -18,7 +18,7 @@ namespace ChulWoo.Models
         public virtual ICollection<Personnel> Personnels { get; set; }
 
         // 키값(퇴직정보) 키값(퇴직정보)
-        public int ResignID { get; set; }
+        public int? ResignID { get; set; }
         public virtual Resign Resign { get; set; }
 
         // 부서 부서(베트남)
@@ -125,6 +125,8 @@ namespace ChulWoo.Models
         [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
         public string DependentParents { get; set; }
 
+        public byte[] ImageData { get; set; }
+        public string ImageMimeType { get; set; }
 
         [Timestamp]
         public byte[] RowVersion { get; set; }

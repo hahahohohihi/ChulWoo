@@ -173,7 +173,7 @@ namespace ChulWoo.Controllers
         [HttpPost]
         public JsonResult Edit2(string Prefix)
         {
-            var names = db.MaterialNames.Where(m => m.Name.ToLower().StartsWith(Prefix.ToLower())).Select(m => new { m.Name }).ToList();
+            var names = db.MaterialNames.Where(m => m.Name.ToLower().Contains(Prefix.ToLower())).Select(m => new { m.Name }).ToList();
             return Json(names, JsonRequestBehavior.AllowGet);
         }
 

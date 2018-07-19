@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ChulWoo.Models.Board>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+    @foreach (var item in Model)
+    {
+<a href='@Url.Action("Details"+@"/"+item.ID)'>
+    <table class="table">
+        <tr>
+            <td rowspan="2" width="80">
+                <img class="img-thumbnail" width="75" height="75" src='@Url.Action("GetImage", "Employee", new { employeeID = item.EmployeeID })' />
+            </td>
+            <td colspan="2">
+                @Html.DisplayFor(modelItem => item.TitleVn)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+        </tr>
+    </table>
+</a>
+    }
+
+@*
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Employee.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TitleVn)
+                </td>
+                @*
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TitleKr)
+                        </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NoteVn)
+                    </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NoteKr)
+                        </td>
+                @
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                </td>
+            </tr>
+
+*@

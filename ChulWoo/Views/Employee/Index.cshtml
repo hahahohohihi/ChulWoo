@@ -12,6 +12,8 @@
 <table class="table">
     <tr>
         <th>
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.EmployeeNo)
         </th>
         <th>
@@ -40,6 +42,12 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @if(item.ImageData != null)
+            {
+                <img class="img-thumbnail" width="75" height="75" src='@Url.Action("GetImage", "Employee", new { employeeID = item.ID })' />
+            }
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.EmployeeNo)
         </td>

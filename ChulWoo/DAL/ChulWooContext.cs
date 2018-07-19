@@ -26,6 +26,7 @@ namespace ChulWoo.DAL
         public DbSet<MaterialBuyUnit> MaterialBuyUnits { get; set; }
         public DbSet<MaterialUnitPrice> MaterialUnitPrices { get; set; }
         public DbSet<MaterialName> MaterialNames { get; set; }
+        public DbSet<Board> Boards { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         { 
@@ -36,5 +37,6 @@ namespace ChulWoo.DAL
 //           modelBuilder.Entity<Project>().MapToStoredProcedures();
 //            modelBuilder.Entity<Company>().MapToStoredProcedures();
         }
+
     }
 }

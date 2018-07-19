@@ -239,6 +239,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BoardController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -283,7 +284,20 @@
     <Compile Include="Migrations\201807110842206_changePersonnel.Designer.cs">
       <DependentUpon>201807110842206_changePersonnel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807180257251_180718.cs" />
+    <Compile Include="Migrations\201807180257251_180718.Designer.cs">
+      <DependentUpon>201807180257251_180718.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807180804098_18071802.cs" />
+    <Compile Include="Migrations\201807180804098_18071802.Designer.cs">
+      <DependentUpon>201807180804098_18071802.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807190910399_addBoard.cs" />
+    <Compile Include="Migrations\201807190910399_addBoard.Designer.cs">
+      <DependentUpon>201807190910399_addBoard.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Contract.cs" />
     <Compile Include="Models\Employee.cs" />
@@ -374,6 +388,11 @@
     <Content Include="Views\MaterialBuy\Index.cshtml" />
     <Content Include="Views\MaterialBuy\EditAddUnit.cshtml" />
     <Content Include="Views\MaterialBuy\View.cshtml" />
+    <Content Include="Views\Board\Create.cshtml" />
+    <Content Include="Views\Board\Delete.cshtml" />
+    <Content Include="Views\Board\Details.cshtml" />
+    <Content Include="Views\Board\Edit.cshtml" />
+    <Content Include="Views\Board\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\App_Data\" />
@@ -417,6 +436,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807110842206_changePersonnel.resx">
       <DependentUpon>201807110842206_changePersonnel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807180257251_180718.resx">
+      <DependentUpon>201807180257251_180718.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807180804098_18071802.resx">
+      <DependentUpon>201807180804098_18071802.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807190910399_addBoard.resx">
+      <DependentUpon>201807190910399_addBoard.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

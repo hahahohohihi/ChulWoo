@@ -185,11 +185,11 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int? id, byte[] rowVersion)
+        public async Task<ActionResult> Edit(int? id, byte[] rowVersion, HttpPostedFileBase image = null)
         {
             string[] fieldsToBind = new string[] { "DepartmentVn", "DepartmentKr", "Name", "EmployeeNo", "BankAccount", "BankLocation", "TexNo", "JobPosition",
                 "Sex", "BirthDate", "RegistrationNo", "RegistrationDate", "RegistrationPosition", "Tel1", "Tel2", "Email", "Adress", "People", "Religion",
-                "Country", "EducationLevel", "MajorVn", "MajorKr", "Marriage", "DependentChild", "DependentParents", "RowVersion", "Resign" };
+                "Country", "EducationLevel", "MajorVn", "MajorKr", "Marriage", "DependentChild", "DependentParents", "RowVersion", "Resign", "ImageData", "ImageMimeType" };
 
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -206,6 +206,13 @@ namespace ChulWoo.Controllers
                 TryUpdateModel(deleteEmployee, fieldsToBind);
                 ModelState.AddModelError(string.Empty, "Delete by another user.");
                 return View(deleteEmployee);
+            }
+
+            if (image != null)
+            {
+                employeeToUpdate.ImageMimeType = image.ContentType;
+                employeeToUpdate.ImageData = new byte[image.ContentLength];
+                image.InputStream.Read(employeeToUpdate.ImageData, 0, image.ContentLength);
             }
 
             if ( TryUpdateModel(employeeToUpdate, fieldsToBind) )
@@ -382,6 +389,16 @@ namespace ChulWoo.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public FileContentResult GetImage(int? employeeID)
+        {
+            Employee employee = db.Employees.FirstOrDefault(e => e.ID == employeeID);
+
+            if (employee != null)
+                return File(employee.ImageData, employee.ImageMimeType);
+            else
+                return null;
         }
     }
 }

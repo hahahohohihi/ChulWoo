@@ -42,7 +42,10 @@ namespace ChulWoo.Models
         public DateTime? SendDate { get; set; }
 
         [StringLength(256)]
-        public string Reason { get; set; }
+        public string ReasonVn { get; set; }
+
+        [StringLength(256)]
+        public string ReasonKr { get; set; }
 
         // 시작날짜 시작날짜
         [Display(Name = "StartDate", ResourceType = typeof(Resource))]

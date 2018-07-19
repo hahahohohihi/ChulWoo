@@ -137,5 +137,12 @@ namespace ChulWoo.Controllers
             }
             base.Dispose(disposing);
         }
+
+        [HttpPost]
+        public JsonResult SetNameList(string Prefix)
+        {
+            var names = db.Companys.Where(c => c.Name.ToLower().Contains(Prefix.ToLower())).Select(c => new { c.Name }).ToList();
+            return Json(names, JsonRequestBehavior.AllowGet);
+        }
     }
 }
