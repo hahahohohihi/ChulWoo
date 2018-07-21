@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using ChulWoo.DAL;
 using ChulWoo.Models;
+using System.IO;
 
 namespace ChulWoo.Controllers
 {
@@ -21,7 +22,7 @@ namespace ChulWoo.Controllers
         {
             var projects = db.Projects.Include(p => p.Company)
                 .Include(p => p.MaterialBuys.Select(mb => mb.Project))
-                .OrderBy(p => p.Date);
+                .OrderByDescending(p => p.Date);
 //            var projects = db.Projects.Include(p => p.Company);
             return View(await projects.ToListAsync());
         }
@@ -59,14 +60,37 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,CompanyID,Name,Date,Company")] Project project)
+        public async Task<ActionResult> Create([Bind(Include = "ID,CompanyID,Name,Date,Company,UploadFiles")] Project project)
         {
-            Company company = db.Companys.FirstOrDefault(c => c.Name.Equals(project.Company.Name));
-            if (company != null && ModelState.IsValid)
+            project.Company = db.Companys.FirstOrDefault(c => c.Name.Equals(project.Company.Name));
+            if (project.Company != null && ModelState.IsValid)
             {
-                db.Projects.Add(project);
-                project.CompanyID = company.ID;
+                List<UploadFile> UploadFiles = new List<UploadFile>();
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    var file = Request.Files[i];
 
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(file.FileName);
+                        UploadFile uploadFile = new UploadFile()
+                        {
+                            FileName = fileName,
+                            SaveFileName = Guid.NewGuid() + "_" + fileName,
+                            FolderName = "Project",
+                        };
+                        UploadFiles.Add(uploadFile);
+
+                        var path = Path.Combine(Server.MapPath("~/UploadFile/"), uploadFile.FolderName + "/" + uploadFile.SaveFileName);
+                        file.SaveAs(path);
+                    }
+                }
+
+                project.UploadFiles = UploadFiles;
+                project.CompanyID = project.Company.ID;
+                DateTime date = (DateTime)project.Date;
+                project.Date = new DateTime(date.Year, date.Month, date.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                db.Projects.Add(project);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -96,14 +120,38 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,CompanyID,Name,Date,Company")] Project project)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,CompanyID,Name,Date,Company,UploadFiles")] Project project)
         {
+            Project sproject = await db.Projects.FindAsync(project.ID);
             Company company = db.Companys.FirstOrDefault(c => c.Name.Equals(project.Company.Name));
-            if (company != null && ModelState.IsValid)
+            if (sproject != null && company != null && ModelState.IsValid)
             {
-                db.Entry(project).State = EntityState.Modified;
-                project.CompanyID = project.Company.ID;
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    var file = Request.Files[i];
 
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(file.FileName);
+                        UploadFile uploadFile = new UploadFile()
+                        {
+                            FileName = fileName,
+                            SaveFileName = Guid.NewGuid() + "_" + fileName,
+                            FolderName = "Project",
+                        };
+                        var path = Path.Combine(Server.MapPath("~/UploadFile/"), uploadFile.FolderName + "/" + uploadFile.SaveFileName);
+                        file.SaveAs(path);
+
+                        db.Entry(uploadFile).State = EntityState.Added;
+
+                        sproject.UploadFiles.Add(uploadFile);
+                    }
+                }
+
+                sproject.CompanyID = company.ID;
+                sproject.Company = company;
+                company.Projects.Add(sproject);
+                db.Entry(sproject).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -132,10 +180,33 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Project project = await db.Projects.FindAsync(id);
-            db.Projects.Remove(project);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            try
+            {
+                Project project = await db.Projects.FindAsync(id);
+                if (project == null)
+                {
+                    return HttpNotFound();
+                }
+
+                //delete files from the file system
+
+                foreach (var item in project.UploadFiles)
+                {
+                    String path = Path.Combine(Server.MapPath("~/UploadFile/"), item.FolderName + "/" + item.SaveFileName);
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
+                }
+
+                db.Projects.Remove(project);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
         }
 
         protected override void Dispose(bool disposing)

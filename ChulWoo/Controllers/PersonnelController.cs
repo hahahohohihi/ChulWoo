@@ -93,7 +93,7 @@ namespace ChulWoo.Controllers
         {
             if (ModelState.IsValid)
             {
-                personnel.SendDate = DateTime.Today;
+                personnel.SendDate = DateTime.Now;
                 db.Personnels.Add(personnel);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

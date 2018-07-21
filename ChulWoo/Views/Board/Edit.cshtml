@@ -4,26 +4,59 @@
     ViewBag.Title = "Edit";
 }
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.deleteitem').on('click', function (e) {
+                e.preventDefault();
+                var $ctrl = $(this);
+                if (confirm('Do you really want to delete this file?')) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteFile")',
+                        type: 'POST',
+                        data: { id: $(this).data('id') }
+                    }).done(function (data) {
+                        if (data.Result == "OK") {
+                            $ctrl.closest('li').remove();
+                        }
+                        else if (data.Result.Message) {
+                            alert(data.Result.Message);
+                        }
+                    }).fail(function () {
+                        alert("There is something wrong. Please try again.");
+                    })
+
+                }
+        });
+    })
+
+</script>
+
+
 <h2>Edit</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Board", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Board</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ID)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Employee.Name, "EmployeeID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("EmployeeID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Employee.Name, "", new { @class = "text-danger" })
+        @*
+            <div class="form-group">
+                @Html.LabelFor(model => model.Employee.Name, "EmployeeID", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("EmployeeID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Employee.Name, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-
+        *@
         <div class="form-group">
             @Html.LabelFor(model => model.TitleVn, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -31,15 +64,15 @@
                 @Html.ValidationMessageFor(model => model.TitleVn, "", new { @class = "text-danger" })
             </div>
         </div>
-@*
-        <div class="form-group">
-            @Html.LabelFor(model => model.TitleKr, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TitleKr, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TitleKr, "", new { @class = "text-danger" })
+        @*
+            <div class="form-group">
+                @Html.LabelFor(model => model.TitleKr, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TitleKr, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TitleKr, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-*@
+        *@
         <div class="form-group">
             @Html.LabelFor(model => model.NoteVn, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -47,23 +80,42 @@
                 @Html.ValidationMessageFor(model => model.NoteVn, "", new { @class = "text-danger" })
             </div>
         </div>
-@*
-        <div class="form-group">
-            @Html.LabelFor(model => model.NoteKr, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NoteKr, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NoteKr, "", new { @class = "text-danger" })
+        @*
+            <div class="form-group">
+                @Html.LabelFor(model => model.NoteKr, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NoteKr, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NoteKr, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        *@
+        <div class="editor-field">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="file" name="file" multiple="multiple" />
+
+                <ul class="attachment">
+                    @foreach (var item in Model.UploadFiles)
+                    {
+                        <li>
+                            <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a>
+                            <a class="title" href="/Board/Download/?SFilename=@(item.FolderName+"/"+ item.SaveFileName)&Filename=@item.FileName">Download</a>
+                            <a href="javascript:void(0);" data-id="@item.ID" id="deleteitem" class="deleteitem">Delete</a>
+                        </li>
+                    }
+                </ul>
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-            </div>
-        </div>
-*@
+
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -75,3 +127,5 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+

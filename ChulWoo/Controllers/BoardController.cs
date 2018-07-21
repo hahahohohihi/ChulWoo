@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using ChulWoo.DAL;
 using ChulWoo.Models;
+using System.IO;
 
 namespace ChulWoo.Controllers
 {
@@ -50,11 +51,34 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,EmployeeID,TitleVn,TitleKr,NoteVn,NoteKr,Date")] Board board)
+        public async Task<ActionResult> Create([Bind(Include = "ID,EmployeeID,TitleVn,TitleKr,NoteVn,NoteKr,Date,UploadFiles")] Board board)
         {
             if (ModelState.IsValid)
             {
-                board.Date = (DateTime)DateTime.Today;
+                List<UploadFile> UploadFiles = new List<UploadFile>();
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    var file = Request.Files[i];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(file.FileName);
+                        UploadFile uploadFile = new UploadFile()
+                        {
+                            FileName = fileName,
+                            SaveFileName = Guid.NewGuid()+"_"+fileName,
+                            FolderName = "Board",
+                        };
+                        UploadFiles.Add(uploadFile);
+
+                        var path = Path.Combine(Server.MapPath("~/UploadFile/"), uploadFile.FolderName+"/"+uploadFile.SaveFileName);
+                        file.SaveAs(path);
+                    }
+                }
+
+                board.UploadFiles = UploadFiles;
+                board.Date = (DateTime)DateTime.Now;
+                board.EmployeeID = (int)Session["LoginUserEmployeeID"];
                 db.Boards.Add(board);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -85,11 +109,35 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,EmployeeID,TitleVn,TitleKr,NoteVn,NoteKr,Date")] Board board)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,EmployeeID,TitleVn,TitleKr,NoteVn,NoteKr,Date,UploadFiles")] Board board)
         {
-            if (ModelState.IsValid)
+            Board sboard = await db.Boards.FindAsync(board.ID);
+            if (sboard != null && ModelState.IsValid)
             {
-                db.Entry(board).State = EntityState.Modified;
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    var file = Request.Files[i];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(file.FileName);
+                        UploadFile uploadFile = new UploadFile()
+                        {
+                            FileName = fileName,
+                            SaveFileName = Guid.NewGuid() + "_" + fileName,
+                            FolderName = "Board",
+                        };
+                        var path = Path.Combine(Server.MapPath("~/UploadFile/"), uploadFile.FolderName + "/" + uploadFile.SaveFileName);
+                        file.SaveAs(path);
+
+                        db.Entry(uploadFile).State = EntityState.Added;
+
+                        sboard.UploadFiles.Add(uploadFile);
+                    }
+                }
+
+
+                db.Entry(sboard).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -117,10 +165,34 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Board board = await db.Boards.FindAsync(id);
-            db.Boards.Remove(board);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            try
+            {
+                Board board = await db.Boards.FindAsync(id);
+                if (board == null)
+                {
+                    return HttpNotFound();
+                }
+
+                //delete files from the file system
+
+                foreach (var item in board.UploadFiles)
+                {
+                    String path = Path.Combine(Server.MapPath("~/UploadFile/"), item.FolderName + "/" + item.SaveFileName);
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
+                }
+
+                db.Boards.Remove(board);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+ //               return Json(new { Result = "ERROR", Message = ex.Message });
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -130,6 +202,47 @@ namespace ChulWoo.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public FileResult Download(String SFilename, String Filename)
+        {
+            return File(Path.Combine(Server.MapPath("~/UploadFile/"), SFilename), System.Net.Mime.MediaTypeNames.Application.Octet, Filename);
+        }
+
+
+        [HttpPost]
+        public JsonResult DeleteFile(string id)
+        {
+            if (String.IsNullOrEmpty(id))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { Result = "Error" });
+            }
+            try
+            {
+                UploadFile UploadFile = db.UploadFiles.Find(Int32.Parse(id));
+                if (UploadFile == null)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    return Json(new { Result = "Error" });
+                }
+
+                //Remove from database
+                db.UploadFiles.Remove(UploadFile);
+                db.SaveChanges();
+
+                //Delete file from the file system
+                var path = Path.Combine(Server.MapPath("~/UploadFile/"), UploadFile.FolderName+"/" + UploadFile.SaveFileName);
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+                return Json(new { Result = "OK" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", Message = ex.Message });
+            }
         }
     }
 }

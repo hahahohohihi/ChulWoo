@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $("#CompanyName").autocomplete({
@@ -25,14 +27,37 @@
                 })
             }
         });
+
+        $('.deleteitem').on('click', function (e) {
+                e.preventDefault();
+                var $ctrl = $(this);
+                if (confirm('Do you really want to delete this file?')) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteFile")',
+                        type: 'POST',
+                        data: { id: $(this).data('id') }
+                    }).done(function (data) {
+                        if (data.Result == "OK") {
+                            $ctrl.closest('li').remove();
+                        }
+                        else if (data.Result.Message) {
+                            alert(data.Result.Message);
+                        }
+                    }).fail(function () {
+                        alert("There is something wrong. Please try again.");
+                    })
+
+                }
+        });
     })
 </script>
+
 
 
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Project", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -71,6 +96,23 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="editor-field">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="file" name="file" multiple="multiple" />
+
+                <ul class="attachment">
+                    @foreach (var item in Model.UploadFiles)
+                    {
+                        <li>
+                            <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a>
+                            <a class="title" href="/Board/Download/?SFilename=@(item.FolderName+"/"+ item.SaveFileName)&Filename=@item.FileName">Download</a>
+                            <a href="javascript:void(0);" data-id="@item.ID" id="deleteitem" class="deleteitem">Delete</a>
+                        </li>
+                    }
+                </ul>
             </div>
         </div>
 

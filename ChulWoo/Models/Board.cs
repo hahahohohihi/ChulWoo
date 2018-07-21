@@ -27,6 +27,7 @@ namespace ChulWoo.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
-        public List<String> FileNames { get; set; }
+        public virtual ICollection<UploadFile> UploadFiles { get; set; }
+
     }
 }

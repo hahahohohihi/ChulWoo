@@ -27,6 +27,7 @@ namespace ChulWoo.DAL
         public DbSet<MaterialUnitPrice> MaterialUnitPrices { get; set; }
         public DbSet<MaterialName> MaterialNames { get; set; }
         public DbSet<Board> Boards { get; set; }
+        public DbSet<UploadFile> UploadFiles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         { 
