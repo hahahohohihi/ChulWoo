@@ -1,4 +1,7 @@
-﻿@model IEnumerable<ChulWoo.Models.Board>
+﻿@*odel IEnumerable<ChulWoo.Models.Board>*@
+@model PagedList.IPagedList<ChulWoo.Models.Board>
+@using PagedList.Mvc; 
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Index";
@@ -11,28 +14,31 @@
 </p>
     @foreach (var item in Model)
     {
-<a href='@Url.Action("Details"+@"/"+item.ID)'>
-    <table class="table">
-        <tr>
-            <td rowspan="2" width="80">
-                <img class="img-thumbnail" width="75" height="75" src='@Url.Action("GetImage", "Employee", new { employeeID = item.EmployeeID })' />
-            </td>
-            <td colspan="2">
-                @Html.DisplayFor(modelItem => item.TitleVn)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Employee.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-        </tr>
-    </table>
-</a>
+        <a href='@Url.Action("Details"+@"/"+item.ID)'>
+            <table class="table">
+                <tr>
+                    <td rowspan="2" width="80">
+                        <img class="img-thumbnail" width="75" height="75" src='@Url.Action("GetImage", "Employee", new { employeeID = item.EmployeeID })' />
+                    </td>
+                    <td colspan="2">
+                        @Html.DisplayFor(modelItem => item.TitleVn)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Employee.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                </tr>
+            </table>
+        </a>
     }
 
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager( Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter }) )
 @*
             <tr>
                 <td>

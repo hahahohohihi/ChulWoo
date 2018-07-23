@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using ChulWoo.DAL;
 using ChulWoo.Models;
+using PagedList;
 
 namespace ChulWoo.Controllers
 {
@@ -17,13 +18,16 @@ namespace ChulWoo.Controllers
         private ChulWooContext db = new ChulWooContext();
 
         // GET: Company
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page)
         {
             var companys = db.Companys.Include(c => c.Projects.Select(p => p.Company))
                 .Include(c => c.MaterialBuys.Select(mb => mb.Project))
                 .OrderBy(c => c.Name);
 
-            return View(await db.Companys.ToListAsync());
+//            return View(await db.Companys.ToListAsync());
+            int pageSize = 6;
+            int pageNumber = (page ?? 1);
+            return View(companys.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Company/Details/5

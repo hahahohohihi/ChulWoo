@@ -4,10 +4,9 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@Html.DisplayFor(model => model.Name)</h2>
 
 <div>
-    <h4>Project</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -19,22 +18,24 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Date)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Date)
         </dd>
-
     </dl>
+
+    <ul class="attachment">
+        @foreach (var item in Model.UploadFiles)
+        {
+            <li>
+                <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a>  |
+                <a class="title" href="/Board/Download/?SFilename=@(item.FolderName+"/"+ item.SaveFileName)&Filename=@item.FileName">Download</a>  |
+                <a href="javascript:void(0);" data-id="@item.ID" id="deleteitem" class="deleteitem">Delete</a>
+            </li>
+        }
+    </ul>
 
 
 

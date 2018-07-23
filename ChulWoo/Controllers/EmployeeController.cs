@@ -11,6 +11,7 @@ using ChulWoo.DAL;
 using ChulWoo.Models;
 using System.Data.Entity.Infrastructure;
 using ChulWoo.Viewmodel;
+using PagedList;
 
 namespace ChulWoo.Controllers 
 {
@@ -20,13 +21,16 @@ namespace ChulWoo.Controllers
         private int deleteContractID;
          
         // GET: Employee
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page)
         {
             var employees = db.Employees.Include(e => e.Resign)
                 .Include(e => e.Contracts.Select(c => c.Employee))
                 .OrderBy(e => e.ID);
-            return View(await employees.ToListAsync());
-//            return View(await db.Employees.ToListAsync());
+//            return View(await employees.ToListAsync());
+
+            int pageSize = 6;
+            int pageNumber = (page ?? 1);
+            return View(employees.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Employee/Details/5

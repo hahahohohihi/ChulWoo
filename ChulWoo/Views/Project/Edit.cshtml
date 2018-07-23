@@ -33,7 +33,7 @@
                 var $ctrl = $(this);
                 if (confirm('Do you really want to delete this file?')) {
                     $.ajax({
-                        url: '@Url.Action("DeleteFile")',
+                        url: '/Board/DeleteFile',
                         type: 'POST',
                         data: { id: $(this).data('id') }
                     }).done(function (data) {
