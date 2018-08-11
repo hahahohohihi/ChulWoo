@@ -20,13 +20,19 @@ namespace ChulWoo.Controllers
         // GET: Personnel
         public async Task<ActionResult> Index()
         {
-            var personnels = db.Personnels.Include(p => p.Employee);
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            var personnels = db.Personnels.Include(p => p.Employee).OrderByDescending(p => p.SendDate);
             return View(await personnels.ToListAsync());
         }
 
         // GET: Personnel/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -46,6 +52,7 @@ namespace ChulWoo.Controllers
             List<Personnel> personnels = db.Personnels.Where(p => p.EmployeeID == personnel.EmployeeID &&
                                                                 p.ID != id &&
                                                                 p.StartDate.Value.Year == year &&
+                                                                p.StartDate < personnel.StartDate &&
                                                                 p.Type == PersonnelType.AnnualLeave).ToList();
             int count = 0;
             foreach( Personnel item in personnels )
@@ -80,6 +87,9 @@ namespace ChulWoo.Controllers
         // GET: Personnel/Create
         public ActionResult Create()
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "Name");
             return View();
         }
@@ -89,8 +99,11 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,EmployeeID,SendDate,Reason,StartDate,EndDate,Type")] Personnel personnel)
+        public async Task<ActionResult> Create([Bind(Include = "ID,EmployeeID,SendDate,ReasonVn,ReasonKr,StartDate,EndDate,Type")] Personnel personnel)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (ModelState.IsValid)
             {
                 personnel.SendDate = DateTime.Now;
@@ -106,6 +119,9 @@ namespace ChulWoo.Controllers
         // GET: Personnel/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -124,8 +140,11 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,EmployeeID,SendDate,Reason,StartDate,EndDate,Type")] Personnel personnel)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,EmployeeID,SendDate,ReasonVn,ReasonKr,StartDate,EndDate,Type")] Personnel personnel)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (ModelState.IsValid)
             {
                 db.Entry(personnel).State = EntityState.Modified;
@@ -139,6 +158,9 @@ namespace ChulWoo.Controllers
         // GET: Personnel/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -156,6 +178,9 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             Personnel personnel = await db.Personnels.FindAsync(id);
             db.Personnels.Remove(personnel);
             await db.SaveChangesAsync();

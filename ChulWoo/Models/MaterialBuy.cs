@@ -12,6 +12,9 @@ namespace ChulWoo.Models
         // 키값(자재구매) 키값(자재구매)
         public int ID { get; set; }
 
+        public int? EmployeeID { get; set; }
+        public virtual Employee Employee { get; set; }
+
         // 키값(회사) 키값(회사)
         public int? CompanyID { get; set; }
         public virtual Company Company { get; set; }
@@ -28,9 +31,14 @@ namespace ChulWoo.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? Date { get; set; }
 
-        public string Note { get; set; }
+        public string NoteVn { get; set; }
+        public string NoteKr { get; set; }
 
         [DefaultValue(true)]
         public bool VAT { get; set; }
+
+
+        [DefaultValue(true)]
+        public bool Translate { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿@using System.Globalization;
 @using ChulWoo;
 @using System.Threading;
+@using ChulWoo.Models;
 
 <!DOCTYPE html>
 <html>
@@ -27,7 +28,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("정보", "About", "Home")</li>
+                    @*<li>@Html.ActionLink("정보", "About", "Home")</li>*@
                     @*<li>@Html.ActionLink("연락처", "Contact", "Home")</li>*@
                     @if (Context.Session["LoginUserID"] != null)
                     {
@@ -41,22 +42,28 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @*{
-                        CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+            CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
 
-                        <li><a href="/Home/ChangeCurrentCulture/0">English</a></li>
+            <li><a href="/Home/ChangeCurrentCulture/0">English</a></li>
 
-                        <li><a href="/Home/ChangeCurrentCulture/1">Vietnam</a></li>
+            <li><a href="/Home/ChangeCurrentCulture/1">Vietnam</a></li>
 
-                        <li><a href="/Home/ChangeCurrentCulture/2">Korean</a></li>
-                    }*@
-                    @if (Context.Session["LoginUserID"] == null)
-                    {
-                        <li>@Html.ActionLink("Login", "Login", "Account")</li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
-                        <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
+            <li><a href="/Home/ChangeCurrentCulture/2">Korean</a></li>
+        }*@
+                    @{
+                        if (Context.Session["LoginUserID"] == null)
+                        {
+                            <li>@Html.ActionLink("Login", "Login", "Account")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                            Security sec = (Security)Context.Session["LoginUserSecurity"];
+                            if (sec == Security.Admin)
+                            {
+                                <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
+                            }
+                        }
                     }
                 </ul>
             </div>

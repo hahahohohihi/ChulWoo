@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ChulWoo.Models;
 using ChulWoo.DAL;
+using System.Data.Entity;
 
 namespace ChulWoo.Controllers
 {
@@ -37,6 +38,7 @@ namespace ChulWoo.Controllers
                         Session["LoginUserID"] = user.ID;
                         Session["LoginUserEmployeeID"] = user.EmployeeID;
                         Session["LoginUserEmployeeName"] = user.Employee.Name;
+                        Session["LoginUserSecurity"] = user.Security;
                         return RedirectToAction("Index", "Home");
                     }
                     else
@@ -51,6 +53,7 @@ namespace ChulWoo.Controllers
             Session.Remove("LoginUserID");
             Session.Remove("LoginUserEmployeeID");
             Session.Remove("LoginUserEmployeeName");
+            Session.Remove("LoginUserSecurity");
 
             return RedirectToAction("Index", "Home");
         }
@@ -66,7 +69,9 @@ namespace ChulWoo.Controllers
         {
             if( ModelState.IsValid )
             {
-                db.Users.Add(model);
+                User user = db.Users.FirstOrDefault(u => u.UserID.Equals(model.UserID));
+                user.UserPassword = model.UserPassword;
+                db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return RedirectToAction("Index", "Home");

@@ -18,6 +18,9 @@ namespace ChulWoo.Controllers
         // GET: Admin
         public ActionResult Index()
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             var users = db.Users.Include(u => u.Employee);
             return View(users.ToList());
         }
@@ -25,6 +28,9 @@ namespace ChulWoo.Controllers
         // GET: Admin/Details/5
         public ActionResult Details(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -40,6 +46,9 @@ namespace ChulWoo.Controllers
         // GET: Admin/Create
         public ActionResult Create()
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "Name");
             return View();
         }
@@ -51,6 +60,9 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,EmployeeID,UserID,UserPassword,Security")] User user)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (ModelState.IsValid)
             {
                 db.Users.Add(user);
@@ -65,6 +77,9 @@ namespace ChulWoo.Controllers
         // GET: Admin/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -85,6 +100,9 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,EmployeeID,UserID,UserPassword,Security")] User user)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (ModelState.IsValid)
             {
                 db.Entry(user).State = EntityState.Modified;
@@ -98,6 +116,9 @@ namespace ChulWoo.Controllers
         // GET: Admin/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -115,6 +136,9 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             User user = db.Users.Find(id);
             db.Users.Remove(user);
             db.SaveChanges();

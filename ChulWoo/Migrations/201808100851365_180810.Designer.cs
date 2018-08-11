@@ -7,13 +7,13 @@ namespace ChulWoo.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class changeMaterialBuy : IMigrationMetadata
+    public sealed partial class _180810 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(changeMaterialBuy));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(_180810));
         
         string IMigrationMetadata.Id
         {
-            get { return "201807100930432_changeMaterialBuy"; }
+            get { return "201808100851365_180810"; }
         }
         
         string IMigrationMetadata.Source

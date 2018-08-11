@@ -20,6 +20,9 @@ namespace ChulWoo.Controllers
         // GET: Project
         public async Task<ActionResult> Index()
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             var projects = db.Projects.Include(p => p.Company)
                 .Include(p => p.MaterialBuys.Select(mb => mb.Project))
                 .OrderByDescending(p => p.Date);
@@ -30,6 +33,9 @@ namespace ChulWoo.Controllers
         // GET: Project/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -51,6 +57,9 @@ namespace ChulWoo.Controllers
         // GET: Project/Create
         public ActionResult Create()
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name");
             return View();
         }
@@ -60,8 +69,11 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,CompanyID,Name,Date,Company,UploadFiles")] Project project)
+        public async Task<ActionResult> Create([Bind(Include = "ID,CompanyID,NameVn,NameKr,Date,Company,UploadFiles")] Project project)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             project.Company = db.Companys.FirstOrDefault(c => c.Name.Equals(project.Company.Name));
             if (project.Company != null && ModelState.IsValid)
             {
@@ -102,6 +114,9 @@ namespace ChulWoo.Controllers
         // GET: Project/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -120,8 +135,11 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,CompanyID,Name,Date,Company,UploadFiles")] Project project)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,CompanyID,NameVn,NameKr,Date,Company,UploadFiles")] Project project)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             Project sproject = await db.Projects.FindAsync(project.ID);
             Company company = db.Companys.FirstOrDefault(c => c.Name.Equals(project.Company.Name));
             if (sproject != null && company != null && ModelState.IsValid)
@@ -150,6 +168,11 @@ namespace ChulWoo.Controllers
 
                 sproject.CompanyID = company.ID;
                 sproject.Company = company;
+                sproject.Date = project.Date;
+                sproject.NameVn = project.NameVn;
+                sproject.NameKr = project.NameKr;
+                sproject.Translate = project.Translate;
+
                 company.Projects.Add(sproject);
                 db.Entry(sproject).State = EntityState.Modified;
                 await db.SaveChangesAsync();
@@ -163,6 +186,9 @@ namespace ChulWoo.Controllers
         // GET: Project/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -180,6 +206,9 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             try
             {
                 Project project = await db.Projects.FindAsync(id);

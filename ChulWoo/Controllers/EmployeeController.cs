@@ -21,21 +21,45 @@ namespace ChulWoo.Controllers
         private int deleteContractID;
          
         // GET: Employee
-        public async Task<ActionResult> Index(int? page)
+        public async Task<ActionResult> Index(int? page, string currentFilter, string searchString)
         {
-            var employees = db.Employees.Include(e => e.Resign)
-                .Include(e => e.Contracts.Select(c => c.Employee))
-                .OrderBy(e => e.ID);
-//            return View(await employees.ToListAsync());
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
 
             int pageSize = 6;
             int pageNumber = (page ?? 1);
-            return View(employees.ToPagedList(pageNumber, pageSize));
+//            return View(await employees.ToListAsync());
+
+            if (searchString != null)
+                page = 1;
+            else
+                searchString = currentFilter;
+
+            ViewBag.CurrentFilter = searchString;
+
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                var employees = db.Employees.Include(e => e.Resign)
+                    .Include(e => e.Contracts.Select(c => c.Employee))
+                    .Where(e => e.Name.Contains(searchString))
+                    .OrderBy(e => e.ID);
+                return View(employees.ToPagedList(pageNumber, pageSize));
+            }
+            else
+            {
+                var employees = db.Employees.Include(e => e.Resign)
+                    .Include(e => e.Contracts.Select(c => c.Employee))
+                    .OrderBy(e => e.ID);
+                return View(employees.ToPagedList(pageNumber, pageSize));
+            }
         }
 
         // GET: Employee/Details/5
         public async Task<ActionResult> Details(int? id, int? contractsID)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -89,6 +113,9 @@ namespace ChulWoo.Controllers
         [HttpPost]
         public async Task<ActionResult> Details(int? id, EmployeeExtendData employeeEx)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (ModelState.IsValid && employeeEx.Contract.StartDate != null && employeeEx.Contract.EndDate != null && 
                 employeeEx.Contract.Type != null && employeeEx.Contract.Salary != null )
             {
@@ -110,6 +137,9 @@ namespace ChulWoo.Controllers
 
         public async Task<ActionResult> DeleteContract(int? id, int? contractsID)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null || contractsID == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -145,6 +175,9 @@ namespace ChulWoo.Controllers
         // GET: Employee/Create
         public ActionResult Create()
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             return View();
         }
 
@@ -155,6 +188,9 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "ID,DepartmentVn,DepartmentKr,Name,EmployeeNo,BankAccount,BankLocation,TexNo,JobPosition,Sex,BirthDate,RegistrationNo,RegistrationDate,RegistrationPosition,Tel1,Tel2,Email,Adress,People,Religion,Country,EducationLevel,MajorVn,MajorKr,Marriage,DependentChild,DependentParents")] Employee employee)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (ModelState.IsValid)
             {
                 db.Employees.Add(employee);
@@ -168,6 +204,9 @@ namespace ChulWoo.Controllers
         // GET: Employee/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -191,6 +230,9 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int? id, byte[] rowVersion, HttpPostedFileBase image = null)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             string[] fieldsToBind = new string[] { "DepartmentVn", "DepartmentKr", "Name", "EmployeeNo", "BankAccount", "BankLocation", "TexNo", "JobPosition",
                 "Sex", "BirthDate", "RegistrationNo", "RegistrationDate", "RegistrationPosition", "Tel1", "Tel2", "Email", "Adress", "People", "Religion",
                 "Country", "EducationLevel", "MajorVn", "MajorKr", "Marriage", "DependentChild", "DependentParents", "RowVersion", "Resign", "ImageData", "ImageMimeType" };
@@ -322,6 +364,9 @@ namespace ChulWoo.Controllers
         // GET: Employee/Delete/5
         public async Task<ActionResult> Delete(int? id, bool? concurrencyError)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -355,6 +400,9 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 

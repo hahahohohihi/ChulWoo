@@ -11,6 +11,9 @@ namespace ChulWoo.Models
         public int ID { get; set; }
 
         // 키값(단가) 키값(단가)
+        public int? MaterialBuyID { get; set; }
+        public virtual MaterialBuy MaterialBuy { get; set; }
+
         public int? MaterialUnitPriceID { get; set; }
         public virtual MaterialUnitPrice MaterialUnitPrice { get; set; }
 

@@ -18,21 +18,46 @@ namespace ChulWoo.Controllers
         private ChulWooContext db = new ChulWooContext();
 
         // GET: Company
-        public async Task<ActionResult> Index(int? page)
+        public async Task<ActionResult> Index(int? page, string currentFilter, string searchString)
         {
-            var companys = db.Companys.Include(c => c.Projects.Select(p => p.Company))
-                .Include(c => c.MaterialBuys.Select(mb => mb.Project))
-                .OrderBy(c => c.Name);
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
 
-//            return View(await db.Companys.ToListAsync());
             int pageSize = 6;
             int pageNumber = (page ?? 1);
-            return View(companys.ToPagedList(pageNumber, pageSize));
+
+            if (searchString != null)
+                page = 1;
+            else
+                searchString = currentFilter;
+
+            ViewBag.CurrentFilter = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var companys = db.Companys.Include(c => c.Projects.Select(p => p.Company))
+                    .Include(c => c.MaterialBuys.Select(mb => mb.Project))
+                    .Where(c => c.Name.Contains(searchString))
+                    .OrderBy(c => c.Name);
+                return View(companys.ToPagedList(pageNumber, pageSize));
+            }
+            else
+            {
+                var companys = db.Companys.Include(c => c.Projects.Select(p => p.Company))
+                .Include(c => c.MaterialBuys.Select(mb => mb.Project))
+                .OrderBy(c => c.Name);
+                return View(companys.ToPagedList(pageNumber, pageSize));
+            }
+
+            //            return View(await db.Companys.ToListAsync());
         }
 
         // GET: Company/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -56,6 +81,9 @@ namespace ChulWoo.Controllers
         // GET: Company/Create
         public ActionResult Create()
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             return View();
         }
 
@@ -66,6 +94,9 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "ID,Name,Address,Tel,Texcode")] Company company)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (ModelState.IsValid)
             {
                 db.Companys.Add(company);
@@ -79,6 +110,9 @@ namespace ChulWoo.Controllers
         // GET: Company/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -98,6 +132,9 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "ID,Name,Address,Tel,Texcode")] Company company)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (ModelState.IsValid)
             {
                 db.Entry(company).State = EntityState.Modified;
@@ -110,6 +147,9 @@ namespace ChulWoo.Controllers
         // GET: Company/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -127,6 +167,9 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             Company company = await db.Companys.FindAsync(id);
             db.Companys.Remove(company);
             await db.SaveChangesAsync();

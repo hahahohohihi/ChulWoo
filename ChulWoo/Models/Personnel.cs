@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using ChulWoo.LocalResource;
+using System.ComponentModel;
 
 namespace ChulWoo.Models
 {
@@ -62,5 +63,13 @@ namespace ChulWoo.Models
         // 타입 타입 
         [Display(Name = "Type", ResourceType = typeof(Resource))]
         public PersonnelType? Type { get; set; }
+
+        [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
+        public string Name { get; set; }
+
+
+        [DefaultValue(true)]
+        public bool Translate { get; set; }
+
     }
 }

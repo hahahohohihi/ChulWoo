@@ -109,7 +109,7 @@
                 <td height="77" width="50%">
                     Name ( Tên ) : @ViewBag.eName<br />
                     Department ( Bộ phận ) : @ViewBag.DepartmentVn<br />
-                    Used purpose(Mục đích sử dụng) : @Html.DisplayFor(model => model.Project.Name)
+                    Used purpose(Mục đích sử dụng) : @Html.DisplayFor(model => model.Project.NameVn)
                 </td>
                 <td>
                     Date ( Ngày ) : @Html.DisplayFor(model => model.Date)<br />
@@ -162,13 +162,13 @@
                     </tr>
                 }
                 <tr>
-                    @if(Model.Note == null)
+                    @if(Model.NoteVn == null)
                     {
                         <td colspan="4" rowspan="3" style="padding-left:10px;">&nbsp;</td>
                     }
                     else
                     {
-                        <td colspan="4" rowspan="3" style="padding-left:10px;">@Html.Raw(Model.Note.Replace(Environment.NewLine, "<br/>"))</td>
+                        <td colspan="4" rowspan="3" style="padding-left:10px;">@Html.Raw(Model.NoteVn.Replace(Environment.NewLine, "<br/>"))</td>
                     }
                     <th height="30">tổng trước thuế</th>
                     <th>
@@ -203,18 +203,16 @@
         <br />
         <table width="100%" border="1">
             <tr>
-                <th width="25%">Prepared by :</th>
-                <th colspan="2">Approved by :</th>
-                <th width="25%">Managed by :</th>
-            </tr>
-            <tr>
-                <th rowspan="2">&nbsp;</th>
-                <th width="25%">Dept.Head<br />trưởng bộ phận</th>
-                <th width="25%">Chairman<br />chủ tịch</th>
-                <th>Account Dept.<br />kế toán</th>
+                <th width="20%">Prepared by<br />Người lập</th>
+                <th width="20%">Dept. Head<br />Trưởng bộ phận</th>
+                <th width="20%">Check<br />Người duyệt</th>
+                <th width="20%">Chairman<br />Chủ tịch</th>
+                <th width="20%">Account Dept<br />Kế toán</th>
             </tr>
             <tr>
                 <td height="132">&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace ChulWoo.Models
 { 
@@ -130,6 +131,10 @@ namespace ChulWoo.Models
 
         [Timestamp]
         public byte[] RowVersion { get; set; }
+
+
+        [DefaultValue(true)]
+        public bool Translate { get; set; }
 
     }
 }

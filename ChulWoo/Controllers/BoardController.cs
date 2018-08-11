@@ -19,11 +19,19 @@ namespace ChulWoo.Controllers
         private ChulWooContext db = new ChulWooContext();
 
         // GET: Board
-        public async Task<ActionResult> Index(int? page)
+        public async Task<ActionResult> Index(int? page, string searchString)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             var boards = db.Boards.Include(b => b.Employee)
-                .OrderByDescending(b => b.Date); ;
+                .OrderByDescending(b => b.Date);
 //            return View(await boards.ToListAsync());
+
+            if(!String.IsNullOrEmpty(searchString))
+            {
+
+            }
 
             int pageSize = 5;
             int pageNumber = (page ?? 1);
@@ -33,6 +41,9 @@ namespace ChulWoo.Controllers
         // GET: Board/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -48,6 +59,9 @@ namespace ChulWoo.Controllers
         // GET: Board/Create
         public ActionResult Create()
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "Name");
             return View();
         }
@@ -59,6 +73,9 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "ID,EmployeeID,TitleVn,TitleKr,NoteVn,NoteKr,Date,UploadFiles")] Board board)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (ModelState.IsValid)
             {
                 List<UploadFile> UploadFiles = new List<UploadFile>();
@@ -97,6 +114,9 @@ namespace ChulWoo.Controllers
         // GET: Board/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -117,6 +137,9 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "ID,EmployeeID,TitleVn,TitleKr,NoteVn,NoteKr,Date,UploadFiles")] Board board)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             Board sboard = await db.Boards.FindAsync(board.ID);
             if (sboard != null && ModelState.IsValid)
             {
@@ -142,6 +165,10 @@ namespace ChulWoo.Controllers
                     }
                 }
 
+                sboard.TitleKr = board.TitleKr;
+                sboard.TitleVn = board.TitleVn;
+                sboard.NoteKr = board.NoteKr;
+                sboard.NoteVn = board.NoteVn;
 
                 db.Entry(sboard).State = EntityState.Modified;
                 await db.SaveChangesAsync();
@@ -154,6 +181,9 @@ namespace ChulWoo.Controllers
         // GET: Board/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -171,6 +201,9 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             try
             {
                 Board board = await db.Boards.FindAsync(id);

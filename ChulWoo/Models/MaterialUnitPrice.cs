@@ -8,7 +8,7 @@ namespace ChulWoo.Models
 {
     public enum Unit
     {
-        Quantity, Weight, Set
+        Quantity, Weight, Set, Time
     }
 
     public class MaterialUnitPrice

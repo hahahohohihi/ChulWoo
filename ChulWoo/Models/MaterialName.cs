@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace ChulWoo.Models
 {
@@ -17,5 +18,6 @@ namespace ChulWoo.Models
         // 구분 구분
         [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
         public string Sort { get; set; }
+
     }
 }

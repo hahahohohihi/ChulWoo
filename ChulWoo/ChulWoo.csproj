@@ -278,33 +278,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.vi-VN.resx</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807060644137_create.cs" />
-    <Compile Include="Migrations\201807060644137_create.Designer.cs">
-      <DependentUpon>201807060644137_create.cs</DependentUpon>
+    <Compile Include="Migrations\201808080800208_18080804.cs" />
+    <Compile Include="Migrations\201808080800208_18080804.Designer.cs">
+      <DependentUpon>201808080800208_18080804.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807100930432_changeMaterialBuy.cs" />
-    <Compile Include="Migrations\201807100930432_changeMaterialBuy.Designer.cs">
-      <DependentUpon>201807100930432_changeMaterialBuy.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807110842206_changePersonnel.cs" />
-    <Compile Include="Migrations\201807110842206_changePersonnel.Designer.cs">
-      <DependentUpon>201807110842206_changePersonnel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807180257251_180718.cs" />
-    <Compile Include="Migrations\201807180257251_180718.Designer.cs">
-      <DependentUpon>201807180257251_180718.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807180804098_18071802.cs" />
-    <Compile Include="Migrations\201807180804098_18071802.Designer.cs">
-      <DependentUpon>201807180804098_18071802.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807190910399_addBoard.cs" />
-    <Compile Include="Migrations\201807190910399_addBoard.Designer.cs">
-      <DependentUpon>201807190910399_addBoard.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807200239362_Uploadfile.cs" />
-    <Compile Include="Migrations\201807200239362_Uploadfile.Designer.cs">
-      <DependentUpon>201807200239362_Uploadfile.cs</DependentUpon>
+    <Compile Include="Migrations\201808100851365_180810.cs" />
+    <Compile Include="Migrations\201808100851365_180810.Designer.cs">
+      <DependentUpon>201808100851365_180810.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Board.cs" />
@@ -339,6 +319,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\FTP chulwoo.pubxml" />
+    <None Include="Properties\PublishProfiles\WEB chulwoo.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -352,7 +334,9 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Content\paper.css" />
     <Content Include="Content\paper.min.css" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -441,26 +425,11 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.vi-VN.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807060644137_create.resx">
-      <DependentUpon>201807060644137_create.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201808080800208_18080804.resx">
+      <DependentUpon>201808080800208_18080804.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807100930432_changeMaterialBuy.resx">
-      <DependentUpon>201807100930432_changeMaterialBuy.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807110842206_changePersonnel.resx">
-      <DependentUpon>201807110842206_changePersonnel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807180257251_180718.resx">
-      <DependentUpon>201807180257251_180718.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807180804098_18071802.resx">
-      <DependentUpon>201807180804098_18071802.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807190910399_addBoard.resx">
-      <DependentUpon>201807190910399_addBoard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807200239362_Uploadfile.resx">
-      <DependentUpon>201807200239362_Uploadfile.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201808100851365_180810.resx">
+      <DependentUpon>201808100851365_180810.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
