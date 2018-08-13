@@ -13,6 +13,80 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+    <script>
+        function changeText() {
+            x = document.getElementById("mySelect");
+            x.options[x.selectedIndex].text = "Melon";
+            alert(x.selectedIndex);
+
+            var DropDownSelectedValue = x.selectedIndex;
+
+            //You can check selected value using alert
+
+            alert(DropDownSelectedValue);
+
+            if (DropDownSelectedValue != null) {
+
+                //Make a ajax call to controller here
+
+                $.ajax({
+                    type: "GET",
+                    Url: "/Home/ChangeCurrentCulture",
+                    dataType: "html",
+                    data: { id: DropDownSelectedValue },
+
+                    success: function (data) {
+
+                    }
+                });
+
+            }
+
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        function DropDownProductList() {
+
+            var DropDownSelectedValue = $("#DropDownProductList :selected").val();
+
+            //You can check selected value using alert
+
+            alert(DropDownSelectedValue);
+
+            if (DropDownSelectedValue != null) {
+
+                //Make a ajax call to controller here
+
+                $.ajax({
+
+                    Url: "/Home/ChangeCurrentCulture",
+
+                    data: { "ID": DropDownSelectedValue },
+
+                    success: function (response) {
+
+                    },
+
+                    error: function (xhr) {
+
+                        alert("Something went wrong, please try again");
+
+                    }
+
+                });
+
+            }
+
+        }
+
+    </script>
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -41,19 +115,32 @@
                     }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        @Html.DropDownList("DropDownProductList", new List<SelectListItem>
+                           {
+                             new SelectListItem { Text = "English", Value = "0"},
+                             new SelectListItem { Text = "Vietnam", Value = "1"},
+                             new SelectListItem { Text = "Korean", Value = "2"}
+                          }, new { @style = "width: 200px", @onchange = "DropDownProductList();" });
+                        <select id="mySelect" onchange="changeText()">
+                            <option value="0">English</option>
+                            <option value="1">Vietnam</option>
+                            <option value="2">Korean</option>
+                        </select>
+                    </li>
                     @*{
-            CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+        CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
 
-            <li><a href="/Home/ChangeCurrentCulture/0">English</a></li>
+        <li><a href="/Home/ChangeCurrentCulture/0">English</a></li>
 
-            <li><a href="/Home/ChangeCurrentCulture/1">Vietnam</a></li>
+        <li><a href="/Home/ChangeCurrentCulture/1">Vietnam</a></li>
 
-            <li><a href="/Home/ChangeCurrentCulture/2">Korean</a></li>
-        }*@
-                    @{
-                        if (Context.Session["LoginUserID"] == null)
-                        {
-                            <li>@Html.ActionLink("Login", "Login", "Account")</li>
+        <li><a href="/Home/ChangeCurrentCulture/2">Korean</a></li>
+    }*@
+                                        @{
+                                    if (Context.Session["LoginUserID"] == null)
+                                    {
+<li>@Html.ActionLink("Login", "Login", "Account")</li>
                         }
                         else
                         {

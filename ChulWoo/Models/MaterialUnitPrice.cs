@@ -32,8 +32,8 @@ namespace ChulWoo.Models
         public Unit Unit { get; set; }
 
         // 가격 가격
-        [DisplayFormat(DataFormatString = "{0:0,0}", ApplyFormatInEditMode = true)]
-        public int Price { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0,0.00}", ApplyFormatInEditMode = true)]
+        public float Price { get; set; }
 
     }
 }

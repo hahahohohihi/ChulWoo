@@ -133,9 +133,9 @@
                 {
                     <tr>
                         <td height="30"><div align="center">@count</div></td>
-                        <td><div align="center">@unit.MaterialUnitPrice.MaterialName.Name</div></td>
-                        <td><div align="center">@unit.MaterialUnitPrice.Unit</div></td>
-                        <td><div align="center">@unit.Quantity</div></td>
+                        <td><div align="center">@Html.DisplayFor(model => unit.MaterialUnitPrice.MaterialName.Name)</div></td>
+                        <td><div align="center">@Html.DisplayFor(model => unit.MaterialUnitPrice.Unit)</div></td>
+                        <td><div align="center">@Html.DisplayFor(model => unit.Quantity)</div></td>
                         <td><div align="center">@Html.DisplayFor(model => unit.MaterialUnitPrice.Price)</div></td>
                         <td>
                             <div align="center">
@@ -143,7 +143,7 @@
                                     var price = unit.Quantity * unit.MaterialUnitPrice.Price;
                                     totalPrice = totalPrice+(int)price;
                                 }
-                                @String.Format("{0:0,0}", price)
+                                @String.Format("{0:0,0.00}", price)
                             </div>
                         </td>
                     </tr>
@@ -172,7 +172,7 @@
                     }
                     <th height="30">tổng trước thuế</th>
                     <th>
-                        @String.Format("{0:0,0}", totalPrice)
+                        @String.Format("{0:0,0.00}", totalPrice)
                     </th>
                 </tr>
                 <tr>
@@ -185,7 +185,7 @@
                                 vat = 0;
                             }
                         }
-                        @String.Format("{0:0,0; 0,0; 0}", vat)
+                        @String.Format("{0:0,0.00}", vat)
                     </th>
                 </tr>
                 <tr>
@@ -194,7 +194,7 @@
                         @{
                             var grandTotal = totalPrice + @vat;
                         }
-                        @String.Format("{0:0,0; 0,0; 0}", grandTotal)
+                        @String.Format("{0:0,0.00}", grandTotal)
                     </th>
                 </tr>
             }

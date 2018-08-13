@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -18,6 +19,7 @@ namespace ChulWoo.Models
         public virtual MaterialUnitPrice MaterialUnitPrice { get; set; }
 
         // 수량 수량
-        public int? Quantity { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0,0.00}", ApplyFormatInEditMode = true)]
+        public float? Quantity { get; set; }
     }
 }

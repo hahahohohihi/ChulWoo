@@ -1,10 +1,12 @@
 ﻿@model ChulWoo.Models.Project
+@using ChulWoo.Models;
 
 @{
     ViewBag.Title = "Details";
 }
 
 <h2>@Html.DisplayFor(model => model.NameVn)</h2>
+<h2>@Html.DisplayFor(model => model.NameKr)</h2>
 
 <div>
     <hr />
@@ -31,8 +33,7 @@
         {
             <li>
                 <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a>  |
-                <a class="title" href="/Board/Download/?SFilename=@(item.FolderName+"/"+ item.SaveFileName)&Filename=@item.FileName">Download</a>  |
-                <a href="javascript:void(0);" data-id="@item.ID" id="deleteitem" class="deleteitem">Delete</a>
+                <a class="title" href="/Board/Download/?SFilename=@(item.FolderName+"/"+ item.SaveFileName)&Filename=@item.FileName">Download</a>
             </li>
         }
     </ul>
@@ -43,25 +44,39 @@
     {
         <h3>Material Buy</h3>
 
-        foreach (var item in Model.MaterialBuys)
-        {
-            <dl>
-                <dt>
-                    @Html.DisplayNameFor(model => item.Date)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => item.Date)
-                </dd>
+        <table class="table">
+            @{
+                MaterialBuy tempitem = null;
+                int subtotal = 0;
+                foreach (var item in Model.MaterialBuys)
+                {
+                    if (tempitem == null || tempitem.Date != item.Date)
+                    {
+                        if (tempitem != null)
+                        {
+                            <tr>
+                                <th colspan="4" height="20"></th>
+                                <th>소계</th>
+                                <th>@String.Format("{0:0,0.00}", subtotal)</th>
+                            </tr>
+                            subtotal = 0;
+                        }
 
-                <table class="table">
-                    <tr>
-                        <th>Company Name</th>
-                        <th>Material Name</th>
-                        <th>Quantity</th>
-                        <th>Unit Price</th>
-                        <th>Price</th>
-                    </tr>
-                    @foreach (var unit in item.MaterialBuyUnits)
+                        <tr>
+                            <td colspan="6">
+                                <b>@Html.DisplayNameFor(model => item.Date)</b> @Html.DisplayFor(model => item.Date)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Material Name</th>
+                            <th>Unit</th>
+                            <th>Quantity</th>
+                            <th>U.Price</th>
+                            <th>Price</th>
+                        </tr>
+                    }
+                    foreach (var unit in item.MaterialBuyUnits)
                     {
                         <tr>
                             <td>
@@ -69,6 +84,9 @@
                             </td>
                             <td>
                                 @unit.MaterialUnitPrice.MaterialName.Name
+                            </td>
+                            <td>
+                                @unit.MaterialUnitPrice.Unit
                             </td>
                             <td>
                                 @unit.Quantity
@@ -79,14 +97,24 @@
                             <td>
                                 @{
                                     var price = unit.Quantity * unit.MaterialUnitPrice.Price;
+                                    subtotal = subtotal + (int)price;
                                 }
-                                @String.Format("{0:0,0}", price)
+                                @String.Format("{0:0,0.00}", price)
+
                             </td>
+
                         </tr>
                     }
-                </table>
-            </dl>
-        }
+                    tempitem = item;
+                }
+            }
+            <tr>
+                <th colspan="4" height="20"></th>
+                <th>소계</th>
+                <th>@String.Format("{0:0,0.00}", subtotal)</th>
+            </tr>
+
+        </table>
     }
 
 
