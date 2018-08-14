@@ -17,75 +17,6 @@
         @Scripts.Render("~/bundles/jqueryval")
     }
 
-    <script>
-        function changeText() {
-            x = document.getElementById("mySelect");
-            x.options[x.selectedIndex].text = "Melon";
-            alert(x.selectedIndex);
-
-            var DropDownSelectedValue = x.selectedIndex;
-
-            //You can check selected value using alert
-
-            alert(DropDownSelectedValue);
-
-            if (DropDownSelectedValue != null) {
-
-                //Make a ajax call to controller here
-
-                $.ajax({
-                    type: "GET",
-                    Url: "/Home/ChangeCurrentCulture",
-                    dataType: "html",
-                    data: { id: DropDownSelectedValue },
-
-                    success: function (data) {
-
-                    }
-                });
-
-            }
-
-        }
-    </script>
-
-    <script type="text/javascript">
-
-        function DropDownProductList() {
-
-            var DropDownSelectedValue = $("#DropDownProductList :selected").val();
-
-            //You can check selected value using alert
-
-            alert(DropDownSelectedValue);
-
-            if (DropDownSelectedValue != null) {
-
-                //Make a ajax call to controller here
-
-                $.ajax({
-
-                    Url: "/Home/ChangeCurrentCulture",
-
-                    data: { "ID": DropDownSelectedValue },
-
-                    success: function (response) {
-
-                    },
-
-                    error: function (xhr) {
-
-                        alert("Something went wrong, please try again");
-
-                    }
-
-                });
-
-            }
-
-        }
-
-    </script>
 
 </head>
 <body>
@@ -101,7 +32,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
                     @*<li>@Html.ActionLink("정보", "About", "Home")</li>*@
                     @*<li>@Html.ActionLink("연락처", "Contact", "Home")</li>*@
                     @if (Context.Session["LoginUserID"] != null)
@@ -109,38 +40,28 @@
                         <li> @Html.ActionLink("Board", "Index", "Board") </li>
                         <li>@Html.ActionLink("Employee", "Index", "Employee")</li>
                         <li>@Html.ActionLink("Personnel", "Index", "Personnel")</li>
-                        <li>@Html.ActionLink("Project", "Index", "Project")</li>
                         <li>@Html.ActionLink("Company", "Index", "Company")</li>
                         <li>@Html.ActionLink("MaterialBuy", "Index", "MaterialBuy")</li>
+                        if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
+                        {
+                            <li>@Html.ActionLink("Project", "Index", "Project")</li>
+                        }
                     }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        @Html.DropDownList("DropDownProductList", new List<SelectListItem>
-                           {
-                             new SelectListItem { Text = "English", Value = "0"},
-                             new SelectListItem { Text = "Vietnam", Value = "1"},
-                             new SelectListItem { Text = "Korean", Value = "2"}
-                          }, new { @style = "width: 200px", @onchange = "DropDownProductList();" });
-                        <select id="mySelect" onchange="changeText()">
-                            <option value="0">English</option>
-                            <option value="1">Vietnam</option>
-                            <option value="2">Korean</option>
-                        </select>
-                    </li>
                     @*{
-        CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+                            CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
 
-        <li><a href="/Home/ChangeCurrentCulture/0">English</a></li>
+                            <li><a href="/Home/ChangeCurrentCulture/0">English</a></li>
 
-        <li><a href="/Home/ChangeCurrentCulture/1">Vietnam</a></li>
+                            <li><a href="/Home/ChangeCurrentCulture/1">Vietnam</a></li>
 
-        <li><a href="/Home/ChangeCurrentCulture/2">Korean</a></li>
-    }*@
-                                        @{
-                                    if (Context.Session["LoginUserID"] == null)
-                                    {
-<li>@Html.ActionLink("Login", "Login", "Account")</li>
+                            <li><a href="/Home/ChangeCurrentCulture/2">Korean</a></li>
+                        }*@
+                    @{
+                        if (Context.Session["LoginUserID"] == null)
+                        {
+                            <li>@Html.ActionLink("Login", "Login", "Account")</li>
                         }
                         else
                         {
@@ -152,6 +73,14 @@
                             }
                         }
                     }
+                    <li style="margin-top:12pt">
+                        @Html.DropDownList("DropDownProductList", new List<SelectListItem>
+                           {
+                             new SelectListItem { Text = "English", Value = "0"},
+                             new SelectListItem { Text = "Vietnam", Value = "1"},
+                             new SelectListItem { Text = "Korean", Value = "2"}
+                          }, "-- Choose --", new { @onchange = "DropDownProductList();" });
+                    </li>
                 </ul>
             </div>
         </div>
@@ -168,4 +97,37 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript">
+
+    function DropDownProductList() {
+
+        var DropDownSelectedValue = $("#DropDownProductList :selected").val();
+
+        //You can check selected value using alert
+        //alert(DropDownSelectedValue);
+
+        if (DropDownSelectedValue != null) {
+            //Make a ajax call to controller here
+
+            $.ajax({
+                cache: false,
+                url: '/Home/ChangeCurrentCulture',
+                data: { id: DropDownSelectedValue },
+
+                success: function (response) {
+                    window.location.reload();
+                },
+
+                error: function (xhr) {
+                    alert("Something went wrong, please try again");
+                }
+            });
+        }
+    }
+</script>
 </html>
+
+

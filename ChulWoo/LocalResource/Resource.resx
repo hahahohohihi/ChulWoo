@@ -117,10 +117,61 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Address" xml:space="preserve">
+    <value />
+  </data>
   <data name="AnnualLeave" xml:space="preserve">
     <value />
   </data>
+  <data name="Apprentice" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BankAccount" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BankLocation" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BirthDate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoardNote" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoardTitle" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value />
+  </data>
   <data name="CompassionateLeave" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ContractType" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DependentChild" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DependentParents" xml:space="preserve">
+    <value />
+  </data>
+  <data name="EducationLevel" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value />
+  </data>
+  <data name="EmployeeNo" xml:space="preserve">
     <value />
   </data>
   <data name="EndDate" xml:space="preserve">
@@ -129,10 +180,22 @@
   <data name="HospitalizationLeave" xml:space="preserve">
     <value />
   </data>
+  <data name="JobPosition" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Major" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Marriage" xml:space="preserve">
+    <value />
+  </data>
   <data name="MarriageLeave" xml:space="preserve">
     <value />
   </data>
   <data name="MaternityLeave" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Name" xml:space="preserve">
     <value />
   </data>
   <data name="NopayLeave" xml:space="preserve">
@@ -141,10 +204,52 @@
   <data name="OtherLeave" xml:space="preserve">
     <value />
   </data>
+  <data name="People" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RegistrationDate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RegistrationNo" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RegistrationPosition" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Regular" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Religion" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Salary" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Sex" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Shorttime" xml:space="preserve">
+    <value />
+  </data>
   <data name="SickLeave" xml:space="preserve">
     <value />
   </data>
   <data name="StartDate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Tel" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TelSub" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Texcode" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TexNo" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Translate" xml:space="preserve">
     <value />
   </data>
   <data name="Type" xml:space="preserve">

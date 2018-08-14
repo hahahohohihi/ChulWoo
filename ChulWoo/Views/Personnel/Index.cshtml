@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<ChulWoo.Models.Personnel>
+@using ChulWoo.Helper;
 
 @{
     ViewBag.Title = "Index";
@@ -38,7 +39,7 @@
             @Html.DisplayFor(modelItem => item.EndDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Type)
+            @EnumExtensions.GetDisplayName(item.Type)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |

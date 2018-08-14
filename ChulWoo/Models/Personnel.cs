@@ -5,26 +5,28 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using ChulWoo.LocalResource;
 using System.ComponentModel;
+using ChulWoo.Helper;
 
 namespace ChulWoo.Models
 {
+//    [LocalizationEnum(typeof(Resource))]
     public enum PersonnelType
     {
-        [Display(Description = "AnnualLeave", ResourceType = typeof(Resource))]
+        [Display(Name = "AnnualLeave", ResourceType = typeof(Resource))]
         AnnualLeave,
-        [Display(Description = "SickLeave", ResourceType = typeof(Resource))]
+        [Display(Name = "SickLeave", ResourceType = typeof(Resource))]
         SickLeave,
-        [Display(Description = "MaternityLeave", ResourceType = typeof(Resource))]
+        [Display(Name = "MaternityLeave", ResourceType = typeof(Resource))]
         MaternityLeave,
-        [Display(Description = "CompassionateLeave", ResourceType = typeof(Resource))]
+        [Display(Name = "CompassionateLeave", ResourceType = typeof(Resource))]
         CompassionateLeave,
-        [Display(Description = "MarriageLeave", ResourceType = typeof(Resource))]
+        [Display(Name = "MarriageLeave", ResourceType = typeof(Resource))]
         MarriageLeave,
-        [Display(Description = "NopayLeave", ResourceType = typeof(Resource))]
+        [Display(Name = "NopayLeave", ResourceType = typeof(Resource))]
         NopayLeave,
-        [Display(Description = "HospitalizationLeave", ResourceType = typeof(Resource))]
+        [Display(Name = "HospitalizationLeave", ResourceType = typeof(Resource))]
         HospitalizationLeave,
-        [Display(Description = "OtherLeave", ResourceType = typeof(Resource))]
+        [Display(Name = "OtherLeave", ResourceType = typeof(Resource))]
         OtherLeave
     }
 

@@ -21,9 +21,16 @@
                         <img class="img-thumbnail" width="75" height="75" src='@Url.Action("GetImage", "Employee", new { employeeID = item.EmployeeID })' />
                     </td>
                     <td colspan="2">
-                        @Html.DisplayFor(modelItem => item.TitleVn)
+                        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                        {
+                            @Html.DisplayFor(modelItem => item.TitleKr)
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.TitleVn)
+                        }
                     </td>
-                </tr>
+                    </tr>
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Employee.Name)

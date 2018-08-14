@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
+using ChulWoo.Helper;
+
 namespace ChulWoo.Models
 {
     public enum Security
