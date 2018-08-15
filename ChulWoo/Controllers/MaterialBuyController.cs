@@ -83,7 +83,7 @@ namespace ChulWoo.Controllers
             if (ModelState.IsValid)
             {
                 //                db.Entry(materialBuyData).State = EntityState.Modified;
-                MaterialName mName = db.MaterialNames.FirstOrDefault(m => m.Name.Equals(materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.Name));
+                MaterialName mName = db.MaterialNames.FirstOrDefault(m => m.NameVn.Equals(materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn));
                 if(mName != null)
                 {
                     materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialNameID = mName.ID;
@@ -91,6 +91,11 @@ namespace ChulWoo.Controllers
                 }
                 else
                 {
+                    if (materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameKr == null)
+                        materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameKr = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn;
+                    else if (materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn == null)
+                        materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameKr;
+
                     db.MaterialNames.Add(materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName);
                 }
                 MaterialBuy materialBuy = db.MaterialBuys.FirstOrDefault(m => m.ID == materialBuyData.MaterialBuy.ID);
@@ -98,7 +103,7 @@ namespace ChulWoo.Controllers
                 materialBuyData.MaterialBuyUnit.MaterialUnitPrice.Date = materialBuy.Date;
 
                 MaterialUnitPrice muPrice = db.MaterialUnitPrices.OrderBy(m => m.Date)
-                    .FirstOrDefault(m => m.MaterialName.Name.Equals(materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.Name));
+                    .FirstOrDefault(m => m.MaterialName.NameVn.Equals(materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn));
 
                 if (muPrice == null || muPrice.Price != materialBuyData.MaterialBuyUnit.MaterialUnitPrice.Price)
                 {
@@ -207,7 +212,7 @@ namespace ChulWoo.Controllers
         [HttpPost]
         public JsonResult Edit2(string Prefix)
         {
-            var names = db.MaterialNames.Where(m => m.Name.ToLower().Contains(Prefix.ToLower())).Select(m => new { m.Name }).ToList();
+            var names = db.MaterialNames.Where(m => m.NameVn.ToLower().Contains(Prefix.ToLower())).Select(m => new { m.NameVn }).ToList();
             return Json(names, JsonRequestBehavior.AllowGet);
         }
 

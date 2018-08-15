@@ -23,7 +23,7 @@ namespace ChulWoo.Controllers
         {
             using( ChulWooContext db = new ChulWooContext() )
             {
-                var names = db.MaterialNames.Where(m => m.Name.ToLower().StartsWith(Prefix.ToLower())).Select( m => new { m.Name } ).ToList();
+                var names = db.MaterialNames.Where(m => m.NameVn.ToLower().StartsWith(Prefix.ToLower())).Select( m => new { m.NameVn } ).ToList();
                 return Json(names, JsonRequestBehavior.AllowGet);
             }
         }

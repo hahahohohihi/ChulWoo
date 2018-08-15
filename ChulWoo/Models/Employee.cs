@@ -7,7 +7,23 @@ using System.ComponentModel;
 using ChulWoo.LocalResource;
 
 namespace ChulWoo.Models
-{ 
+{
+    public enum EmployeeSex
+    {
+        [Display(Name = "Male", ResourceType = typeof(Resource))]
+        Male,
+        [Display(Name = "FeMale", ResourceType = typeof(Resource))]
+        FeMale
+    }
+
+    public enum Marriage
+    {
+        [Display(Name = "Single", ResourceType = typeof(Resource))]
+        Single,
+        [Display(Name = "Married", ResourceType = typeof(Resource))]
+        Married
+    }
+
     public class Employee
     {
         // 키값(직원테이블) 키값(직원테이블)
@@ -65,8 +81,7 @@ namespace ChulWoo.Models
 
         // 성별 성별
         [Display(Name = "Sex", ResourceType = typeof(Resource))]
-        [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
-        public string Sex { get; set; }
+        public EmployeeSex Sex { get; set; }
 
         // 생년월일 생년월일
         [Display(Name = "BirthDate", ResourceType = typeof(Resource))]
@@ -140,8 +155,7 @@ namespace ChulWoo.Models
 
         // 혼인현황 혼인현황
         [Display(Name = "Marriage", ResourceType = typeof(Resource))]
-        [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
-        public string Marriage { get; set; }
+        public Marriage Marriage { get; set; }
 
         // 18살이하 부양가족수 18살이하 부양가족수
         [Display(Name = "DependentChild", ResourceType = typeof(Resource))]

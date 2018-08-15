@@ -40,13 +40,16 @@ namespace ChulWoo.Models
         public virtual Employee Employee { get; set; }
 
         // 게시날짜
+        [Display(Name = "SendDate", ResourceType = typeof(Resource))]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? SendDate { get; set; }
 
+        [Display(Name = "Reason", ResourceType = typeof(Resource))]
         [StringLength(256)]
         public string ReasonVn { get; set; }
 
+        [Display(Name = "Reason", ResourceType = typeof(Resource))]
         [StringLength(256)]
         public string ReasonKr { get; set; }
 
@@ -70,6 +73,7 @@ namespace ChulWoo.Models
         public string Name { get; set; }
 
 
+        [Display(Name = "Translate", ResourceType = typeof(Resource))]
         [DefaultValue(true)]
         public bool Translate { get; set; }
 

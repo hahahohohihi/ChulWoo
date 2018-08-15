@@ -91,7 +91,7 @@
                     }
                     <tr class="@selectedRow">
                         <td>
-                            @item.MaterialUnitPrice.MaterialName.Name
+                            @item.MaterialUnitPrice.MaterialName.NameVn
                         </td>
                         <td>
                             @item.MaterialUnitPrice.Unit
@@ -117,8 +117,8 @@
 
             <tr>
                 <th>
-                    @Html.EditorFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.Name, new { htmlAttributes = new { @id = "Mname", @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.Name, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn, new { htmlAttributes = new { @id = "Mname", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn, "", new { @class = "text-danger" })
                 </th>
                 <th>
                     @Html.EnumDropDownListFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Unit, htmlAttributes: new { @class = "form-control" })

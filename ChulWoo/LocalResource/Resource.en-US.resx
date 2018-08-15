@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Address" xml:space="preserve">
+  <data name="Adress" xml:space="preserve">
     <value>Address</value>
   </data>
   <data name="AnnualLeave" xml:space="preserve">
@@ -260,5 +260,47 @@
   </data>
   <data name="UserPassword" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="FeMale" xml:space="preserve">
+    <value>FeMale</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>Male</value>
+  </data>
+  <data name="Married" xml:space="preserve">
+    <value>Married</value>
+  </data>
+  <data name="MaterialName" xml:space="preserve">
+    <value>MaterialName</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="ProjectName" xml:space="preserve">
+    <value>ProjectName</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Reason</value>
+  </data>
+  <data name="ResignDate" xml:space="preserve">
+    <value>ResignDate</value>
+  </data>
+  <data name="ResignNote" xml:space="preserve">
+    <value>ResignNote</value>
+  </data>
+  <data name="SendDate" xml:space="preserve">
+    <value>SendDate</value>
+  </data>
+  <data name="Single" xml:space="preserve">
+    <value>Single</value>
+  </data>
+  <data name="SubNote" xml:space="preserve">
+    <value>SubNote</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>Unit</value>
   </data>
 </root>

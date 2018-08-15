@@ -1,4 +1,5 @@
 ﻿@model ChulWoo.Viewmodel.EmployeeExtendData
+@using ChulWoo.Helper;
 
 @{
     ViewBag.Title = "Details";
@@ -79,7 +80,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Employee.Sex)
+            @EnumExtensions.GetDisplayName(Model.Employee.Sex)
         </dd>
 
         <dt>
@@ -199,7 +200,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Employee.Marriage)
+            @EnumExtensions.GetDisplayName(Model.Employee.Marriage)
         </dd>
 
         <dt>
@@ -277,7 +278,7 @@
                         @Html.DisplayFor(model => item.EndDate)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => item.Type)
+                        @EnumExtensions.GetDisplayName(item.Type)
                     </td>
                     <td>
                         @Html.DisplayFor(model => item.Salary)
@@ -301,7 +302,7 @@
                     @Html.ValidationMessageFor(model => model.Contract.EndDate, "", new { @class = "text-danger" })
                 </th>
                 <th>
-                    @Html.EditorFor(model => model.Contract.Type, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EnumDropDownListFor(model => model.Contract.Type, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Contract.Type, "", new { @class = "text-danger" })
                 </th>
                 <th>
@@ -341,7 +342,7 @@
                         @Html.DisplayFor(model => item.EndDate)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => item.Type)
+                        @EnumExtensions.GetDisplayName(item.Type)
                     </td>
                 </tr>
             }

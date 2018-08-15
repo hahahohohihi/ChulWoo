@@ -40,7 +40,6 @@ namespace ChulWoo.Models
 
         // 타입 타입
         [Display(Name = "ContractType", ResourceType = typeof(Resource))]
-        [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
         public ContractType Type { get; set; }
 
         // 급여 급여

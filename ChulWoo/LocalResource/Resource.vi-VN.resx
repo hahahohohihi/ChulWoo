@@ -117,77 +117,77 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Address" xml:space="preserve">
-    <value>Address</value>
+  <data name="Adress" xml:space="preserve">
+    <value>Địa chỉ</value>
   </data>
   <data name="AnnualLeave" xml:space="preserve">
     <value>Nghỉ phép năm</value>
   </data>
   <data name="Apprentice" xml:space="preserve">
-    <value>수습직원</value>
+    <value>nhân viên thử việc</value>
   </data>
   <data name="BankAccount" xml:space="preserve">
-    <value>은행계좌번호</value>
+    <value>Số tài khoản ngân hàng</value>
   </data>
   <data name="BankLocation" xml:space="preserve">
-    <value>은행위치</value>
+    <value>Vị trí ngân hàng</value>
   </data>
   <data name="BirthDate" xml:space="preserve">
-    <value>생년월일</value>
+    <value>ngày tháng năm sinh</value>
   </data>
   <data name="BoardNote" xml:space="preserve">
-    <value>BoardNote</value>
+    <value>Bảng thông báo</value>
   </data>
   <data name="BoardTitle" xml:space="preserve">
     <value>BoardTitle</value>
   </data>
   <data name="CompanyName" xml:space="preserve">
-    <value>CompanyName</value>
+    <value>Tên công ty</value>
   </data>
   <data name="CompassionateLeave" xml:space="preserve">
     <value>Nghỉ tang</value>
   </data>
   <data name="ContractType" xml:space="preserve">
-    <value>ContractType</value>
+    <value>Loại hợp đồng</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value>국적</value>
+    <value>Quốc tịch</value>
   </data>
   <data name="Date" xml:space="preserve">
-    <value>Date</value>
+    <value>Ngày tháng</value>
   </data>
   <data name="Department" xml:space="preserve">
-    <value>부서</value>
+    <value>Bộ phận</value>
   </data>
   <data name="DependentChild" xml:space="preserve">
-    <value>18세이하부양가족수</value>
+    <value>số gia đình chu cấp cho dưới 18 tuổi</value>
   </data>
   <data name="DependentParents" xml:space="preserve">
-    <value>노인부양가족수</value>
+    <value>số gia đình chu cấp cho người già</value>
   </data>
   <data name="EducationLevel" xml:space="preserve">
-    <value>학력</value>
+    <value>học lực</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>이메일</value>
+    <value>Email</value>
   </data>
   <data name="EmployeeNo" xml:space="preserve">
-    <value>직원번호</value>
+    <value>Mã số nhân viên</value>
   </data>
   <data name="EndDate" xml:space="preserve">
-    <value>enddate</value>
+    <value>Ngày kết thúc</value>
   </data>
   <data name="HospitalizationLeave" xml:space="preserve">
     <value>Nghỉ nằm viện</value>
   </data>
   <data name="JobPosition" xml:space="preserve">
-    <value>직책</value>
+    <value>chức vụ</value>
   </data>
   <data name="Major" xml:space="preserve">
-    <value>전공</value>
+    <value>Chuyên ngành</value>
   </data>
   <data name="Marriage" xml:space="preserve">
-    <value>결혼여부</value>
+    <value>việc kết hôn</value>
   </data>
   <data name="MarriageLeave" xml:space="preserve">
     <value>Nghỉ cưới</value>
@@ -196,7 +196,7 @@
     <value>Nghỉ thai sản</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>이름</value>
+    <value>Tên</value>
   </data>
   <data name="NopayLeave" xml:space="preserve">
     <value>Nghỉ không lương</value>
@@ -205,52 +205,52 @@
     <value>Nghỉ khác</value>
   </data>
   <data name="People" xml:space="preserve">
-    <value>민족</value>
+    <value>Dân tộc</value>
   </data>
   <data name="RegistrationDate" xml:space="preserve">
-    <value>주민등록발급일</value>
+    <value>Ngày cấp đăng ký chứng minh nhân dân</value>
   </data>
   <data name="RegistrationNo" xml:space="preserve">
-    <value>주민등록번호</value>
+    <value>Số chứng minh nhân dân</value>
   </data>
   <data name="RegistrationPosition" xml:space="preserve">
-    <value>주민등록발급처</value>
+    <value>Nơi cấp chứng minh nhân dân</value>
   </data>
   <data name="Regular" xml:space="preserve">
-    <value>정직원</value>
+    <value>nhân viên chính thức</value>
   </data>
   <data name="Religion" xml:space="preserve">
-    <value>종교</value>
+    <value>tôn giáo</value>
   </data>
   <data name="Salary" xml:space="preserve">
-    <value>Salary</value>
+    <value>Lương</value>
   </data>
   <data name="Sex" xml:space="preserve">
-    <value>성별</value>
+    <value>Giới tính</value>
   </data>
   <data name="Shorttime" xml:space="preserve">
-    <value>단기계약직원</value>
+    <value>nhân viên hợp đồng ngắn hạn</value>
   </data>
   <data name="SickLeave" xml:space="preserve">
     <value>Nghỉ ốm</value>
   </data>
   <data name="StartDate" xml:space="preserve">
-    <value>startdate</value>
+    <value>ngày bắt đầu</value>
   </data>
   <data name="Tel" xml:space="preserve">
-    <value>Tel</value>
+    <value>Số điện thoại</value>
   </data>
   <data name="TelSub" xml:space="preserve">
-    <value>전화번호2</value>
+    <value>số điện thoại 2</value>
   </data>
   <data name="Texcode" xml:space="preserve">
     <value>Texcode</value>
   </data>
   <data name="TexNo" xml:space="preserve">
-    <value>세금번호</value>
+    <value>Mã số thuế</value>
   </data>
   <data name="Translate" xml:space="preserve">
-    <value>Translate</value>
+    <value>Biên dịch</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>type</value>
@@ -259,6 +259,48 @@
     <value>id</value>
   </data>
   <data name="UserPassword" xml:space="preserve">
-    <value>password</value>
+    <value>Mật khẩu</value>
+  </data>
+  <data name="FeMale" xml:space="preserve">
+    <value>Nữ</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>Nam</value>
+  </data>
+  <data name="Married" xml:space="preserve">
+    <value>Đã kết hôn</value>
+  </data>
+  <data name="MaterialName" xml:space="preserve">
+    <value>Tên vật liệu</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Giá</value>
+  </data>
+  <data name="ProjectName" xml:space="preserve">
+    <value>Tên dự án</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Số lượng</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>lý do</value>
+  </data>
+  <data name="ResignDate" xml:space="preserve">
+    <value>Ngày thôi việc</value>
+  </data>
+  <data name="ResignNote" xml:space="preserve">
+    <value>Lý do thôi việc</value>
+  </data>
+  <data name="SendDate" xml:space="preserve">
+    <value>Ngày gửi</value>
+  </data>
+  <data name="Single" xml:space="preserve">
+    <value>Độc thân</value>
+  </data>
+  <data name="SubNote" xml:space="preserve">
+    <value>nội dung bổ sung</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>Đơn vị</value>
   </data>
 </root>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using ChulWoo.LocalResource;
 
 namespace ChulWoo.Models
 {
@@ -27,17 +28,21 @@ namespace ChulWoo.Models
         public virtual ICollection<MaterialBuyUnit> MaterialBuyUnits { get; set; }
 
         // 날짜 날짜
+        [Display(Name = "Date", ResourceType = typeof(Resource))]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? Date { get; set; }
 
+        [Display(Name = "SubNote", ResourceType = typeof(Resource))]
         public string NoteVn { get; set; }
+        [Display(Name = "SubNote", ResourceType = typeof(Resource))]
         public string NoteKr { get; set; }
 
         [DefaultValue(true)]
         public bool VAT { get; set; }
 
 
+        [Display(Name = "Translate", ResourceType = typeof(Resource))]
         [DefaultValue(true)]
         public bool Translate { get; set; }
     }
