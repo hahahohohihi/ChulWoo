@@ -1,0 +1,42 @@
+﻿@model ChulWoo.Models.MaterialName
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MaterialName</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NameVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NameVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NameKr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NameKr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sort)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sort)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

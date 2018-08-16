@@ -1,6 +1,8 @@
 ﻿@*model IEnumerable<ChulWoo.Models.Employee>*@
 @model PagedList.IPagedList<ChulWoo.Models.Employee>
 @using PagedList.Mvc;
+@using ChulWoo.Models;
+
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
@@ -16,7 +18,13 @@
 @using (Html.BeginForm("Index", "Employee", FormMethod.Get))
 {
     <p>
-        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        Find by Name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+         &nbsp; &nbsp;
+        @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
+        {
+            Write("Translate:  ");
+            @Html.CheckBox("translate", (bool?)ViewBag.translate)
+        }
         <input type="submit" value="Search" />
     </p>
 }
@@ -26,28 +34,28 @@
         <th>
         </th>
         <th>
-            EmployeeNo
+            @Resource.EmployeeNo
         </th>
         <th>
-            Name
+            @Resource.Name
         </th>
         <th>
-            JobPosition
+            @Resource.JobPosition
         </th>
         <th>
-            BirthDate
+            @Resource.BirthDate
         </th>
         <th>
-            Tel1
+            @Resource.Tel
         </th>
         <th>
-            Tel2
+            @Resource.TelSub
         </th>
         <th>
-            Email
+            @Resource.Email
         </th>
         <th>
-            Adress
+            @Resource.Adress
         </th>
         <th></th>
     </tr>
@@ -97,4 +105,4 @@
 
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, translate = ViewBag.translate }))

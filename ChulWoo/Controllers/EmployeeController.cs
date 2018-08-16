@@ -21,7 +21,7 @@ namespace ChulWoo.Controllers
         private int deleteContractID;
          
         // GET: Employee
-        public async Task<ActionResult> Index(int? page, string currentFilter, string searchString)
+        public async Task<ActionResult> Index(int? page, string currentFilter, string searchString, bool? translate)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
@@ -36,22 +36,19 @@ namespace ChulWoo.Controllers
                 searchString = currentFilter;
 
             ViewBag.CurrentFilter = searchString;
+            ViewBag.translate = translate;
 
-            if(!String.IsNullOrEmpty(searchString))
-            {
-                var employees = db.Employees.Include(e => e.Resign)
-                    .Include(e => e.Contracts.Select(c => c.Employee))
-                    .Where(e => e.Name.Contains(searchString))
-                    .OrderBy(e => e.ID);
-                return View(employees.ToPagedList(pageNumber, pageSize));
-            }
-            else
-            {
-                var employees = db.Employees.Include(e => e.Resign)
-                    .Include(e => e.Contracts.Select(c => c.Employee))
-                    .OrderBy(e => e.ID);
-                return View(employees.ToPagedList(pageNumber, pageSize));
-            }
+            var employees = db.Employees.Include(e => e.Resign)
+                                        .Include(e => e.Contracts.Select(c => c.Employee))
+                                        .OrderBy(e => e.ID);
+
+            if (!String.IsNullOrEmpty(searchString))
+                employees = (IOrderedQueryable<Employee>)employees.Where(e => e.Name.Contains(searchString));
+
+            if (translate == true)
+                employees = (IOrderedQueryable<Employee>)employees.Where(e => !e.Translate);
+
+            return View(employees.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Employee/Details/5
@@ -186,7 +183,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,DepartmentVn,DepartmentKr,Name,EmployeeNo,BankAccount,BankLocation,TexNo,JobPosition,Sex,BirthDate,RegistrationNo,RegistrationDate,RegistrationPosition,Tel1,Tel2,Email,Adress,People,Religion,Country,EducationLevel,MajorVn,MajorKr,Marriage,DependentChild,DependentParents")] Employee employee)
+        public async Task<ActionResult> Create([Bind(Include = "ID,DepartmentVn,DepartmentKr,Name,EmployeeNo,BankAccount,BankLocation,TexNo,JobPosition,Sex,BirthDate,RegistrationNo,RegistrationDate,RegistrationPosition,Tel1,Tel2,Email,Adress,People,Religion,Country,EducationLevel,MajorVn,MajorKr,Marriage,DependentChild,DependentParents,Translate")] Employee employee)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
@@ -235,7 +232,8 @@ namespace ChulWoo.Controllers
 
             string[] fieldsToBind = new string[] { "DepartmentVn", "DepartmentKr", "Name", "EmployeeNo", "BankAccount", "BankLocation", "TexNo", "JobPosition",
                 "Sex", "BirthDate", "RegistrationNo", "RegistrationDate", "RegistrationPosition", "Tel1", "Tel2", "Email", "Adress", "People", "Religion",
-                "Country", "EducationLevel", "MajorVn", "MajorKr", "Marriage", "DependentChild", "DependentParents", "RowVersion", "Resign", "ImageData", "ImageMimeType" };
+                "Country", "EducationLevel", "MajorVn", "MajorKr", "Marriage", "DependentChild", "DependentParents", "RowVersion", "Resign", "ImageData",
+                "ImageMimeType", "Translate" };
 
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

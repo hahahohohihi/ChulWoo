@@ -24,7 +24,7 @@ namespace ChulWoo.Models
         public string Name { get; set; }
 
         // 회사주소 회사주소
-        [Display(Name = "Address", ResourceType = typeof(Resource))]
+        [Display(Name = "Adress", ResourceType = typeof(Resource))]
         public string Address { get; set; }
 
         // 회사전화번호 회사전화번호

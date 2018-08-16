@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using ChulWoo.DAL;
 using ChulWoo.Models;
 using ChulWoo.Viewmodel;
+using PagedList;
 
 namespace ChulWoo.Controllers
 {
@@ -18,14 +19,33 @@ namespace ChulWoo.Controllers
         private ChulWooContext db = new ChulWooContext();
 
         // GET: MaterialBuy
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page, string currentFilter, string searchString, bool? translate)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
 
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            if (searchString != null)
+                page = 1;
+            else
+                searchString = currentFilter;
+
+            ViewBag.CurrentFilter = searchString;
+            ViewBag.translate = translate;
+
             var materialBuys = db.MaterialBuys.Include(m => m.Company).Include(m => m.Project)
                 .OrderByDescending(m => m.Date);
-            return View(await materialBuys.ToListAsync());
+
+            if (!String.IsNullOrEmpty(searchString))
+                materialBuys = (IOrderedQueryable<MaterialBuy>)materialBuys.Where(m => m.Company.Name.Contains(searchString) || 
+                    m.Project.NameKr.Contains(searchString) || m.Project.NameVn.Contains(searchString) );
+
+            if (translate == true)
+                materialBuys = (IOrderedQueryable<MaterialBuy>)materialBuys.Where(m => !m.Translate);
+
+            return View(materialBuys.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: MaterialBuy/Details/5
@@ -140,7 +160,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Company,ProjectID,Date,NoteVn,NoteKr,VAT,EmployeeID")] MaterialBuy materialBuy)
+        public async Task<ActionResult> Create([Bind(Include = "ID,Company,ProjectID,Date,NoteVn,NoteKr,VAT,EmployeeID,Translate")] MaterialBuy materialBuy)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
@@ -190,7 +210,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Company,ProjectID,Date,NoteVn,NoteKr,VAT,EmployeeID")] MaterialBuy materialBuy)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,Company,ProjectID,Date,NoteVn,NoteKr,VAT,EmployeeID,Translate")] MaterialBuy materialBuy)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");

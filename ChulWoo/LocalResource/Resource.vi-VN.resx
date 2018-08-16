@@ -303,4 +303,7 @@
   <data name="Unit" xml:space="preserve">
     <value>Đơn vị</value>
   </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Đơn giá</value>
+  </data>
 </root>

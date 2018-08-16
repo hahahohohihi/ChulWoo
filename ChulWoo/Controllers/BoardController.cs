@@ -14,27 +14,45 @@ using PagedList;
 
 namespace ChulWoo.Controllers
 {
-    public class BoardController : Controller
+    public class BoardController : BaseController
     {
         private ChulWooContext db = new ChulWooContext();
 
         // GET: Board
-        public async Task<ActionResult> Index(int? page, string searchString)
+        public async Task<ActionResult> Index(int? page, string currentFilter, string searchString, bool? translate)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
 
-            var boards = db.Boards.Include(b => b.Employee)
+            int pageSize = 6;
+            int pageNumber = (page ?? 1);
+
+            if (searchString != null)
+                page = 1;
+            else
+                searchString = currentFilter;
+
+            ViewBag.CurrentFilter = searchString;
+            ViewBag.translate = translate;
+
+
+            var boards = db.Boards
+                .Include(b => b.Employee)
                 .OrderByDescending(b => b.Date);
+
+//            boards = (IOrderedQueryable<Board>) boards.Where(b => !b.Translate);
 //            return View(await boards.ToListAsync());
 
-            if(!String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(searchString))
             {
-
+                boards = (IOrderedQueryable<Board>)boards.Where(b => b.TitleKr.Contains(searchString) || b.TitleVn.Contains(searchString) ||
+                 b.NoteKr.Contains(searchString) || b.NoteVn.Contains(searchString) || 
+                 b.Employee.Name.Contains(searchString) || b.Employee.Name.Contains(searchString) );
             }
 
-            int pageSize = 5;
-            int pageNumber = (page ?? 1);
+            if( translate == true )
+                boards = (IOrderedQueryable<Board>)boards.Where(b => !b.Translate);
+
             return View(boards.ToPagedList(pageNumber, pageSize));
         }
 
@@ -71,7 +89,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,EmployeeID,TitleVn,TitleKr,NoteVn,NoteKr,Date,UploadFiles")] Board board)
+        public async Task<ActionResult> Create([Bind(Include = "ID,EmployeeID,TitleVn,TitleKr,NoteVn,NoteKr,Date,UploadFiles,Translate")] Board board)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
@@ -91,6 +109,7 @@ namespace ChulWoo.Controllers
                             FileName = fileName,
                             SaveFileName = Guid.NewGuid()+"_"+fileName,
                             FolderName = "Board",
+                            Date = DateTime.Now
                         };
                         UploadFiles.Add(uploadFile);
 
@@ -135,7 +154,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,EmployeeID,TitleVn,TitleKr,NoteVn,NoteKr,Date,UploadFiles")] Board board)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,EmployeeID,TitleVn,TitleKr,NoteVn,NoteKr,Date,UploadFiles,Translate")] Board board)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
@@ -155,7 +174,9 @@ namespace ChulWoo.Controllers
                             FileName = fileName,
                             SaveFileName = Guid.NewGuid() + "_" + fileName,
                             FolderName = "Board",
+                            Date = DateTime.Now
                         };
+
                         var path = Path.Combine(Server.MapPath("~/UploadFile/"), uploadFile.FolderName + "/" + uploadFile.SaveFileName);
                         file.SaveAs(path);
 
@@ -169,6 +190,7 @@ namespace ChulWoo.Controllers
                 sboard.TitleVn = board.TitleVn;
                 sboard.NoteKr = board.NoteKr;
                 sboard.NoteVn = board.NoteVn;
+                sboard.Translate = board.Translate;
 
                 db.Entry(sboard).State = EntityState.Modified;
                 await db.SaveChangesAsync();

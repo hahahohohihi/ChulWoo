@@ -106,7 +106,7 @@
                             @{
                                 var price = item.Quantity * item.MaterialUnitPrice.Price;
                             }
-                            @String.Format("{0:0,0.00}", price)
+                            @String.Format("{0:0,0}", price)
                         </td>
                         <td>
                             @Html.ActionLink("Delete", "DeleteUnit", new { id = Model.MaterialBuy.ID, unitid = item.ID })

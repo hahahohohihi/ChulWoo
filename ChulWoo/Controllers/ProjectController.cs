@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using ChulWoo.DAL;
 using ChulWoo.Models;
 using System.IO;
+using PagedList;
 
 namespace ChulWoo.Controllers
 {
@@ -18,16 +19,34 @@ namespace ChulWoo.Controllers
         private ChulWooContext db = new ChulWooContext();
 
         // GET: Project
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page, string currentFilter, string searchString, bool? translate)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
 
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            if (searchString != null)
+                page = 1;
+            else
+                searchString = currentFilter;
+
+            ViewBag.CurrentFilter = searchString;
+            ViewBag.translate = translate;
+
             var projects = db.Projects.Include(p => p.Company)
                 .Include(p => p.MaterialBuys.Select(mb => mb.Project))
                 .OrderByDescending(p => p.Date);
-//            var projects = db.Projects.Include(p => p.Company);
-            return View(await projects.ToListAsync());
+
+            if (!String.IsNullOrEmpty(searchString))
+                projects = (IOrderedQueryable<Project>)projects.Where(p => p.NameKr.Contains(searchString) || p.NameVn.Contains(searchString));
+
+            if (translate == true)
+                projects = (IOrderedQueryable<Project>)projects.Where(m => !m.Translate);
+
+            //            var projects = db.Projects.Include(p => p.Company);
+            return View(projects.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Project/Details/5
@@ -69,7 +88,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,CompanyID,NameVn,NameKr,Date,Company,UploadFiles")] Project project)
+        public async Task<ActionResult> Create([Bind(Include = "ID,CompanyID,NameVn,NameKr,Date,Company,UploadFiles,Translate")] Project project)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
@@ -90,6 +109,7 @@ namespace ChulWoo.Controllers
                             FileName = fileName,
                             SaveFileName = Guid.NewGuid() + "_" + fileName,
                             FolderName = "Project",
+                            Date = DateTime.Now
                         };
                         UploadFiles.Add(uploadFile);
 
@@ -135,7 +155,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,CompanyID,NameVn,NameKr,Date,Company,UploadFiles")] Project project)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,CompanyID,NameVn,NameKr,Date,Company,UploadFiles,Translate")] Project project)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
@@ -156,6 +176,7 @@ namespace ChulWoo.Controllers
                             FileName = fileName,
                             SaveFileName = Guid.NewGuid() + "_" + fileName,
                             FolderName = "Project",
+                            Date = DateTime.Now
                         };
                         var path = Path.Combine(Server.MapPath("~/UploadFile/"), uploadFile.FolderName + "/" + uploadFile.SaveFileName);
                         file.SaveAs(path);

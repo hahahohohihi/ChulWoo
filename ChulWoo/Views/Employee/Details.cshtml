@@ -3,12 +3,17 @@
 
 @{
     ViewBag.Title = "Details";
-} 
+}
 
-<h2>Details</h2>
+<h2>@Html.DisplayFor(model => model.Employee.Name)</h2>
+
+
+@if (Model.Employee.ImageData != null)
+{
+    <img id="image" class="img-thumbnail" width="150" height="150" src='@Url.Action("GetImage", "Employee", new { employeeID = Model.Employee.ID })' />
+}
 
 <div>
-    <h4>Employee</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -25,14 +30,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.Employee.DepartmentKr)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Employee.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Employee.Name)
         </dd>
 
         <dt>

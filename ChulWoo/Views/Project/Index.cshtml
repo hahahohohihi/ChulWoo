@@ -1,5 +1,8 @@
-﻿@model IEnumerable<ChulWoo.Models.Project>
+﻿@*model IEnumerable<ChulWoo.Models.Project>*@
+@model PagedList.IPagedList<ChulWoo.Models.Project>
+@using PagedList.Mvc;
 @using ChulWoo.Models;
+@using ChulWoo.Helper;
 
 @{
     ViewBag.Title = "Index";
@@ -10,55 +13,68 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@using (Html.BeginForm("Index", "Project", FormMethod.Get))
+{
+    <p>
+        Find by ProjectName: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        &nbsp; &nbsp;
+        @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
+        {
+            Write("Translate:  ");
+            @Html.CheckBox("translate", (bool?)ViewBag.translate)
+        }
+        <input type="submit" value="Search" />
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
-            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
-            {
-                @Html.DisplayNameFor(model => model.NameKr)
-            }
-            else
-            {
-                @Html.DisplayNameFor(model => model.NameVn)
-            }
+            @Resource.ProjectName
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Company.Name)
+            @Resource.CompanyName
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Date)
+            @Resource.Date
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
-            {
-                @Html.DisplayFor(modelItem => item.NameKr)
-            }
-            else
-            {
-                @Html.DisplayFor(modelItem => item.NameVn)
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Company.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ID })
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                {
+                    @Html.DisplayFor(modelItem => item.NameKr)
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.NameVn)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Company.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID })
 
-            @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) == Convert.ToInt32(Security.Admin))
-            {
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-            }
-        </td>
-    </tr>
-}
+                @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) == Convert.ToInt32(Security.Admin))
+                {
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                }
+            </td>
+        </tr>
+    }
 
 </table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, translate = ViewBag.translate }))

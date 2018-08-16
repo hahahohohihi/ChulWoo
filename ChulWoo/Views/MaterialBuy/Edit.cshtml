@@ -45,7 +45,7 @@
         @Html.HiddenFor(model => model.ID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CompanyID, "CompanyID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Company.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Company.Name, new { htmlAttributes = new { @id = "CompanyName", @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Company.Name, "", new { @class = "text-danger" })
@@ -53,7 +53,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ProjectID, "ProjectID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Project.NameKr, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("ProjectID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ProjectID, "", new { @class = "text-danger" })
@@ -77,11 +77,29 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.NoteKr, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.NoteKr, new { @Style = "height:100px; width:100%;" })
+                @Html.ValidationMessageFor(model => model.NoteKr, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.VAT, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
                     @Html.CheckBoxFor(model => model.VAT)
                     @Html.ValidationMessageFor(model => model.VAT, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Translate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.Translate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Translate, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -100,11 +118,11 @@
         <table class="table">
             <tr>
                 <th></th>
-                <th>Material Name</th>
-                <th>Unit</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Price</th>
+                <th>@Resource.MaterialName</th>
+                <th>@Resource.Unit</th>
+                <th>@Resource.Quantity</th>
+                <th>@Resource.UnitPrice</th>
+                <th>@Resource.Price</th>
             </tr>
             @if (Model.MaterialBuyUnits != null && Model.MaterialBuyUnits.Count != 0)
             {
@@ -136,7 +154,7 @@
                             @{
                                 var price = item.Quantity * item.MaterialUnitPrice.Price;
                             }
-                            @String.Format("{0:0,0.00}", price)
+                            @String.Format("{0:0,0}", price)
                         </td>
                     </tr>
                 }

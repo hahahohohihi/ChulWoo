@@ -35,7 +35,7 @@ namespace ChulWoo.Models
         public Unit Unit { get; set; }
 
         // 가격 가격
-        [Display(Name = "Price", ResourceType = typeof(Resource))]
+        [Display(Name = "UnitPrice", ResourceType = typeof(Resource))]
         [DisplayFormat(DataFormatString = "{0:0,0.00}", ApplyFormatInEditMode = true)]
         public float Price { get; set; }
 

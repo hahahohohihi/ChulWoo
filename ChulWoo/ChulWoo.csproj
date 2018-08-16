@@ -250,6 +250,7 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialBuyController.cs" />
+    <Compile Include="Controllers\MaterialNameController.cs" />
     <Compile Include="Controllers\PersonnelController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="DAL\ChulWooContext.cs" />
@@ -398,6 +399,11 @@
     <Content Include="Views\Board\Details.cshtml" />
     <Content Include="Views\Board\Edit.cshtml" />
     <Content Include="Views\Board\Index.cshtml" />
+    <Content Include="Views\MaterialName\Create.cshtml" />
+    <Content Include="Views\MaterialName\Delete.cshtml" />
+    <Content Include="Views\MaterialName\Details.cshtml" />
+    <Content Include="Views\MaterialName\Edit.cshtml" />
+    <Content Include="Views\MaterialName\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\App_Data\" />

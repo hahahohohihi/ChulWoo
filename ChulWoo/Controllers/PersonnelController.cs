@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using ChulWoo.DAL;
 using ChulWoo.Models;
 using ChulWoo.Helper;
+using PagedList;
 
 namespace ChulWoo.Controllers
 {
@@ -18,13 +19,31 @@ namespace ChulWoo.Controllers
         private ChulWooContext db = new ChulWooContext();
 
         // GET: Personnel
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page, string currentFilter, string searchString, bool? translate)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
 
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            if (searchString != null)
+                page = 1;
+            else
+                searchString = currentFilter;
+
+            ViewBag.CurrentFilter = searchString;
+            ViewBag.translate = translate;
+
             var personnels = db.Personnels.Include(p => p.Employee).OrderByDescending(p => p.SendDate);
-            return View(await personnels.ToListAsync());
+
+            if (!String.IsNullOrEmpty(searchString))
+                personnels = (IOrderedQueryable<Personnel>)personnels.Where(p => p.Employee.Name.Contains(searchString));
+
+            if (translate == true)
+                personnels = (IOrderedQueryable<Personnel>)personnels.Where(p => !p.Translate);
+
+            return View(personnels.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Personnel/Details/5
@@ -99,7 +118,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,EmployeeID,SendDate,ReasonVn,ReasonKr,StartDate,EndDate,Type")] Personnel personnel)
+        public async Task<ActionResult> Create([Bind(Include = "ID,EmployeeID,SendDate,ReasonVn,ReasonKr,StartDate,EndDate,Type,Translate")] Personnel personnel)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
@@ -140,7 +159,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,EmployeeID,SendDate,ReasonVn,ReasonKr,StartDate,EndDate,Type")] Personnel personnel)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,EmployeeID,SendDate,ReasonVn,ReasonKr,StartDate,EndDate,Type,Translate")] Personnel personnel)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");

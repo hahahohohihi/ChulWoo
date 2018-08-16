@@ -1,6 +1,8 @@
 ﻿@*odel IEnumerable<ChulWoo.Models.Board>*@
 @model PagedList.IPagedList<ChulWoo.Models.Board>
-@using PagedList.Mvc; 
+@using PagedList.Mvc;
+@using ChulWoo.Models;
+
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
@@ -12,41 +14,40 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-    @foreach (var item in Model)
-    {
-        <a href='@Url.Action("Details"+@"/"+item.ID)'>
-            <table class="table">
-                <tr>
-                    <td rowspan="2" width="80">
-                        <img class="img-thumbnail" width="75" height="75" src='@Url.Action("GetImage", "Employee", new { employeeID = item.EmployeeID })' />
-                    </td>
-                    <td colspan="2">
-                        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
-                        {
-                            @Html.DisplayFor(modelItem => item.TitleKr)
-                        }
-                        else
-                        {
-                            @Html.DisplayFor(modelItem => item.TitleVn)
-                        }
-                    </td>
-                    </tr>
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Employee.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Date)
-                    </td>
-                </tr>
-            </table>
-        </a>
-    }
 
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@using (Html.BeginForm("Index", "Board", FormMethod.Get))
+{
+    <p>
+        Find by name or Title or Note: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+         &nbsp; &nbsp;
+        @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
+        {
+            Write("Translate:  ");
+            @Html.CheckBox("translate", ViewBag.translate as bool?) 
+        }
+        <input type="submit" value="Search" />
+    </p>
+}
 
-@Html.PagedListPager( Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter }) )
-@*
+@foreach (var item in Model)
+{
+    <a href='@Url.Action("Details"+@"/"+item.ID)'>
+        <table class="table">
+            <tr>
+                <td rowspan="2" width="80">
+                    <img class="img-thumbnail" width="75" height="75" src='@Url.Action("GetImage", "Employee", new { employeeID = item.EmployeeID })' />
+                </td>
+                <td colspan="2">
+                    @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                    {
+                        @Html.DisplayFor(modelItem => item.TitleKr)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.TitleVn)
+                    }
+                </td>
+            </tr>
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Employee.Name)
@@ -54,25 +55,41 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                 <td>
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TitleVn)
-                </td>
-                @*
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TitleKr)
-                        </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NoteVn)
-                    </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NoteKr)
-                        </td>
-                @
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-                </td>
             </tr>
+        </table>
+    </a>
+}
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, translate = ViewBag.translate }))
+@*
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employee.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TitleVn)
+        </td>
+        @*
+                <td>
+                    @Html.DisplayFor(modelItem => item.TitleKr)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoteVn)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoteKr)
+                </td>
+        @
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+        </td>
+    </tr>
 
 *@

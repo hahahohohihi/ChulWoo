@@ -143,7 +143,7 @@
                                     var price = unit.Quantity * unit.MaterialUnitPrice.Price;
                                     totalPrice = totalPrice+(int)price;
                                 }
-                                @String.Format("{0:0,0.00}", price)
+                                @String.Format("{0:0,0}", price)
                             </div>
                         </td>
                     </tr>
@@ -172,7 +172,7 @@
                     }
                     <th height="30">tổng trước thuế</th>
                     <th>
-                        @String.Format("{0:0,0.00}", totalPrice)
+                        @String.Format("{0:0,0}", totalPrice)
                     </th>
                 </tr>
                 <tr>
@@ -185,7 +185,7 @@
                                 vat = 0;
                             }
                         }
-                        @String.Format("{0:0,0.00}", vat)
+                        @String.Format("{0:0,0}", vat)
                     </th>
                 </tr>
                 <tr>
@@ -194,7 +194,7 @@
                         @{
                             var grandTotal = totalPrice + @vat;
                         }
-                        @String.Format("{0:0,0.00}", grandTotal)
+                        @String.Format("{0:0,0}", grandTotal)
                     </th>
                 </tr>
             }
