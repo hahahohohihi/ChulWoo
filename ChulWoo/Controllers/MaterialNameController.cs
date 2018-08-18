@@ -12,19 +12,25 @@ using ChulWoo.Models;
 
 namespace ChulWoo.Controllers
 {
-    public class MaterialNameController : Controller
+    public class MaterialNameController : BaseController
     {
         private ChulWooContext db = new ChulWooContext();
 
         // GET: MaterialName
         public async Task<ActionResult> Index()
         {
-            return View(await db.MaterialNames.ToListAsync());
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            return View(await db.MaterialNames.OrderByDescending(m => m.ID).ToListAsync());
         }
 
         // GET: MaterialName/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -40,6 +46,9 @@ namespace ChulWoo.Controllers
         // GET: MaterialName/Create
         public ActionResult Create()
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             return View();
         }
 
@@ -50,6 +59,9 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "ID,NameVn,NameKr,Sort")] MaterialName materialName)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (ModelState.IsValid)
             {
                 db.MaterialNames.Add(materialName);
@@ -63,6 +75,9 @@ namespace ChulWoo.Controllers
         // GET: MaterialName/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -82,6 +97,9 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "ID,NameVn,NameKr,Sort")] MaterialName materialName)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (ModelState.IsValid)
             {
                 db.Entry(materialName).State = EntityState.Modified;
@@ -94,6 +112,9 @@ namespace ChulWoo.Controllers
         // GET: MaterialName/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -111,6 +132,9 @@ namespace ChulWoo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             MaterialName materialName = await db.MaterialNames.FindAsync(id);
             db.MaterialNames.Remove(materialName);
             await db.SaveChangesAsync();

@@ -306,4 +306,19 @@
   <data name="UnitPrice" xml:space="preserve">
     <value>단가</value>
   </data>
+  <data name="Amount" xml:space="preserve">
+    <value>금액</value>
+  </data>
+  <data name="Cash" xml:space="preserve">
+    <value>현금</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>비고</value>
+  </data>
+  <data name="PaymentType" xml:space="preserve">
+    <value>지불방법</value>
+  </data>
+  <data name="Transfer" xml:space="preserve">
+    <value>송금</value>
+  </data>
 </root>

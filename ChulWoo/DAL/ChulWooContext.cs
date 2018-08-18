@@ -28,6 +28,7 @@ namespace ChulWoo.DAL
         public DbSet<MaterialName> MaterialNames { get; set; }
         public DbSet<Board> Boards { get; set; }
         public DbSet<UploadFile> UploadFiles { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         { 

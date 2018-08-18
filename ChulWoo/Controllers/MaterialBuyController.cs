@@ -70,6 +70,131 @@ namespace ChulWoo.Controllers
             return View(materialBuy);
         }
 
+
+        public async Task<ActionResult> EditAddPayment(int? id)
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            MaterialBuy materialBuy = await db.MaterialBuys.FindAsync(id);
+            if (materialBuy == null)
+            {
+                return HttpNotFound();
+            }
+            var materialBuyPayment = new MaterialBuyPaymentData();
+            materialBuyPayment.MaterialBuy = materialBuy;
+
+            return View(materialBuyPayment);
+        }
+
+        // POST: MaterialBuy/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditAddPayment(MaterialBuyPaymentData materialBuyPaymentData)
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            if (ModelState.IsValid)
+            {
+                //                db.Entry(materialBuyData).State = EntityState.Modified;
+                MaterialBuy materialBuy = db.MaterialBuys.FirstOrDefault(m => m.ID == materialBuyPaymentData.MaterialBuy.ID);
+
+                materialBuyPaymentData.Payment.EmployeeID = Convert.ToInt32(Session["LoginUserEmployeeID"]);
+                materialBuyPaymentData.Payment.Employee = db.Employees.FirstOrDefault(e => e.ID == materialBuyPaymentData.Payment.EmployeeID);
+
+                db.Payments.Add(materialBuyPaymentData.Payment);
+                materialBuy.Payments.Add(materialBuyPaymentData.Payment);
+
+                await db.SaveChangesAsync();
+                return RedirectToAction("EditAddPayment", new { id = materialBuyPaymentData.MaterialBuy.ID });
+            }
+            return View(materialBuyPaymentData);
+        }
+        public async Task<ActionResult> EditEditPayment(int? id, int paymentid)
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            MaterialBuy materialBuy = await db.MaterialBuys.FindAsync(id);
+            if (materialBuy == null)
+            {
+                return HttpNotFound();
+            }
+            Payment payment = await db.Payments.FindAsync(paymentid);
+            if (payment == null)
+            {
+                return HttpNotFound();
+            }
+            var materialBuyPayment = new MaterialBuyPaymentData();
+            materialBuyPayment.MaterialBuy = materialBuy;
+            materialBuyPayment.Payment = payment;
+
+            materialBuyPayment.MaterialBuy.Payments = materialBuyPayment.MaterialBuy.Payments.OrderBy(p => p.Date).ToList();
+
+
+            return View(materialBuyPayment);
+        }
+
+        // POST: MaterialBuy/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditEditPayment(int id, int paymentid, MaterialBuyPaymentData materialBuyPaymentData)
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            if (ModelState.IsValid)
+            {
+                //                db.Entry(materialBuyData).State = EntityState.Modified;
+                MaterialBuy materialBuy = db.MaterialBuys.FirstOrDefault(m => m.ID == materialBuyPaymentData.MaterialBuy.ID);
+                Payment payment = await db.Payments.FindAsync(paymentid);
+
+                payment.Date = materialBuyPaymentData.Payment.Date;
+                payment.Type = materialBuyPaymentData.Payment.Type;
+                payment.Amount = materialBuyPaymentData.Payment.Amount;
+                if(payment.NoteVn != null && !payment.NoteVn.Equals(materialBuyPaymentData.Payment.NoteVn))
+                {
+                    payment.NoteVn = materialBuyPaymentData.Payment.NoteVn;
+                    payment.Translate = false;
+                }
+                if(materialBuyPaymentData.Payment.NoteVn != null)
+                {
+                    payment.NoteVn = materialBuyPaymentData.Payment.NoteVn;
+                    payment.Translate = false;
+                }
+                if (payment.NoteVn == null || payment.NoteVn.Length <= 0)
+                    payment.Translate = true;
+
+                await db.SaveChangesAsync();
+                return RedirectToAction("EditAddPayment", new { id = materialBuyPaymentData.MaterialBuy.ID });
+            }
+            return View(materialBuyPaymentData);
+        }
+
+        public async Task<ActionResult> DeletePayment(int id, int paymentid)
+        {
+            Payment Payment = await db.Payments.FindAsync(paymentid);
+
+            db.Payments.Remove(Payment);
+            
+            //PreDeleteUnit(id, paymentid);
+            await db.SaveChangesAsync();
+            return RedirectToAction("EditAddPayment", new { id = id });
+        }
+
         public async Task<ActionResult> EditAddUnit(int? id)
         {
             if (Session["LoginUserID"] == null)
@@ -144,6 +269,100 @@ namespace ChulWoo.Controllers
             return View(materialBuyData);
         }
 
+        public async Task<ActionResult> EditEditUnit(int id, int unitid)
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            MaterialBuy materialBuy = await db.MaterialBuys.FindAsync(id);
+            if (materialBuy == null)
+            {
+                return HttpNotFound();
+            }
+            MaterialBuyUnit materialBuyUnit = await db.MaterialBuyUnits.FindAsync(unitid);
+            if (materialBuyUnit == null)
+            {
+                return HttpNotFound();
+            }
+            var materialBuyData = new MaterialBuyData();
+            materialBuyData.MaterialBuy = materialBuy;
+            materialBuyData.MaterialBuyUnit = materialBuyUnit;
+            materialBuyData.MaterialBuy.MaterialBuyUnits = materialBuyData.MaterialBuy.MaterialBuyUnits.OrderBy(p => p.ID).ToList();
+
+
+            return View(materialBuyData);
+        }
+
+        // POST: MaterialBuy/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditEditUnit(int id, int unitid, MaterialBuyData materialBuyData)
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            if (ModelState.IsValid)
+            {
+                //                db.Entry(materialBuyData).State = EntityState.Modified;
+                MaterialBuyUnit sUnit = db.MaterialBuyUnits.FirstOrDefault(mbu => mbu.ID == unitid);
+                MaterialName sName = db.MaterialNames.FirstOrDefault(m => m.NameVn.Equals(sUnit.MaterialUnitPrice.MaterialName.NameVn));
+                int  nameCount = db.MaterialUnitPrices.Where(m => m.MaterialName.NameVn.Equals(sUnit.MaterialUnitPrice.MaterialName.NameVn)).Count();
+
+                MaterialName newName = db.MaterialNames.FirstOrDefault(m => m.NameVn.Equals(materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn));
+
+                if (!materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn.Equals(sName.NameVn))
+                {
+                    if( nameCount == 1 )
+                    {
+                        if( newName == null)
+                        {
+                            sUnit.MaterialUnitPrice.MaterialName.NameVn = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn;
+                            sUnit.MaterialUnitPrice.MaterialName.NameKr = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn;
+                            materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.Translate = false;
+                        }
+                        else
+                        {
+                            db.MaterialNames.Remove(sUnit.MaterialUnitPrice.MaterialName);
+                            sUnit.MaterialUnitPrice.MaterialName = newName;
+                        }
+                    }
+                    else
+                    {
+                        if( newName == null )
+                        {
+                            if (materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameKr == null)
+                                materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameKr = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn;
+                            else if (materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn == null)
+                                materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameKr;
+
+                            sUnit.MaterialUnitPrice.MaterialName = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName;
+                            db.MaterialNames.Add(materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName);
+                        }
+                        else
+                        {
+                            sUnit.MaterialUnitPrice.MaterialName = newName;
+                        }
+                    }
+                }
+
+                MaterialBuy materialBuy = db.MaterialBuys.FirstOrDefault(m => m.ID == materialBuyData.MaterialBuy.ID);
+                MaterialUnitPrice muPrice = sUnit.MaterialUnitPrice;
+                muPrice.Unit = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.Unit;
+                muPrice.Price = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.Price;
+                sUnit.Quantity = materialBuyData.MaterialBuyUnit.Quantity;
+
+                await db.SaveChangesAsync();
+                return RedirectToAction("EditAddUnit", new { id = id });
+            }
+            return View(materialBuyData);
+        }
+
         // GET: MaterialBuy/Create
         public ActionResult Create()
         {
@@ -173,10 +392,16 @@ namespace ChulWoo.Controllers
                 materialBuy.Company = db.Companys.FirstOrDefault(c => c.Name.Equals(materialBuy.Company.Name));
                 materialBuy.CompanyID = materialBuy.Company.ID;
 
+                if ((materialBuy.NoteVn != null && materialBuy.NoteVn.Length > 0) ||
+                    (materialBuy.NoteKr != null && materialBuy.NoteKr.Length > 0))
+                    materialBuy.Translate = false;
+                else
+                    materialBuy.Translate = true;
+
                 db.MaterialBuys.Add(materialBuy);
                 await db.SaveChangesAsync();
 
-                return RedirectToAction("Edit", new { id = materialBuy.ID });
+                return RedirectToAction("EditAddUnit", new { id = materialBuy.ID });
             }
 
  //           ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", materialBuy.CompanyID);
@@ -272,6 +497,16 @@ namespace ChulWoo.Controllers
                     //db.MaterialBuyUnits.Remove(item);
                     //await DeleteUnit(materialBuy.ID, item.ID);
                     PreDeleteUnit(materialBuy.ID, item.ID);
+                }
+            }
+
+            if (materialBuy.Payments.Count > 0)
+            {
+                var mtp = db.Payments.Where(p => p.MaterialBuyID == id).ToArray();
+
+                foreach (var item in mtp)
+                {
+                    db.Payments.Remove(item);
                 }
             }
 

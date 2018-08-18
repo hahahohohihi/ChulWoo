@@ -19,7 +19,7 @@
                     data: { Prefix: request.term },
                     success: function (data) {
                         response($.map(data, function (item) {
-                            return { label: item.Name, value: item.Name };
+                            return { label: item.NameVn, value: item.NameNv };
                         }))
 
                     }
@@ -109,6 +109,7 @@
                             @String.Format("{0:0,0}", price)
                         </td>
                         <td>
+                            @Html.ActionLink("Edit", "EditEditUnit", new { id = Model.MaterialBuy.ID, unitid = item.ID }) | 
                             @Html.ActionLink("Delete", "DeleteUnit", new { id = Model.MaterialBuy.ID, unitid = item.ID })
                         </td>
                     </tr>

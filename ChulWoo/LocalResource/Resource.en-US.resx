@@ -306,4 +306,19 @@
   <data name="UnitPrice" xml:space="preserve">
     <value>UnitPrice</value>
   </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="Cash" xml:space="preserve">
+    <value>Cash</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="PaymentType" xml:space="preserve">
+    <value>PaymentType</value>
+  </data>
+  <data name="Transfer" xml:space="preserve">
+    <value>Transfer</value>
+  </data>
 </root>

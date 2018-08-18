@@ -27,6 +27,8 @@ namespace ChulWoo.Models
         // 키값(단가) 키값(단가)
         public virtual ICollection<MaterialBuyUnit> MaterialBuyUnits { get; set; }
 
+        public virtual ICollection<Payment> Payments { get; set; }
+
         // 날짜 날짜
         [Display(Name = "Date", ResourceType = typeof(Resource))]
         [DataType(DataType.Date)]

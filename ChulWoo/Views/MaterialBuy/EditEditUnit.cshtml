@@ -1,0 +1,161 @@
+﻿@model ChulWoo.Viewmodel.MaterialBuyData
+
+@{
+    ViewBag.Title = "EditAddUnit";
+}
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Mname").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/MaterialBuy/Edit2",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.NameVn, value: item.NameNv };
+                        }))
+
+                    }
+                })
+            }
+        });
+    })
+</script>
+
+
+<h2>EditAddUnit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>MaterialBuy</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MaterialBuy.ID)
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.MaterialBuy.Company.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MaterialBuy.Company.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MaterialBuy.Project.NameVn)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MaterialBuy.Project.NameVn)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MaterialBuy.Date)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MaterialBuy.Date)
+            </dd>
+
+        </dl>
+        <h4>Material Unit</h4>
+
+        <table class="table">
+            <tr>
+                <th>Material Name</th>
+                <th>Unit</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+            @if (Model.MaterialBuy.MaterialBuyUnits != null && Model.MaterialBuy.MaterialBuyUnits.Count != 0)
+            {
+
+                foreach (var item in Model.MaterialBuy.MaterialBuyUnits)
+                {
+                    if (item.ID != Model.MaterialBuyUnit.ID)
+                    {
+                        <tr>
+                            <td>
+                                @item.MaterialUnitPrice.MaterialName.NameVn
+                            </td>
+                            <td>
+                                @item.MaterialUnitPrice.Unit
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => @item.Quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.MaterialUnitPrice.Price)
+                            </td>
+                            <td>
+                                @{
+                                    var price = item.Quantity * item.MaterialUnitPrice.Price;
+                                }
+                                @String.Format("{0:0,0}", price)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "EditEditUnit", new { id = Model.MaterialBuy.ID, unitid = item.ID }) |
+                                @Html.ActionLink("Delete", "DeleteUnit", new { id = Model.MaterialBuy.ID, unitid = item.ID })
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <th>
+                                @Html.EditorFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn, new { htmlAttributes = new { @id = "Mname", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn, "", new { @class = "text-danger" })
+                            </th>
+                            <th>
+                                @Html.EnumDropDownListFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Unit, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Unit, "", new { @class = "text-danger" })
+                            </th>
+                            <th>
+                                @Html.TextBoxFor(model => model.MaterialBuyUnit.Quantity,"{0:0.00}", new { @class = "form-control" } )
+                                @Html.ValidationMessageFor(model => model.MaterialBuyUnit.Quantity, "", new { @class = "text-danger" })
+                            </th>
+                            <th>
+                                @Html.TextBoxFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Price, "{0:0.00}", new { @class = "form-control" } )
+                                @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Price, "", new { @class = "text-danger" })
+                            </th>
+                            <th>
+                            </th>
+                            <th>
+                                <input type="submit" value="Add" class="btn btn-default" />
+                            </th>
+                        </tr>
+                    }
+                }
+            }
+
+        </table>
+
+
+
+
+
+
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to Edit", "Edit", new { id = Model.MaterialBuy.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

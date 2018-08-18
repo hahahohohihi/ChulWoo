@@ -25,5 +25,8 @@ namespace ChulWoo.Models
         [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
         public string Sort { get; set; }
 
+
+        [Display(Name = "Translate", ResourceType = typeof(Resource))]
+        public bool Translate { get; set; }
     }
 }
