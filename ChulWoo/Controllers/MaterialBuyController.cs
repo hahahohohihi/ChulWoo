@@ -353,7 +353,7 @@ namespace ChulWoo.Controllers
 
                 MaterialBuy materialBuy = db.MaterialBuys.FirstOrDefault(m => m.ID == materialBuyData.MaterialBuy.ID);
                 MaterialUnitPrice muPrice = sUnit.MaterialUnitPrice;
-                muPrice.Unit = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.Unit;
+                muPrice.UnitString = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.UnitString;
                 muPrice.Price = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.Price;
                 sUnit.Quantity = materialBuyData.MaterialBuyUnit.Quantity;
 

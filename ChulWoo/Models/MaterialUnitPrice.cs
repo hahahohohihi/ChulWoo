@@ -37,7 +37,10 @@ namespace ChulWoo.Models
         // 가격 가격
         [Display(Name = "UnitPrice", ResourceType = typeof(Resource))]
         [DisplayFormat(DataFormatString = "{0:0,0.00}", ApplyFormatInEditMode = true)]
-        public float Price { get; set; }
+        public double Price { get; set; }
 
+        [Display(Name = "Unit", ResourceType = typeof(Resource))]
+        [StringLength(20, ErrorMessage = "Cannot be longer than 20 characters.")]
+        public string UnitString { get; set; }
     }
 }

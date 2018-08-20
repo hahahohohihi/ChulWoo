@@ -91,7 +91,7 @@
                                 @item.MaterialUnitPrice.MaterialName.NameVn
                             </td>
                             <td>
-                                @item.MaterialUnitPrice.Unit
+                                @item.MaterialUnitPrice.UnitString
                             </td>
                             <td>
                                 @Html.DisplayFor(model => @item.Quantity)
@@ -119,8 +119,8 @@
                                 @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn, "", new { @class = "text-danger" })
                             </th>
                             <th>
-                                @Html.EnumDropDownListFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Unit, htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Unit, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.MaterialBuyUnit.MaterialUnitPrice.UnitString, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.UnitString, "", new { @class = "text-danger" })
                             </th>
                             <th>
                                 @Html.TextBoxFor(model => model.MaterialBuyUnit.Quantity,"{0:0.00}", new { @class = "form-control" } )

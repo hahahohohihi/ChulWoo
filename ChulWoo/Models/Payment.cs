@@ -33,7 +33,7 @@ namespace ChulWoo.Models
 
         [Display(Name = "Amount", ResourceType = typeof(Resource))]
         [DisplayFormat(DataFormatString = "{0:0,0}", ApplyFormatInEditMode = true)]
-        public float Amount { get; set; }
+        public double Amount { get; set; }
 
         [Display(Name = "PaymentType", ResourceType = typeof(Resource))]
         public PaymentType? Type { get; set; }
