@@ -33,7 +33,7 @@ namespace ChulWoo.Controllers
                 searchString = currentFilter;
 
             ViewBag.CurrentFilter = searchString;
-            ViewBag.translate = translate;
+            Session["Translate"] = translate;
 
             var projects = db.Projects.Include(p => p.Company)
                 .Include(p => p.MaterialBuys.Select(mb => mb.Project))
@@ -55,6 +55,9 @@ namespace ChulWoo.Controllers
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
 
+            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Translation))
+                return RedirectToAction("Index", "Home");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -70,6 +73,9 @@ namespace ChulWoo.Controllers
             {
                 return HttpNotFound();
             }
+            if(project.MaterialBuys != null)
+                project.MaterialBuys = project.MaterialBuys.OrderByDescending(m => m.Date).ToList();
+
             return View(project);
         }
 
@@ -78,6 +84,9 @@ namespace ChulWoo.Controllers
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
+
+            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Translation))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name");
             return View();
@@ -92,6 +101,9 @@ namespace ChulWoo.Controllers
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
+
+            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Translation))
+                return RedirectToAction("Index", "Home");
 
             project.Company = db.Companys.FirstOrDefault(c => c.Name.Equals(project.Company.Name));
             if (project.Company != null && ModelState.IsValid)
@@ -137,6 +149,9 @@ namespace ChulWoo.Controllers
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
 
+            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Translation))
+                return RedirectToAction("Index", "Home");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -159,6 +174,9 @@ namespace ChulWoo.Controllers
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
+
+            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Translation))
+                return RedirectToAction("Index", "Home");
 
             Project sproject = await db.Projects.FindAsync(project.ID);
             Company company = db.Companys.FirstOrDefault(c => c.Name.Equals(project.Company.Name));
@@ -197,10 +215,11 @@ namespace ChulWoo.Controllers
                 company.Projects.Add(sproject);
                 db.Entry(sproject).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+//                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { translate = Session["Translate"] });
             }
 
-//            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", project.CompanyID);
+            //            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", project.CompanyID);
             return View(project);
         }
 
@@ -209,6 +228,9 @@ namespace ChulWoo.Controllers
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
+
+            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Translation))
+                return RedirectToAction("Index", "Home");
 
             if (id == null)
             {
@@ -229,6 +251,9 @@ namespace ChulWoo.Controllers
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
+
+            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Translation))
+                return RedirectToAction("Index", "Home");
 
             try
             {

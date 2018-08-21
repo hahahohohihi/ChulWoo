@@ -43,8 +43,8 @@
 
         <table class="table">
             <tr>
-                <th>Project Name</th>
-                <th>Date</th>
+                <th>@Resource.ProjectName</th>
+                <th>@Resource.Date</th>
                 <th></th>
             </tr>
 
@@ -52,7 +52,14 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(model => item.NameVn)
+                        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                        {
+                            @Html.DisplayFor(model => item.NameKr)
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => item.NameVn)
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(model => item.Date)
@@ -77,10 +84,17 @@
                     <td>
                         <dl class="dl-horizontal" style="height:0px;">
                             <dt>
-                                Project Name
+                                @Resource.ProjectName
                             </dt>
                             <dd>
-                                @Html.DisplayFor(model => item.Project.NameVn)
+                                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                                {
+                                    @Html.DisplayFor(model => item.Project.NameKr)
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(model => item.Project.NameVn)
+                                }
                             </dd>
                         </dl>
                     </td>
@@ -98,29 +112,61 @@
             </table>
             <table class="table">
                 <tr>
-                    <th>Material Name</th>
-                    <th>Quantity</th>
-                    <th>Unit Price</th>
-                    <th>Price</th>
+                    <th>@Resource.MaterialName</th>
+                    <th>@Resource.Unit</th>
+                    <th>@Resource.Quantity</th>
+                    <th>@Resource.UnitPrice</th>
+                    <th>@Resource.Price</th>
                 </tr>
-                @foreach (var unit in item.MaterialBuyUnits)
+                @if (item.MaterialBuyUnits != null && item.MaterialBuyUnits.Count != 0)
                 {
+                    double totalPrice = 0;
+                    foreach (var unit in item.MaterialBuyUnits)
+                    {
+                        <tr>
+                            <td>
+                                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                                {
+                                    @unit.MaterialUnitPrice.MaterialName.NameKr
+                                }
+                                else
+                                {
+                                    @unit.MaterialUnitPrice.MaterialName.NameVn
+                                }
+                            </td>
+                            <td>
+                                @unit.MaterialUnitPrice.UnitString
+                            </td>
+                            <td>
+                                @unit.Quantity
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => unit.MaterialUnitPrice.Price)
+                            </td>
+                            <td>
+                                @{
+                                    var price = unit.Quantity * unit.MaterialUnitPrice.Price;
+                                    totalPrice = totalPrice + (double)price;
+                                }
+                                @String.Format("{0:0,0.00}", price)
+                            </td>
+                        </tr>
+                    }
                     <tr>
-                        <td>
-                            @unit.MaterialUnitPrice.MaterialName.NameVn
-                        </td>
-                        <td>
-                            @unit.Quantity
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => unit.MaterialUnitPrice.Price)
-                        </td>
-                        <td>
-                            @{
-                                var price = unit.Quantity * unit.MaterialUnitPrice.Price;
-                            }
-                            @String.Format("{0:0,0.00}", price)
-                        </td>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>VAT</th>
+                        <th>@String.Format("{0:0,0}", totalPrice * 0.1)</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Total Price</th>
+                        <th>@String.Format("{0:0,0}", totalPrice * 1.1)</th>
+                        <th></th>
                     </tr>
                 }
             </table>

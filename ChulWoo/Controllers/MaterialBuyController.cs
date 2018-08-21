@@ -33,7 +33,7 @@ namespace ChulWoo.Controllers
                 searchString = currentFilter;
 
             ViewBag.CurrentFilter = searchString;
-            ViewBag.translate = translate;
+            Session["Translate"] = translate;
 
             var materialBuys = db.MaterialBuys.Include(m => m.Company).Include(m => m.Project)
                 .OrderByDescending(m => m.Date);
@@ -447,7 +447,8 @@ namespace ChulWoo.Controllers
 
                 db.Entry(materialBuy).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+//                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { translate = Session["Translate"] });
             }
 //            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", materialBuy.CompanyID);
             ViewBag.ProjectID = new SelectList(db.Projects.OrderByDescending(p => p.Date), "ID", "NameVn", materialBuy.ProjectID);
@@ -458,6 +459,13 @@ namespace ChulWoo.Controllers
         public JsonResult Edit2(string Prefix)
         {
             var names = db.MaterialNames.Where(m => m.NameVn.ToLower().Contains(Prefix.ToLower())).Select(m => new { m.NameVn }).ToList();
+            return Json(names, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult SelectUnit(string Prefix)
+        {
+            var names = db.MaterialUnitPrices.Where(m => m.UnitString.ToLower().Contains(Prefix.ToLower())).Select(m => new { m.UnitString }).Distinct().ToList();
             return Json(names, JsonRequestBehavior.AllowGet);
         }
 

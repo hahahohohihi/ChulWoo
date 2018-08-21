@@ -33,7 +33,7 @@ namespace ChulWoo.Controllers
                 searchString = currentFilter;
 
             ViewBag.CurrentFilter = searchString;
-            ViewBag.translate = translate;
+            Session["Translate"] = translate;
 
 
             var boards = db.Boards
@@ -194,7 +194,8 @@ namespace ChulWoo.Controllers
 
                 db.Entry(sboard).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+//                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { translate = Session["Translate"] });
             }
             ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "Name", board.EmployeeID);
             return View(board);

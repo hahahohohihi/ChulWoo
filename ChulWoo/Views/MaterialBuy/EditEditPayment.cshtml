@@ -27,13 +27,24 @@
                 @Html.DisplayFor(model => model.MaterialBuy.Company.Name)
             </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.MaterialBuy.Project.NameVn)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.MaterialBuy.Project.NameVn)
-            </dd>
+            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.MaterialBuy.Project.NameKr)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.MaterialBuy.Project.NameKr)
+                </dd>
+            }
+            else
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.MaterialBuy.Project.NameVn)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.MaterialBuy.Project.NameVn)
+                </dd>
+            }
 
             <dt>
                 @Html.DisplayNameFor(model => model.MaterialBuy.Date)
@@ -57,12 +68,19 @@
             </tr>
             @if (Model.MaterialBuy.MaterialBuyUnits != null && Model.MaterialBuy.MaterialBuyUnits.Count != 0)
             {
-                float totalPrice = 0;
+                double totalPrice = 0;
                 foreach (var item in Model.MaterialBuy.MaterialBuyUnits)
                 {
                     <tr>
                         <td>
-                            @item.MaterialUnitPrice.MaterialName.NameVn
+                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                            {
+                                @item.MaterialUnitPrice.MaterialName.NameKr
+                            }
+                            else
+                            {
+                                @item.MaterialUnitPrice.MaterialName.NameVn
+                            }
                         </td>
                         <td>
                             @item.MaterialUnitPrice.UnitString
@@ -76,28 +94,46 @@
                         <td>
                             @{
                                 var price = item.Quantity * item.MaterialUnitPrice.Price;
-                                totalPrice = totalPrice + (float)price;
+                                totalPrice = totalPrice + (double)price;
                             }
                             @String.Format("{0:0,0}", price)
                         </td>
                     </tr>
                 }
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th>VAT</th>
-                    <th>@String.Format("{0:0,0}", totalPrice * 0.1)</th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th>Total Price</th>
-                    <th>@String.Format("{0:0,0}", totalPrice * 1.1)</th>
-                    <th></th>
-                </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>VAT</th>
+                        <th>
+                            @if (Model.MaterialBuy.VAT == true)
+                            {
+                                @String.Format("{0:0,0}", totalPrice * 0.1)
+                            }
+                            else
+                            {
+                                @String.Format("{0:0,0}", 0)
+                            }
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Total Price</th>
+                        <th>
+                            @if (Model.MaterialBuy.VAT == true)
+                            {
+                                @String.Format("{0:0,0}", totalPrice * 1.1)
+                            }
+                            else
+                            {
+                                @String.Format("{0:0,0}", totalPrice * 1.0)
+                            }
+                        </th>
+                        <th></th>
+                    </tr>
 
             }
         </table>
@@ -128,7 +164,14 @@
                                 @Html.DisplayFor(model => item.Amount)
                             </td>
                             <td>
-                                @item.NoteVn
+                                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                                {
+                                    @item.NoteVn
+                                }
+                                else
+                                {
+                                    @item.NoteVn
+                                }
                             </td>
                             <td>
                                 @Html.ActionLink("Edit", "EditEditPayment", new { id = Model.MaterialBuy.ID, paymentid = item.ID }) |
@@ -152,8 +195,16 @@
                                 @Html.ValidationMessageFor(model => model.Payment.Amount, "", new { @class = "text-danger" })
                             </th>
                             <th>
-                                @Html.EditorFor(model => model.Payment.NoteVn, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Payment.NoteVn, "", new { @class = "text-danger" })
+                                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                                {
+                                    @Html.EditorFor(model => model.Payment.NoteKr, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Payment.NoteKr, "", new { @class = "text-danger" })
+                                }
+                                else
+                                {
+                                    @Html.EditorFor(model => model.Payment.NoteVn, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Payment.NoteVn, "", new { @class = "text-danger" })
+                                }
                             </th>
                             <th>
                                 <input type="submit" value="Add" class="btn btn-default" />

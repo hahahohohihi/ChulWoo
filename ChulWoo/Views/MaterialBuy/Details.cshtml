@@ -133,12 +133,21 @@
                 {
                     <tr>
                         <td height="30"><div align="center">@count</div></td>
-                        <td><div align="center">@Html.DisplayFor(model => unit.MaterialUnitPrice.MaterialName.NameVn)</div></td>
+                        <td><div align="center">
+                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                            {
+                                @Html.DisplayFor(model => unit.MaterialUnitPrice.MaterialName.NameKr)
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => unit.MaterialUnitPrice.MaterialName.NameVn)
+                            }
+                            </div></td>
                         <td><div align="center">@Html.DisplayFor(model => unit.MaterialUnitPrice.UnitString)</div></td>
                         <td><div align="center">@Html.DisplayFor(model => unit.Quantity)</div></td>
-                        <td><div align="center">@Html.DisplayFor(model => unit.MaterialUnitPrice.Price)</div></td>
+                        <td><div align="center" style="text-align: right;">@Html.DisplayFor(model => unit.MaterialUnitPrice.Price)</div></td>
                         <td>
-                            <div align="center">
+                            <div align="center" style="text-align: right;">
                                 @{
                                     var price = unit.Quantity * unit.MaterialUnitPrice.Price;
                                     totalPrice = totalPrice+(int)price;
@@ -162,13 +171,27 @@
                     </tr>
                 }
                 <tr>
-                    @if(Model.NoteVn == null)
+                    @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
                     {
-                        <td colspan="4" rowspan="3" style="padding-left:10px;">&nbsp;</td>
+                        if(Model.NoteKr == null)
+                        {
+                            <td colspan="4" rowspan="3" style="padding-left:10px;">&nbsp;</td>
+                        }
+                        else
+                        {
+                            <td colspan="4" rowspan="3" style="padding-left:10px;">@Html.Raw(Model.NoteKr.Replace(Environment.NewLine, "<br/>"))</td>
+                        }
                     }
                     else
                     {
-                        <td colspan="4" rowspan="3" style="padding-left:10px;">@Html.Raw(Model.NoteVn.Replace(Environment.NewLine, "<br/>"))</td>
+                        if(Model.NoteVn == null)
+                        {
+                            <td colspan="4" rowspan="3" style="padding-left:10px;">&nbsp;</td>
+                        }
+                        else
+                        {
+                            <td colspan="4" rowspan="3" style="padding-left:10px;">@Html.Raw(Model.NoteVn.Replace(Environment.NewLine, "<br/>"))</td>
+                        }
                     }
                     <th height="30">tổng trước thuế</th>
                     <th>

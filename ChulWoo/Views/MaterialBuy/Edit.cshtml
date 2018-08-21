@@ -139,7 +139,14 @@
                             @*Html.ActionLink("Delete", "Details", new { id = Model.ID, contractsID = item.ID })*@
                         </td>
                         <td>
-                            @item.MaterialUnitPrice.MaterialName.NameVn
+                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                            {
+                                @item.MaterialUnitPrice.MaterialName.NameKr
+                            }
+                            else
+                            {
+                                @item.MaterialUnitPrice.MaterialName.NameVn
+                            }
                         </td>
                         <td>
                             @item.MaterialUnitPrice.UnitString

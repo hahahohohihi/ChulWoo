@@ -75,10 +75,10 @@
                         <li>@Html.ActionLink("Personnel", "Index", "Personnel")</li>
                         <li>@Html.ActionLink("Company", "Index", "Company")</li>
                         <li>@Html.ActionLink("MaterialBuy", "Index", "MaterialBuy")</li>
+                        <li>@Html.ActionLink("Project", "Index", "Project")</li>
                         if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
                         {
                             <li>@Html.ActionLink("MaterialName", "Index", "MaterialName")</li>
-                            <li>@Html.ActionLink("Project", "Index", "Project")</li>
                         }
                     }
                 </ul>

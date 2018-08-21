@@ -11,7 +11,10 @@
 <h2>Project</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
+    {
+        @Html.ActionLink("Create New", "Create")
+    }
 </p>
 
 @using (Html.BeginForm("Index", "Project", FormMethod.Get))
@@ -22,7 +25,7 @@
         @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
         {
             Write("Translate:  ");
-            @Html.CheckBox("translate", (bool?)ViewBag.translate)
+            @Html.CheckBox("translate", (bool?)Session["Translate"])
         }
         <input type="submit" value="Search" />
     </p>
@@ -62,12 +65,17 @@
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID })
-
-                @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) == Convert.ToInt32(Security.Admin))
+                @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
                 {
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                    Write(" | ");
+                    @Html.ActionLink("Details", "Details", new { id = item.ID })
+                    Write(" | ");
+
+                    if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) == Convert.ToInt32(Security.Admin))
+                    {
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    }
                 }
             </td>
         </tr>
@@ -77,4 +85,4 @@
 
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, translate = ViewBag.translate }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, translate = (bool?)Session["Translate"] }))

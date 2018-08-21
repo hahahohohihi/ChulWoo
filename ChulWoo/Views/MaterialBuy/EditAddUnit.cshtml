@@ -27,6 +27,25 @@
             }
         });
     })
+
+    $(document).ready(function () {
+        $("#unit").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/MaterialBuy/SelectUnit",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.UnitString, value: item.UnitString };
+                        }))
+
+                    }
+                })
+            }
+        });
+    })
 </script>
 
 
@@ -51,13 +70,24 @@
                 @Html.DisplayFor(model => model.MaterialBuy.Company.Name)
             </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.MaterialBuy.Project.NameVn)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.MaterialBuy.Project.NameVn)
-            </dd>
+            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.MaterialBuy.Project.NameKr)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.MaterialBuy.Project.NameKr)
+                </dd>
+            }
+            else
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.MaterialBuy.Project.NameVn)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.MaterialBuy.Project.NameVn)
+                </dd>
+            }
 
             <dt>
                 @Html.DisplayNameFor(model => model.MaterialBuy.Date)
@@ -72,11 +102,11 @@
 
         <table class="table">
             <tr>
-                <th>Material Name</th>
-                <th>Unit</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Price</th>
+                <th>@Resource.MaterialName</th>
+                <th>@Resource.Unit</th>
+                <th>@Resource.Quantity</th>
+                <th>@Resource.UnitPrice</th>
+                <th>@Resource.Price</th>
                 <th></th>
             </tr>
             @if (Model.MaterialBuy.MaterialBuyUnits != null && Model.MaterialBuy.MaterialBuyUnits.Count != 0)
@@ -91,7 +121,14 @@
                     }
                     <tr class="@selectedRow">
                         <td>
-                            @item.MaterialUnitPrice.MaterialName.NameVn
+                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                            {
+                                @item.MaterialUnitPrice.MaterialName.NameKr
+                            }
+                            else
+                            {
+                                @item.MaterialUnitPrice.MaterialName.NameVn
+                            }
                         </td>
                         <td>
                             @item.MaterialUnitPrice.UnitString
@@ -118,8 +155,16 @@
 
             <tr>
                 <th>
-                    @Html.EditorFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn, new { htmlAttributes = new { @id = "Mname", @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn, "", new { @class = "text-danger" })
+                    @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                    {
+                        @Html.EditorFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameKr, new { htmlAttributes = new { @id = "Mname", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameKr, "", new { @class = "text-danger" })
+                    }
+                    else
+                    {
+                        @Html.EditorFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn, new { htmlAttributes = new { @id = "Mname", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn, "", new { @class = "text-danger" })
+                    }
                 </th>
                 @*
                 <th>
@@ -128,7 +173,7 @@
                 </th>
                 *@
                 <th>
-                    @Html.EditorFor(model => model.MaterialBuyUnit.MaterialUnitPrice.UnitString, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.MaterialBuyUnit.MaterialUnitPrice.UnitString, new { htmlAttributes = new { @id="unit", @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.UnitString, "", new { @class = "text-danger" })
                 </th>
                 <th>

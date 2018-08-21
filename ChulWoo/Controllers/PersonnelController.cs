@@ -33,7 +33,7 @@ namespace ChulWoo.Controllers
                 searchString = currentFilter;
 
             ViewBag.CurrentFilter = searchString;
-            ViewBag.translate = translate;
+            Session["Translate"] = translate;
 
             var personnels = db.Personnels.Include(p => p.Employee).OrderByDescending(p => p.SendDate);
 
@@ -168,7 +168,8 @@ namespace ChulWoo.Controllers
             {
                 db.Entry(personnel).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+//                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { translate = Session["Translate"] });
             }
             ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "Name", personnel.EmployeeID);
             return View(personnel);

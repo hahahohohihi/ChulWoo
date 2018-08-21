@@ -16,7 +16,7 @@
 @using (Html.BeginForm("Index", "Company", FormMethod.Get))
 {
     <p>
-        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        Find by Name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Search" />
     </p>
 }
@@ -24,16 +24,16 @@
 <table class="table">
     <tr>
         <th>
-            Name
+            @Resource.CompanyName
         </th>
         <th>
-            Address
+            @Resource.Adress
         </th>
         <th>
-            Tel
+            @Resource.Tel
         </th>
         <th>
-            Texcode
+            @Resource.Texcode
         </th>
         <th></th>
     </tr>

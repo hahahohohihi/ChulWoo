@@ -36,7 +36,7 @@ namespace ChulWoo.Controllers
                 searchString = currentFilter;
 
             ViewBag.CurrentFilter = searchString;
-            ViewBag.translate = translate;
+            Session["Translate"] = translate;
 
             var employees = db.Employees.Include(e => e.Resign)
                                         .Include(e => e.Contracts.Select(c => c.Employee))
@@ -268,7 +268,8 @@ namespace ChulWoo.Controllers
                     db.Entry(employeeToUpdate).OriginalValues["RowVersion"] = rowVersion;
                     await db.SaveChangesAsync();
 
-                    return RedirectToAction("Index");
+//                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new { translate = Session["Translate"] });
                 }
                 catch(DbUpdateConcurrencyException ex)
                 {

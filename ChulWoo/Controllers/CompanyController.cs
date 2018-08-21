@@ -23,7 +23,7 @@ namespace ChulWoo.Controllers
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
 
-            int pageSize = 6;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
 
             if (searchString != null)

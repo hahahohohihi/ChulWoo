@@ -23,7 +23,7 @@
         @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
         {
             Write("Translate:  ");
-            @Html.CheckBox("translate", ViewBag.translate as bool?) 
+            @Html.CheckBox("translate", (bool?)Session["Translate"]) 
         }
         <input type="submit" value="Search" />
     </p>
@@ -62,7 +62,7 @@
 
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, translate = ViewBag.translate }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, translate = (bool?)Session["Translate"] }))
 @*
     <tr>
         <td>

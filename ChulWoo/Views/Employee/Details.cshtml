@@ -16,21 +16,25 @@
 <div>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Employee.DepartmentVn)
-        </dt>
+        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Employee.DepartmentKr)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Employee.DepartmentKr)
+            </dd>
+        }
+        else
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Employee.DepartmentVn)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Employee.DepartmentVn)
+            </dd>
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.Employee.DepartmentVn)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Employee.DepartmentKr)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Employee.DepartmentKr)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Employee.EmployeeNo)
@@ -176,21 +180,24 @@
             @Html.DisplayFor(model => model.Employee.EducationLevel)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Employee.MajorVn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Employee.MajorVn)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Employee.MajorKr)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Employee.MajorKr)
-        </dd>
+        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Employee.MajorKr)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Employee.MajorKr)
+            </dd>
+        }
+        else
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Employee.MajorVn)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Employee.MajorVn)
+            </dd>
+        }
 
         <dt>
             @Html.DisplayNameFor(model => model.Employee.Marriage)

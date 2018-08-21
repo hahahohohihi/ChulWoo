@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using ChulWoo.DAL;
 using ChulWoo.Models;
+using PagedList;
 
 namespace ChulWoo.Controllers
 {
@@ -17,12 +18,32 @@ namespace ChulWoo.Controllers
         private ChulWooContext db = new ChulWooContext();
 
         // GET: MaterialName
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page, string currentFilter, string searchString, bool? translate)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
 
-            return View(await db.MaterialNames.OrderByDescending(m => m.ID).ToListAsync());
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            if (searchString != null)
+                page = 1;
+            else
+                searchString = currentFilter;
+
+            ViewBag.CurrentFilter = searchString;
+            Session["Translate"] = translate;
+
+            var names = db.MaterialNames.OrderByDescending(m => m.ID);
+
+            if (!String.IsNullOrEmpty(searchString))
+                names = (IOrderedQueryable<MaterialName>)names.Where(p => p.NameVn.Contains(searchString) || p.NameKr.Contains(searchString));
+
+            if (translate == true)
+                names = (IOrderedQueryable<MaterialName>)names.Where(p => !p.Translate);
+
+            return View(names.ToPagedList(pageNumber, pageSize));
+//            return View(await db.MaterialNames.OrderByDescending(m => m.ID).ToListAsync());
         }
 
         // GET: MaterialName/Details/5
@@ -95,7 +116,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,NameVn,NameKr,Sort")] MaterialName materialName)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,NameVn,NameKr,Sort,Translate")] MaterialName materialName)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
@@ -104,7 +125,8 @@ namespace ChulWoo.Controllers
             {
                 db.Entry(materialName).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+//                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { translate = Session["Translate"] });
             }
             return View(materialName);
         }

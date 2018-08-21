@@ -5,8 +5,16 @@
     ViewBag.Title = "Details";
 }
 
-<h2>@Html.DisplayFor(model => model.NameVn)</h2>
-<h2>@Html.DisplayFor(model => model.NameKr)</h2>
+<h2>
+    @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+    {
+        @Html.DisplayFor(model => model.NameKr) 
+    }
+    else
+    {
+        @Html.DisplayFor(model => model.NameVn)
+    }
+</h2>
 
 <div>
     <hr />
@@ -47,7 +55,8 @@
         <table class="table">
             @{
                 MaterialBuy tempitem = null;
-                int subtotal = 0;
+                double subtotal = 0;
+                double vat = 0;
                 foreach (var item in Model.MaterialBuys)
                 {
                     if (tempitem == null || tempitem.Date != item.Date)
@@ -56,10 +65,16 @@
                         {
                             <tr>
                                 <th colspan="4" height="20"></th>
+                                <th>VAT</th>
+                                <th style="text-align: right;">@String.Format("{0:0,0}", vat)</th>
+                            </tr>
+                            <tr>
+                                <th colspan="4" height="20"></th>
                                 <th>소계</th>
-                                <th>@String.Format("{0:0,0.00}", subtotal)</th>
+                                <th style="text-align: right;">@String.Format("{0:0,0}", subtotal)</th>
                             </tr>
                             subtotal = 0;
+                            vat = 0;
                         }
 
                         <tr>
@@ -68,12 +83,12 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Company Name</th>
-                            <th>Material Name</th>
-                            <th>Unit</th>
-                            <th>Quantity</th>
-                            <th>U.Price</th>
-                            <th>Price</th>
+                            <th>@Resource.CompanyName</th>
+                            <th>@Resource.MaterialName</th>
+                            <th>@Resource.Unit</th>
+                            <th>@Resource.Quantity</th>
+                            <th>@Resource.UnitPrice</th>
+                            <th>@Resource.Price</th>
                         </tr>
                     }
                     foreach (var unit in item.MaterialBuyUnits)
@@ -83,7 +98,22 @@
                                 @item.Company.Name
                             </td>
                             <td>
-                                @unit.MaterialUnitPrice.MaterialName.NameVn
+                                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                                {
+                                    @unit.MaterialUnitPrice.MaterialName.NameKr
+                                }
+                                else
+                                {
+                                    @unit.MaterialUnitPrice.MaterialName.NameVn
+                                }
+                                @*if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                                {
+                                    @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameKr, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
+                                }
+                                else
+                                {
+                                    @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
+                                }*@
                             </td>
                             <td>
                                 @unit.MaterialUnitPrice.UnitString
@@ -91,15 +121,19 @@
                             <td>
                                 @unit.Quantity
                             </td>
-                            <td>
+                            <td style="text-align: right;">
                                 @Html.DisplayFor(model => unit.MaterialUnitPrice.Price)
                             </td>
-                            <td>
+                            <td style="text-align: right;">
                                 @{
                                     var price = unit.Quantity * unit.MaterialUnitPrice.Price;
-                                    subtotal = subtotal + (int)price;
+                                    subtotal = subtotal + (double)price;
+                                    if (unit.MaterialBuy.VAT == true)
+                                    {
+                                        vat = vat + ((double)price * 0.1);
+                                    }
                                 }
-                                @String.Format("{0:0,0.00}", price)
+                                @String.Format("{0:0,0}", price)
 
                             </td>
 
@@ -110,8 +144,13 @@
             }
             <tr>
                 <th colspan="4" height="20"></th>
+                <th>VAT</th>
+                <th style="text-align: right;">@String.Format("{0:0,0}", vat)</th>
+            </tr>
+            <tr>
+                <th colspan="4" height="20"></th>
                 <th>소계</th>
-                <th>@String.Format("{0:0,0.00}", subtotal)</th>
+                <th style="text-align: right;">@String.Format("{0:0,0}", subtotal + vat)</th>
             </tr>
 
         </table>
