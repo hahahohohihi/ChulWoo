@@ -1,4 +1,5 @@
 ﻿@model ChulWoo.Models.MaterialBuy
+@using ChulWoo.Helper;
 
 @{
     ViewBag.Title = "Edit";
@@ -123,6 +124,7 @@
                 <th>@Resource.Quantity</th>
                 <th>@Resource.UnitPrice</th>
                 <th>@Resource.Price</th>
+                <th></th>
             </tr>
             @if (Model.MaterialBuyUnits != null && Model.MaterialBuyUnits.Count != 0)
             {
@@ -162,6 +164,62 @@
                                 var price = item.Quantity * item.MaterialUnitPrice.Price;
                             }
                             @String.Format("{0:0,0}", price)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditEditUnit", new { id = Model.ID, unitid = item.ID }) | 
+                            @Html.ActionLink("Delete", "DeleteUnit", new { id = Model.ID, unitid = item.ID })
+                        </td>
+
+                    </tr>
+                }
+            }
+        </table>
+
+        <br />
+
+        <h4>Material Payment</h4>
+        @Html.ActionLink("Edit", "EditAddPayment", new { id = Model.ID })
+        <table class="table">
+            <tr>
+                <th>@Resource.Date</th>
+                <th>@Resource.PaymentType</th>
+                <th>@Resource.Amount</th>
+                <th>@Resource.AmountString</th>
+                <th>@Resource.Note</th>
+                <th></th>
+            </tr>
+            @if (Model.Payments != null && Model.Payments.Count != 0)
+            {
+
+                foreach (var item in Model.Payments)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => item.Date)
+                        </td>
+                        <td>
+                            @EnumExtensions.GetDisplayName(item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Amount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.AmountString)
+                        </td>
+                        <td>
+                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                            {
+                                @item.NoteVn
+                            }
+                            else
+                            {
+                                @item.NoteVn
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditEditPayment", new { id = Model.ID, paymentid = item.ID }) |
+                            @Html.ActionLink("Details", "EditDetailsPayment", new { id = Model.ID, paymentid = item.ID }) |
+                            @Html.ActionLink("Delete", "DeletePayment", new { id = Model.ID, paymentid = item.ID })
                         </td>
                     </tr>
                 }

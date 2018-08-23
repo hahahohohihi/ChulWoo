@@ -143,6 +143,7 @@
                 <th>@Resource.Date</th>
                 <th>@Resource.PaymentType</th>
                 <th>@Resource.Amount</th>
+                <th>@Resource.AmountString</th>
                 <th>@Resource.Note</th>
                 <th></th>
             </tr>
@@ -162,6 +163,9 @@
                             @Html.DisplayFor(model => item.Amount)
                         </td>
                         <td>
+                            @Html.DisplayFor(model => item.AmountString)
+                        </td>
+                        <td>
                             @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
                             {
                                 @item.NoteVn
@@ -173,6 +177,7 @@
                         </td>
                         <td>
                             @Html.ActionLink("Edit", "EditEditPayment", new { id = Model.MaterialBuy.ID, paymentid = item.ID }) |
+                            @Html.ActionLink("Details", "EditDetailsPayment", new { id = Model.MaterialBuy.ID, paymentid = item.ID }) |
                             @Html.ActionLink("Delete", "DeletePayment", new { id = Model.MaterialBuy.ID, paymentid = item.ID })
                         </td>
                     </tr>
@@ -188,8 +193,12 @@
                     @Html.ValidationMessageFor(model => model.Payment.Type, "", new { @class = "text-danger" })
                 </th>
                 <th>
-                    @Html.EditorFor(model => model.Payment.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.TextBoxFor(model => model.Payment.Amount, "{0:0.00}", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Payment.Amount, "", new { @class = "text-danger" })
+                </th>
+                <th>
+                    @Html.EditorFor(model => model.Payment.AmountString, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Payment.AmountString, "", new { @class = "text-danger" })
                 </th>
                 <th>
                     @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)

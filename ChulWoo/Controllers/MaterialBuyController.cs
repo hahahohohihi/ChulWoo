@@ -165,7 +165,8 @@ namespace ChulWoo.Controllers
                 payment.Date = materialBuyPaymentData.Payment.Date;
                 payment.Type = materialBuyPaymentData.Payment.Type;
                 payment.Amount = materialBuyPaymentData.Payment.Amount;
-                if(payment.NoteVn != null && !payment.NoteVn.Equals(materialBuyPaymentData.Payment.NoteVn))
+                payment.AmountString = materialBuyPaymentData.Payment.AmountString;
+                if (payment.NoteVn != null && !payment.NoteVn.Equals(materialBuyPaymentData.Payment.NoteVn))
                 {
                     payment.NoteVn = materialBuyPaymentData.Payment.NoteVn;
                     payment.Translate = false;
@@ -182,6 +183,36 @@ namespace ChulWoo.Controllers
                 return RedirectToAction("EditAddPayment", new { id = materialBuyPaymentData.MaterialBuy.ID });
             }
             return View(materialBuyPaymentData);
+        }
+
+        public async Task<ActionResult> EditDetailsPayment(int? id, int paymentid)
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            MaterialBuy materialBuy = await db.MaterialBuys.FindAsync(id);
+            if (materialBuy == null)
+            {
+                return HttpNotFound();
+            }
+            Payment payment = await db.Payments.FindAsync(paymentid);
+            if (payment == null)
+            {
+                return HttpNotFound();
+            }
+            var materialBuyPayment = new MaterialBuyPaymentData();
+            materialBuyPayment.MaterialBuy = materialBuy;
+            materialBuyPayment.Payment = payment;
+
+            materialBuyPayment.MaterialBuy.Payments = materialBuyPayment.MaterialBuy.Payments.OrderBy(p => p.Date).ToList();
+
+
+            return View(materialBuyPayment);
+
         }
 
         public async Task<ActionResult> DeletePayment(int id, int paymentid)
@@ -388,6 +419,7 @@ namespace ChulWoo.Controllers
             {
                 int eID = Convert.ToInt32(Session["LoginUserEmployeeID"]);
                 materialBuy.Employee = db.Employees.FirstOrDefault(e => e.ID == eID);
+                materialBuy.EmployeeID = eID;
 
                 materialBuy.Company = db.Companys.FirstOrDefault(c => c.Name.Equals(materialBuy.Company.Name));
                 materialBuy.CompanyID = materialBuy.Company.ID;
@@ -435,17 +467,28 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Company,ProjectID,Date,NoteVn,NoteKr,VAT,EmployeeID,Translate")] MaterialBuy materialBuy)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,Company,ProjectID,Date,NoteVn,NoteKr,VAT,Translate")] MaterialBuy materialBuy)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
 
             if (ModelState.IsValid)
             {
-                materialBuy.Company = db.Companys.FirstOrDefault(c => c.Name.Equals(materialBuy.Company.Name));
-                materialBuy.CompanyID = materialBuy.Company.ID;
+                MaterialBuy smb = await db.MaterialBuys.FindAsync(materialBuy.ID);
 
-                db.Entry(materialBuy).State = EntityState.Modified;
+                smb.Company = db.Companys.FirstOrDefault(c => c.Name.Equals(materialBuy.Company.Name));
+                smb.CompanyID = smb.Company.ID;
+
+                smb.Project = db.Projects.FirstOrDefault(p => p.ID == materialBuy.ProjectID);
+                smb.ProjectID = smb.Project.ID;
+                smb.Date = materialBuy.Date;
+                smb.NoteVn = materialBuy.NoteVn;
+                smb.NoteKr = materialBuy.NoteKr;
+                smb.VAT = materialBuy.VAT;
+                smb.Translate = materialBuy.Translate;
+
+
+                db.Entry(smb).State = EntityState.Modified;
                 await db.SaveChangesAsync();
 //                return RedirectToAction("Index");
                 return RedirectToAction("Index", new { translate = Session["Translate"] });

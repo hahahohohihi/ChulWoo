@@ -321,4 +321,7 @@
   <data name="Transfer" xml:space="preserve">
     <value>Chuyển khoản</value>
   </data>
+  <data name="AmountString" xml:space="preserve">
+    <value>Bằng chữ</value>
+  </data>
 </root>

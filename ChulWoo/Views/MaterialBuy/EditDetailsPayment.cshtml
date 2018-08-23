@@ -1,0 +1,216 @@
+﻿@model ChulWoo.Viewmodel.MaterialBuyPaymentData
+@using ChulWoo.Helper;
+
+@{
+    Layout = null;
+    ViewBag.Title = "EditDetailsPayment";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <title>Details</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css" />
+    @Styles.Render("/paper.css")
+    <!-- Set page size here: A5, A4 or A3 -->
+    <!-- Set also "landscape" if you need -->
+    @*    <style>@page { size: A4 }</style>*@
+
+    <style type="text/css">
+        body {
+            font: 100%/1.4 Verdana, Arial, Helvetica, sans-serif;
+            background-color: #42413C;
+            margin: 0;
+            padding: 0;
+            color: #000;
+            font-size: 9pt;
+        }
+
+        /* ~~ 요소/태그 선택기 ~~ */
+        ul, ol, dl { /* 브라우저마다 다르므로 목록의 패딩과 여백을 0으로 지정하는 것이 가장 좋습니다. 일관성을 위해, 여기에서 또는 포함하고 있는 목록 항목(LI, DT, DD)에서 원하는 크기를 지정할 수 있습니다. 보다 구체적인 선택기를 쓰지 않는 한 여기에서 수행한 작업은 .nav 목록에 계단식으로 표시됩니다. */
+            padding: 0;
+            margin: 0;
+        }
+
+        h1, h2, h3, h4, h5, h6, p {
+            margin-top: 0; /* 위쪽 여백을 제거하면 포함된 div에서 여백이 이스케이프되는 문제를 방지할 수 있습니다. 나머지 아래쪽 여백은 이어지는 요소에서 이 문제를 보류합니다. */
+            padding-right: 15px;
+            padding-left: 15px; /* div에 직접 추가하는 대신 div 내에 있는 요소의 측면에 패딩을 추가하면 상자 모델 수학이 제거됩니다. 측면 패딩이 있는 중첩된 div를 대체 메서드로 사용할 수도 있습니다. */
+            padding-bottom: -10px;
+            margin: 0;
+        }
+
+        p {
+            font-size: 9pt;
+            line-height: 5mm
+        }
+
+        a img { /* 이 선택기는 링크로 둘러싸인 이미지 주변에 있는 일부 브라우저에 표시된 파란색 기본 테두리를 제거합니다. */
+            border: none;
+        }
+        /* ~~ 사이트 링크의 스타일링은 커서 놓기 효과를 생성하는 선택기 그룹을 포함하여 이 순서대로 남아 있어야 합니다. ~~ */
+        a:link {
+            color: #42413C;
+            text-decoration: underline; /* 매우 독특하게 보이도록 링크에 스타일을 지정하는 경우를 제외하고는 시각적으로 빠르게 식별되도록 밑줄을 적용하는 것이 가장 좋습니다. */
+        }
+
+        a:visited {
+            color: #6E6C64;
+            text-decoration: underline;
+        }
+
+        a:hover, a:active, a:focus { /* 이 선택기 그룹은 마우스를 사용하는 사람과 동일한 커서 놓기 환경을 키보드 탐색기에 제공합니다. */
+            text-decoration: none;
+        }
+
+        /* ~~ 이 고정 폭 컨테이너는 다른 모든 요소를 둘러쌉니다. ~~ */
+        .container {
+            width: 960px;
+            background-color: #FFF;
+            margin: 0 auto; /* 측면 자동 값, 폭으로 연결, 레이아웃 가운데 정렬 */
+        }
+
+        .content {
+            padding: 10px 0;
+        }
+
+        .fltrt { /* 이 클래스는 페이지에서 오른쪽 요소를 부동화하는 데 사용될 수 있습니다. 부동화된 요소는 페이지에서 옆에 있는 다른 요소의 앞쪽에 배치되어야 합니다. */
+            float: right;
+            margin-left: 8px;
+        }
+
+        .fltlft { /* 이 클래스는 페이지에서 왼쪽 요소를 부동화하는 데 사용될 수 있습니다. 부동화된 요소는 페이지에서 옆에 있는 다른 요소의 앞쪽에 배치되어야 합니다. */
+            float: left;
+            margin-right: 8px;
+        }
+
+        .clearfloat { /* .container에서 overflow:hidden이 제거된 경우 <br /> 이 클래스는 마지막 부동 div(#container 내) 뒤에 오는 최종 요소로 빈 div에 배치될 수 있습니다. */
+            clear: both;
+            height: 0;
+            font-size: 1px;
+            line-height: 0px;
+        }
+    </style>
+</head>
+
+<body class="A4">
+    <section class="sheet padding-10mm">
+        <table width="100%" border="0">
+            <tr>
+                <th width="13%" style="text-align: left;">Tên công ty:</th>
+                <th width="53%" style="text-align: left;">CÔNG TY TNHH CHULWOO VINA</th>
+                <td width="2%"></td>
+                <td width="32%" rowspan="3">( Ban hành theo 200/2014/TT-BTC ngày 22/12/2014 của Bộ Tài chính )</td>
+            </tr>
+            <tr>
+                <th style="text-align: left;">Địa chỉ:</th>
+                <th style="text-align: left;">Lô FJ-01 KCN Song Khê - Nội Hoàng phía Nam - xã Tiền Phong - huyện Yên Dũng - tỉnh Bắc Giang</th>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th style="text-align: left;" colspan="3">MST: 2400767519</th>
+            </tr>
+        </table>
+        <br />
+        <h1 align="center">PHIẾU CHI - 지출서</h1>
+        <table width="100%" border="0">
+            <tr>
+                <td width="38%">&nbsp;</td>
+                <td width="49%">Ngày - 일자: @String.Format("{0:yyyy-MM-dd}", Model.Payment.Date)</td>
+                <td width="13%">TK Nợ :</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>Số - 번호:</td>
+                <td>TK Có : 1111</td>
+            </tr>
+        </table>
+        <table width="100%" border="0">
+            <tr>
+                <td height="50">Người nhận tiền :<br />돈받는 사람</td>
+                <td colspan="4">@Model.MaterialBuy.Company.Name</td>
+            </tr>
+            <tr>
+                <td height="50">Địa chỉ : <br />주소</td>
+                <td colspan="4">@Model.MaterialBuy.Company.Address</td>
+            </tr>
+            <tr>
+                <td height="50">Diễn giả : <br />내역</td>
+                <td>
+                    @Model.MaterialBuy.MaterialBuyUnits.First().MaterialUnitPrice.MaterialName.NameKr
+                </td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td height="50">Số tiền : <br />금액</td>
+                <td>
+                    @{
+                        var item = Model.MaterialBuy.MaterialBuyUnits.First();
+                        var totalprice = item.MaterialUnitPrice.Price * item.Quantity;
+                        if (Model.MaterialBuy.VAT == true)
+                        {
+                            totalprice = totalprice * 1.1;
+                        }
+                    }
+                    @String.Format("{0:0,0}", totalprice)
+                </td>
+                <td>Bằng chữ : <br />글자로</td>
+                <td colspan="2">@Model.Payment.AmountString</td>
+            </tr>
+            <tr>
+                <td height="50">Ghi chú : <br />비고</td>
+                <td colspan="4">@Model.Payment.NoteVn</td>
+            </tr>
+            <tr>
+                <td width="17%" height="50">&nbsp;</td>
+                <td width="20%">&nbsp;</td>
+                <td width="11%">&nbsp;</td>
+                <td width="16%">&nbsp;</td>
+                <td width="36%">&nbsp;</td>
+            </tr>
+        </table>
+        <table width="100%" border="0">
+            <tr>
+                <th width="20%">Chủ tịch<br>회장</th>
+                <th width="20%">Kế toán trưởng<br>회계</th>
+                <th width="20%">Người lập<br>작성자</th>
+                <th width="20%">Người nhận tiền<br>돈받는 사람</th>
+                <th width="20%">Thủ quỹ<br>출남계</th>
+            </tr>
+            <tr>
+                <td height="100pt">&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <th colspan="3">Ngụy Thị Huệ</th>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="5">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="2">Đã nhận đủ số tiền (viết bằng chữ):<br />금액을 다 받음(글자로)</td>
+                <td colspan="3">@Model.Payment.AmountString</td>
+            </tr>
+        </table>
+        <br>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.MaterialBuy.ID }) |
+            @Html.ActionLink("Payment", "EditAddPayment", new { id = Model.MaterialBuy.ID }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </section>
+</body>
+</html>

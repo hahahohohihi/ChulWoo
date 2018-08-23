@@ -304,6 +304,10 @@
     <Compile Include="Migrations\201808201037047_180820.Designer.cs">
       <DependentUpon>201808201037047_180820.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808220825425_180822.cs" />
+    <Compile Include="Migrations\201808220825425_180822.Designer.cs">
+      <DependentUpon>201808220825425_180822.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Company.cs" />
@@ -418,6 +422,7 @@
     <Content Include="Views\MaterialBuy\EditAddPayment.cshtml" />
     <Content Include="Views\MaterialBuy\EditEditUnit.cshtml" />
     <Content Include="Views\MaterialBuy\EditEditPayment.cshtml" />
+    <Content Include="Views\MaterialBuy\EditDetailsPayment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\App_Data\" />
@@ -471,6 +476,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808201037047_180820.resx">
       <DependentUpon>201808201037047_180820.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808220825425_180822.resx">
+      <DependentUpon>201808220825425_180822.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
