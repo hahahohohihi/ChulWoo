@@ -39,6 +39,12 @@ namespace ChulWoo.Controllers
                         Session["LoginUserEmployeeID"] = user.EmployeeID;
                         Session["LoginUserEmployeeName"] = user.Employee.Name;
                         Session["LoginUserSecurity"] = user.Security;
+
+                        user.LastLogin = DateTime.Now;
+
+                        db.Entry(user).State = EntityState.Modified;
+                        db.SaveChanges();
+
                         return RedirectToAction("Index", "Home");
                     }
                     else

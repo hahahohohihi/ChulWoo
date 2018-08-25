@@ -324,4 +324,10 @@
   <data name="AmountString" xml:space="preserve">
     <value>금액(문자)</value>
   </data>
+  <data name="Card" xml:space="preserve">
+    <value>Card</value>
+  </data>
+  <data name="HalfDay" xml:space="preserve">
+    <value>HalfDay</value>
+  </data>
 </root>

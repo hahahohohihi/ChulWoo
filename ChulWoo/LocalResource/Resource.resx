@@ -324,4 +324,10 @@
   <data name="AmountString" xml:space="preserve">
     <value />
   </data>
+  <data name="Card" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HalfDay" xml:space="preserve">
+    <value />
+  </data>
 </root>

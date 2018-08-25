@@ -308,6 +308,18 @@
     <Compile Include="Migrations\201808220825425_180822.Designer.cs">
       <DependentUpon>201808220825425_180822.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808240734022_180824.cs" />
+    <Compile Include="Migrations\201808240734022_180824.Designer.cs">
+      <DependentUpon>201808240734022_180824.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808240924403_180824_2.cs" />
+    <Compile Include="Migrations\201808240924403_180824_2.Designer.cs">
+      <DependentUpon>201808240924403_180824_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808250949409_180825.cs" />
+    <Compile Include="Migrations\201808250949409_180825.Designer.cs">
+      <DependentUpon>201808250949409_180825.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Company.cs" />
@@ -327,6 +339,7 @@
     <Compile Include="Viewmodel\EmployeeExtendData.cs" />
     <Compile Include="Viewmodel\MaterialBuyData.cs" />
     <Compile Include="Viewmodel\MaterialBuyPaymentData.cs" />
+    <Compile Include="Viewmodel\PaymentListData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -423,6 +436,8 @@
     <Content Include="Views\MaterialBuy\EditEditUnit.cshtml" />
     <Content Include="Views\MaterialBuy\EditEditPayment.cshtml" />
     <Content Include="Views\MaterialBuy\EditDetailsPayment.cshtml" />
+    <Content Include="Views\MaterialBuy\PaymentList.cshtml" />
+    <Content Include="Views\MaterialBuy\PaymentListDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\App_Data\" />
@@ -479,6 +494,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808220825425_180822.resx">
       <DependentUpon>201808220825425_180822.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808240734022_180824.resx">
+      <DependentUpon>201808240734022_180824.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808240924403_180824_2.resx">
+      <DependentUpon>201808240924403_180824_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808250949409_180825.resx">
+      <DependentUpon>201808250949409_180825.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

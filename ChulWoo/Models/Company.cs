@@ -20,7 +20,7 @@ namespace ChulWoo.Models
 
         // 회사이름 회사이름
         [Display(Name = "CompanyName", ResourceType = typeof(Resource))]
-        [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
+        [StringLength(100, ErrorMessage = "Cannot be longer than 50 characters.")]
         public string Name { get; set; }
 
         // 회사주소 회사주소
@@ -36,5 +36,14 @@ namespace ChulWoo.Models
         [Display(Name = "Texcode", ResourceType = typeof(Resource))]
         [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
         public string Texcode { get; set; }
+
+        // 은행계좌번호 은행계좌번호
+        [Display(Name = "BankAccount", ResourceType = typeof(Resource))]
+        [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
+        public string BankAccount { get; set; }
+
+        // 지점 지점
+        [Display(Name = "BankLocation", ResourceType = typeof(Resource))]
+        public string BankLocation { get; set; }
     }
 }

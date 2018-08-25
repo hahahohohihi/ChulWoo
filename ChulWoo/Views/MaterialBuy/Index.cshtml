@@ -12,9 +12,12 @@
 
 <h2>MaterialBuy</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<table width="100%">
+    <tr>
+        <td>@Html.ActionLink("Create New", "Create")</td>
+        <td style="text-align: right;">@Html.ActionLink("PaymentList", "PaymentList")</td>
+    </tr>
+</table>
 
 @using (Html.BeginForm("Index", "MaterialBuy", FormMethod.Get))
 {

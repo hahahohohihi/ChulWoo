@@ -1,0 +1,105 @@
+﻿@model ChulWoo.Viewmodel.PaymentListData
+@using System.ComponentModel.DataAnnotations;
+@using ChulWoo.LocalResource;
+@using System.ComponentModel;
+
+@{
+    ViewBag.Title = "PaymentList";
+}
+
+<h2>PaymentList</h2>
+<hr />
+
+@using (Html.BeginForm("PaymentList", "MaterialBuy", FormMethod.Get))
+{
+    <b>
+        <table>
+            <tr>
+                <td>
+                    @Html.EditorFor(model => model.SearchDate, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    <input type="submit" value="Search" />
+                </td>
+            </tr>
+            <tr>
+                <td height="20px"></td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.ActionLink("Details", "PaymentListDetails", new { SearchDate = Model.SearchDate })
+                </td>
+                <td>
+                    @Html.ActionLink("Export to Excel", "ExportClientsListToExcel2", new { SearchDate = Model.SearchDate })
+                </td>
+            </tr>
+        </table>
+    </b>
+}
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @Resource.Department
+        </th>
+        <th>
+            @Resource.Note
+        </th>
+        <th>
+            @Resource.Date
+        </th>
+        <th>
+            @Resource.Amount
+        </th>
+        <th>
+            @Resource.AmountString
+        </th>
+        <th>
+            @Resource.Type
+        </th>
+        <th>
+            @Resource.Note
+        </th>
+        <th>
+            @Resource.Note
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Payments)
+                    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employee.DepartmentVn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaterialBuy.NoteVn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AmountString)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoteVn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoteKr)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+        </td>
+    </tr>
+                    }
+
+</table>

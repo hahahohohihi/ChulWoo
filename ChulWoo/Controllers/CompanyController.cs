@@ -92,7 +92,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Name,Address,Tel,Texcode")] Company company)
+        public async Task<ActionResult> Create([Bind(Include = "ID,Name,Address,Tel,Texcode,BankAccount,BankLocation")] Company company)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
@@ -130,7 +130,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Name,Address,Tel,Texcode")] Company company)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,Name,Address,Tel,Texcode,BankAccount,BankLocation")] Company company)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");

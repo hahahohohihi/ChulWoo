@@ -63,20 +63,24 @@ namespace ChulWoo.Controllers
             }
 
             ViewBag.TotalDays = Convert.ToInt32(((TimeSpan)(personnel.EndDate - personnel.StartDate)).TotalDays) + 1;
+            if (personnel.HalfDay == true)
+                ViewBag.TotalDays -= 0.5;
 
             int year = personnel.SendDate.Value.Year;
             DateTime temp = new DateTime(year, 1, 1);
-            int holydayCount = GetDiffMonths(temp, (DateTime)personnel.EndDate);
+            double holydayCount = GetDiffMonths(temp, (DateTime)personnel.EndDate);
 
             List<Personnel> personnels = db.Personnels.Where(p => p.EmployeeID == personnel.EmployeeID &&
-                                                                p.ID != id &&
+//                                                                p.ID != id &&
                                                                 p.StartDate.Value.Year == year &&
-                                                                p.StartDate < personnel.StartDate &&
+                                                                p.StartDate <= personnel.StartDate &&
                                                                 p.Type == PersonnelType.AnnualLeave).ToList();
-            int count = 0;
+            double count = 0;
             foreach( Personnel item in personnels )
             {
                 count += Convert.ToInt32(((TimeSpan)(item.EndDate - item.StartDate)).TotalDays) + 1;
+                if (item.HalfDay == true)
+                    count -= 0.5;
             }
 
             ViewBag.TotalHolydays = holydayCount - count;
@@ -118,7 +122,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,EmployeeID,SendDate,ReasonVn,ReasonKr,StartDate,EndDate,Type,Translate")] Personnel personnel)
+        public async Task<ActionResult> Create([Bind(Include = "ID,EmployeeID,SendDate,ReasonVn,ReasonKr,StartDate,EndDate,HalfDay,Type,Translate")] Personnel personnel)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
@@ -159,7 +163,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,EmployeeID,SendDate,ReasonVn,ReasonKr,StartDate,EndDate,Type,Translate")] Personnel personnel)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,EmployeeID,SendDate,ReasonVn,ReasonKr,StartDate,EndDate,HalfDay,Type,Translate")] Personnel personnel)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");

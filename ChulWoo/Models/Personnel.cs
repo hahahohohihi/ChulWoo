@@ -65,9 +65,12 @@ namespace ChulWoo.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? EndDate { get; set; }
 
+        [Display(Name = "HalfDay", ResourceType = typeof(Resource))]
+        public bool HalfDay { get; set; }
+
         // 타입 타입 
         [Display(Name = "Type", ResourceType = typeof(Resource))]
-        public PersonnelType? Type { get; set; }
+        public PersonnelType Type { get; set; }
 
         [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
         public string Name { get; set; }

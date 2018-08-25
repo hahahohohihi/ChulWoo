@@ -1,9 +1,11 @@
-﻿@model ChulWoo.Viewmodel.MaterialBuyPaymentData
-@using ChulWoo.Helper;
+﻿@model ChulWoo.Viewmodel.PaymentListData
+@using System.ComponentModel.DataAnnotations;
+@using ChulWoo.LocalResource;
+@using System.ComponentModel;
 
 @{
     Layout = null;
-    ViewBag.Title = "EditDetailsPayment";
+    ViewBag.Title = "PaymentListDetails";
 }
 <!DOCTYPE html>
 
@@ -28,7 +30,7 @@
             margin: 0;
             padding: 0;
             color: #000;
-            font-size: 9pt;
+            font-size: 7pt;
         }
 
         /* ~~ 요소/태그 선택기 ~~ */
@@ -43,6 +45,9 @@
             padding-left: 15px; /* div에 직접 추가하는 대신 div 내에 있는 요소의 측면에 패딩을 추가하면 상자 모델 수학이 제거됩니다. 측면 패딩이 있는 중첩된 div를 대체 메서드로 사용할 수도 있습니다. */
             padding-bottom: -10px;
             margin: 0;
+        }
+        h3 {
+            font-size: 9pt;
         }
 
         p {
@@ -100,115 +105,83 @@
 
 <body class="A4">
     <section class="sheet padding-10mm">
-        <table width="100%" border="0">
-            <tr>
-                <th width="13%" style="text-align: left;">Tên công ty:</th>
-                <th width="53%" style="text-align: left;">CÔNG TY TNHH CHULWOO VINA</th>
-                <td width="2%"></td>
-                <td width="32%" rowspan="3">( Ban hành theo 200/2014/TT-BTC ngày 22/12/2014 của Bộ Tài chính )</td>
-            </tr>
-            <tr>
-                <th style="text-align: left;">Địa chỉ:</th>
-                <th style="text-align: left;">Lô FJ-01 KCN Song Khê - Nội Hoàng phía Nam - xã Tiền Phong - huyện Yên Dũng - tỉnh Bắc Giang</th>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th style="text-align: left;" colspan="3">MST: 2400767519</th>
-            </tr>
-        </table>
         <br />
-        <h1 align="center">PHIẾU CHI - 지출서</h1>
-        <table width="100%" border="0">
+        <h3 style="text-align: center;">DANH SÁCH THANH TOÁN CÔNG TY TNHH CHULWOO VINA NGÀY @DateTime.Now.Day THÁNG @DateTime.Now.Month NĂM @DateTime.Now.Year</h3>
+        <br />
+        <table width="100%" border="1">
             <tr>
-                <td width="38%">&nbsp;</td>
-                <td width="49%">Ngày - 일자: @String.Format("{0:yyyy-MM-dd}", Model.Payment.Date)</td>
-                <td width="13%">TK Nợ :</td>
+                <th width="3%">Stt (1)</th>
+                <th width="15%">Số tài khoản(2)</th>
+                <th width="6%">Đơn vị tiền(3)</th>
+                <th width="22%">TÊN NGƯỜI HƯỞNG(4)</th>
+                <th width="10%">SỐ TIỀN(5)</th>
+                <th width="22%">NỘI DUNG(6)</th>
+                <th width="22%">TẠI NGÂN HÀNG(7)</th>
+            </tr>
+            @{
+                int count = 1;
+                double total = 0;
+                foreach (var item in Model.Payments)
+                {
+                    <tr>
+                        <td style="text-align: center;">@count</td>
+                        <td style="text-align: center;">@item.Company.BankAccount</td>
+                        <td style="text-align: center;">VND</td>
+                        <td>@item.Company.Name</td>
+                        <td style="text-align: right;">@String.Format("{0:0,0}", @item.Amount)</td>
+                        <td>@item.NoteVn</td>
+                        <td>@item.Company.BankLocation</td>
+                    </tr>
+
+                    total = total + item.Amount;
+                    count++;
+                }
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>TỔNG CỘNG</th>
+                <th style="text-align: right;">@String.Format("{0:0,0}", @total)</th>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td>&nbsp;</td>
-                <td>Số - 번호:</td>
-                <td>TK Có : 1111</td>
+                <td colspan="2">GHI CHÚ:</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
-        </table>
-        <table width="100%" border="0">
-            <tr>
-                <td height="50">Người nhận tiền :<br />돈받는 사람</td>
-                <td colspan="4">@Model.MaterialBuy.Company.Name</td>
-            </tr>
-            <tr>
-                <td height="50">Địa chỉ : <br />주소</td>
-                <td colspan="4">@Model.MaterialBuy.Company.Address</td>
-            </tr>
-            <tr>
-                <td height="50">Diễn giả : <br />내역</td>
-                <td>
-                    @Model.MaterialBuy.MaterialBuyUnits.First().MaterialUnitPrice.MaterialName.NameKr
-                </td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td height="50">Số tiền : <br />금액</td>
-                <td>
-                    @{
-                        var item = Model.MaterialBuy.MaterialBuyUnits.First();
-                        var totalprice = item.MaterialUnitPrice.Price * item.Quantity;
-                        if (Model.MaterialBuy.VAT == true)
-                        {
-                            totalprice = totalprice * 1.1;
-                        }
-                    }
-                    @String.Format("{0:0,0}", Model.Payment.Amount)
-                </td>
-                <td>Bằng chữ : <br />글자로</td>
-                <td colspan="2">@Model.Payment.AmountString</td>
-            </tr>
-            <tr>
-                <td height="50">Ghi chú : <br />비고</td>
-                <td colspan="4">@Model.Payment.NoteVn</td>
-            </tr>
-            <tr>
-                <td width="17%" height="50">&nbsp;</td>
-                <td width="20%">&nbsp;</td>
-                <td width="11%">&nbsp;</td>
-                <td width="16%">&nbsp;</td>
-                <td width="36%">&nbsp;</td>
-            </tr>
-        </table>
-        <table width="100%" border="0">
-            <tr>
-                <th width="20%">Chủ tịch<br>회장</th>
-                <th width="20%">Kế toán trưởng<br>회계</th>
-                <th width="20%">Người lập<br>작성자</th>
-                <th width="20%">Người nhận tiền<br>돈받는 사람</th>
-                <th width="20%">Thủ quỹ<br>출남계</th>
-            </tr>
-            <tr>
-                <td height="100pt">&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <th colspan="3">Ngụy Thị Huệ</th>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td colspan="5">&nbsp;</td>
-            </tr>
-            <tr>
-                <td colspan="2">Đã nhận đủ số tiền (viết bằng chữ):<br />금액을 다 받음(글자로)</td>
-                <td colspan="3">@Model.Payment.AmountString</td>
-            </tr>
+            
         </table>
         <br>
         <p>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.MaterialBuy.ID }) |
-            @Html.ActionLink("Payment", "EditAddPayment", new { id = Model.MaterialBuy.ID }) |
+            1. Cột (2) ghi số tài khoản hoặc số chứng minh thư của người hưởng<br />
+            2. Cột (6) ghi nội dung thanh toán (nếu có)<br />
+            3. Cột (7) ghi rõ tên chi nhánh ngân hàng hưởng đối với trường hợp tài khoản Người hưởng thuộc ngân hàng<br />
+            khác. Trường hợp, người hưởng có tài khoản tại VietcomBank cột này bỏ trống
+        </p>
+        <br />
+        <table width="100%" border="0">
+            <tr>
+                <th width="35%">KẾ TOÁN</th>
+                <th width="30%"></th>
+                <th width="35%">THỦ TRƯỞNG ĐƠN VỊ</th>
+            </tr>
+            <tr>
+                <th height="80"></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th>Phạm Thị Phương</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </table>
+        <p>
             @Html.ActionLink("Back to List", "Index")
         </p>
     </section>

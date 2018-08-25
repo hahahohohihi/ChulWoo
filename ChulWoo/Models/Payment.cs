@@ -13,6 +13,8 @@ namespace ChulWoo.Models
         Cash,
         [Display(Name = "Transfer", ResourceType = typeof(Resource))]
         Bank,
+        [Display(Name = "Card", ResourceType = typeof(Resource))]
+        Card,
     }
 
     public class Payment
@@ -25,6 +27,10 @@ namespace ChulWoo.Models
         // 키값(단가) 키값(단가)
         public int? MaterialBuyID { get; set; }
         public virtual MaterialBuy MaterialBuy { get; set; }
+
+        // 키값(회사) 키값(회사)
+        public int? CompanyID { get; set; }
+        public virtual Company Company { get; set; }
 
         [Display(Name = "Date", ResourceType = typeof(Resource))]
         [DataType(DataType.Date)]

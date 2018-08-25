@@ -31,5 +31,7 @@ namespace ChulWoo.Models
         public string UserPassword { get; set; }
 
         public Security? Security { get; set; }
+
+        public DateTime? LastLogin { get; set; }
     }
 }

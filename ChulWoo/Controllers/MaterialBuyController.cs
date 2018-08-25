@@ -11,6 +11,9 @@ using ChulWoo.DAL;
 using ChulWoo.Models;
 using ChulWoo.Viewmodel;
 using PagedList;
+using System.IO;
+using System.Web.UI;
+using System.Text;
 
 namespace ChulWoo.Controllers
 {
@@ -36,7 +39,7 @@ namespace ChulWoo.Controllers
             Session["Translate"] = translate;
 
             var materialBuys = db.MaterialBuys.Include(m => m.Company).Include(m => m.Project)
-                .OrderByDescending(m => m.Date);
+                .OrderByDescending(m => m.ID).OrderByDescending(m => m.Date);
 
             if (!String.IsNullOrEmpty(searchString))
                 materialBuys = (IOrderedQueryable<MaterialBuy>)materialBuys.Where(m => m.Company.Name.Contains(searchString) || 
@@ -602,6 +605,310 @@ namespace ChulWoo.Controllers
 
             db.MaterialBuyUnits.Remove(materialBuyUnit);
         }
+
+        public void ExportClientsListToExcel(DateTime SearchDate)
+        {
+            byte[] buffer = null;
+
+            IEnumerable<Payment> payments = db.Payments.Include(p => p.MaterialBuy)
+                .Include(p => p.Employee)
+                .Include(p => p.Company)
+                .Where(p => p.Date == SearchDate && p.Type == PaymentType.Bank)
+                .OrderByDescending(p => p.Date);
+
+            try
+            {
+                StringBuilder str = new StringBuilder();
+                str.Append("<html xmlns:x=\"urn: schemas - microsoft - com:office: excel\">");
+                str.Append("<head>");
+                str.Append("<meta http-equiv=\"Content - Type\" content=\"text / html; charset = utf - 8\" />");
+                str.Append("<style>");
+                str.Append("body { font-family: Arial Unicode MS, Arial }");
+                str.Append("</style>");
+                str.Append("</head>");
+                str.Append("<body>");
+                str.Append("<h3 style = \"text-align: center;\"> DANH SÁCH THANH TOÁN CÔNG TY TNHH CHULWOO VINA NGÀY ");
+                str.Append(@DateTime.Now.Day);
+                str.Append(" THÁNG ");
+                str.Append(@DateTime.Now.Month);
+                str.Append(" NĂM ");
+                str.Append(@DateTime.Now.Year);
+                str.Append("</h3 >");
+                str.Append("<br />");
+
+
+
+
+                // HTML 테이블 생성
+
+                str.Append("<table>");
+
+                str.Append("<tr>");
+
+                str.Append("<td>aaa</td>");
+                str.Append("</tr>");
+
+                //..~~~~
+
+
+                str.Append("</table>");
+                str.Append("</body>");
+                str.Append("</html>");
+
+                HttpContext.Response.AddHeader("content-disposition", "attachment; filename=Exported_Diners.xls");
+                HttpContext.Response.ContentType = "application/vnd.ms-excel";
+                HttpContext.Response.Charset = "UTF-8";
+                HttpContext.Response.ContentEncoding = System.Text.Encoding.Default;
+                buffer = System.Text.Encoding.UTF8.GetBytes(str.ToString());
+
+
+
+                Response.Write(str);
+                Response.End();
+
+            }
+            catch (Exception e)
+            {
+
+            }
+
+//            return File(buffer, "application/vnd.ms-excel");
+
+
+
+        }
+
+        public void ExportClientsListToExcel2(DateTime SearchDate)
+        {
+            var grid = new System.Web.UI.WebControls.GridView();
+
+            //grid.DataSource = from d in dbContext.diners
+            //where d.user_diners.All(m => m.user_id == userID) && d.active == true 
+            grid.DataSource = from d in db.MaterialBuys.ToList()
+            select new
+            {
+                Date = d.Date,
+                NoteVn = d.NoteVn,
+                NoteKr = d.NoteKr,
+                VAT = d.VAT
+            };
+
+            grid.DataBind();
+
+            IEnumerable<Payment> payments = db.Payments.Include(p => p.MaterialBuy)
+                .Include(p => p.Employee)
+                .Include(p => p.Company)
+                .Where(p => p.Date == SearchDate && p.Type == PaymentType.Bank)
+                .OrderByDescending(p => p.Date);
+
+
+            Response.ClearContent();
+            Response.AddHeader("content-disposition", "attachment; filename=Exported_Diners"+SearchDate.ToString()+".xls");
+            Response.ContentType = "application/excel";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+
+//            grid.RenderControl(htw);
+
+            htw.Write("<html xmlns:x=\"urn: schemas - microsoft - com:office: excel\">");
+            htw.Write("<head>");
+            htw.Write("<meta http-equiv=\"Content - Type\" content=\"text / html; charset = utf - 8\" />");
+            htw.Write("<style>");
+            htw.Write("body { font-family: Arial Unicode MS, Arial }");
+            htw.Write("</style>");
+            htw.Write("</head>");
+            htw.Write("<body>");
+            htw.Write("<h3 style = \"text-align: center;\">DANH SÁCH THANH TOÁN CÔNG TY TNHH CHULWOO VINA NGÀY {0} THÁNG {1} NĂM {2}</h3 >", 
+                @DateTime.Now.Day, @DateTime.Now.Month, @DateTime.Now.Year);
+            htw.Write("<table border=\"1\">");
+            htw.Write("<tr style=\"background - color: #FFF; font-weight: bold; padding: 5px\">");
+            htw.Write("<th width=\"3%\">Stt(1)</th>");
+            htw.Write("<th width=\"15%\">Số tài khoản(2)</th>");
+            htw.Write("<th width=\"6%\">Đơn vị tiền(3)</th>");
+            htw.Write("<th width=\"22%\">TÊN NGƯỜI HƯỞNG(4)</th>");
+            htw.Write("<th width=\"10%\">SỐ TIỀN(5)</th>");
+            htw.Write("<th width=\"22%\">NỘI DUNG(6)</th>");
+            htw.Write("<th width=\"22%\">TẠI NGÂN HÀNG(7)</th>");
+            htw.Write("</tr>");
+
+            int count = 1;
+            double total = 0;
+            foreach ( var pay in payments)
+            {
+                htw.Write("<tr valign=\"top\" style=\"background - color: White; \">");
+                htw.Write("<td style=\"text-align: center;\">{0}</td>", count);
+                htw.Write("<td style=\"text-align: center;\">{0}</td>", pay.Company.BankAccount);
+                htw.Write("<td style=\"text-align: center;\">VND</td>");
+                htw.Write("<td>{0}</td>", pay.Company.Name);
+                htw.Write("<td style=\"text-align: right;\">{0:0,0}</td>", pay.Amount);
+                htw.Write("<td>{0}</td>", pay.NoteVn);
+                htw.Write("<td>{0}</td>", pay.Company.BankLocation);
+                htw.Write("</tr>");
+                count++;
+                total += pay.Amount;
+            }
+            htw.Write("<tr>" +
+                "<th></th>" +
+                "<td></td>" +
+                "<td></td>" +
+                "<th>TỔNG CỘNG</th>" +
+                "<th>{0:0,0}</th>" +
+                "<td></td>" +
+                "<td></td>" +
+                "</tr>", total);
+            htw.Write("<tr>" +
+                "<td colspan=\"2\">GHI CHÚ:</td>" +
+                "<td></td>" +
+                "<td></td>" +
+                "<td></td>" +
+                "<td></td>" +
+                "<td></td>" +
+                "</tr>");
+            htw.Write("</table>");
+            htw.Write("<br>");
+            htw.Write("<p>");
+            htw.Write("1. Cột (2) ghi số tài khoản hoặc số chứng minh thư của người hưởng<br />");
+            htw.Write("2. Cột (6) ghi nội dung thanh toán (nếu có)<br />");
+            htw.Write("3. Cột (7) ghi rõ tên chi nhánh ngân hàng hưởng đối với trường hợp tài khoản Người hưởng thuộc ngân hàngkhác. <br />");
+            htw.Write("Trường hợp, người hưởng có tài khoản tại VietcomBank cột này bỏ trống");
+            htw.Write("</p>");
+            htw.Write("<br />");
+            htw.Write("<table width=\"100%\" border=\"0\">");
+            htw.Write("<tr>");
+            htw.Write("<th width=\"35%\" colspan=\"3\">KẾ TOÁN</th>");
+            htw.Write("<th width=\"30%\" colspan=\"2\"></th>");
+            htw.Write("<th width=\"35%\" colspan=\"2\">THỦ TRƯỞNG ĐƠN VỊ</th>");
+            htw.Write("</tr>");
+            htw.Write("<tr>");
+            htw.Write("<th height=\"80\"></th>");
+            htw.Write("<th></th>");
+            htw.Write("<th></th>");
+            htw.Write("<th></th>");
+            htw.Write("<th></th>");
+            htw.Write("<th></th>");
+            htw.Write("<th></th>");
+            htw.Write("</tr>");
+            htw.Write("<tr>");
+            htw.Write("<th colspan=\"3\">Phạm Thị Phương</th>");
+            htw.Write("<th></th>");
+            htw.Write("<th></th>");
+            htw.Write("<th></th>");
+            htw.Write("<th></th>");
+            htw.Write("</tr>");
+            htw.Write("</table>");
+            htw.Write("</body>");
+            htw.Write("</html>");
+
+
+            Response.Write(sw.ToString());
+//            Response.Write(this.View().View.ToString());
+
+            Response.End();
+        }
+/*
+        protected void BtnDownLoadExcel_Click(object sender, EventArgs e)
+        {
+
+            //다운로드 되도록 헤더 설정
+            Response.Clear();
+            Response.AddHeader("content-disposition", "attachment;filename=DataGrid.xls");
+            Response.ContentType = "application/vnd.xls";
+
+            System.IO.StringWriter stringWriter = new System.IO.StringWriter();
+            System.Web.UI.HtmlTextWriter htmlWriter = new HtmlTextWriter(stringWriter);
+
+            //한글 정상표시되도록 
+            Response.Charset = "UTF-8";
+            Response.ContentEncoding = System.Text.Encoding.Default;
+
+            //페이징 되어있을경우 전체리스트가 출력되지 않으므로 잠시 중지
+
+            GridView.AllowPaging = false;
+            GridView.DataBind();
+            EnableViewState = false;
+
+            //아래 주석처리된 부분은 페이지상에 <%%>를 써서 렌더링 하는 부분이 없을때만 동작합니다.
+            //마스터페이지 이용시 오류를 피해가는 방법입니다.
+            //HtmlForm frm = new HtmlForm();
+            //Controls.Add(frm);
+            //frm.Controls.Add(GridView);
+            //frm.RenderControl(htmlWriter);
+            // 엑셀에서 자동 숫자변환 안되도록 하는 스타일
+            string strStyle = @"<style>td { mso-number-format:\@; } </style>";
+
+            GridView.RenderControl(htmlWriter);
+            // 엑셀에서 자동 숫자변환 안되도록 스타일 적용
+            Response.Write(strStyle);
+            Response.Write(stringWriter.ToString());
+            Response.End();
+
+            //현재 페이징으로 복귀.
+            GridView.AllowPaging = true;
+            GridView.DataBind();
+        }
+
+        protected void BtnDownLoadExcel_Click(object sender, EventArgs e)
+        {
+        Response.ClearHeaders();
+        string fileName = "파일명[" + DateTime.Today.ToString().Substring(0, 10) + "].xls";
+        Response.ContentType = "application/vnd.ms-excel";
+        Response.AddHeader("Content-Disposition", "attachment;fileName=" + fileName);
+        Response.Charset = "euc-kr";
+ 
+        Button1.Visible = false;
+ 
+        System.IO.StringWriter tw = new System.IO.StringWriter();
+        System.Web.UI.HtmlTextWriter hw = new System.Web.UI.HtmlTextWriter(tw);
+        String convStr = this.View.hw Table1.ToString();
+         
+        Response.Write(convStr);
+    }
+    */
+
+
+
+
+    public ActionResult PaymentList(DateTime? SearchDate)
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            PaymentListData PaymentList = new PaymentListData();
+
+            if (SearchDate == null )
+            {
+                PaymentList.SearchDate = DateTime.Today;
+                PaymentList.Payments = db.Payments.Include(p => p.Employee).Include(p => p.MaterialBuy)
+                    .Where(p => p.Date == PaymentList.SearchDate)
+                    .OrderByDescending(p => p.Date);
+            }
+            else
+            {
+                PaymentList.SearchDate = (DateTime)SearchDate;
+                PaymentList.Payments = db.Payments.Include(p => p.Employee).Include(p => p.MaterialBuy)
+                        .Where(p => p.Date == SearchDate)
+                        .OrderByDescending(p => p.Date);
+            }
+            return View(PaymentList);
+        }
+
+        public ActionResult PaymentListDetails(DateTime SearchDate)
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            PaymentListData PaymentList = new PaymentListData();
+
+            PaymentList.SearchDate = DateTime.Today;
+            PaymentList.Payments = db.Payments.Include(p => p.MaterialBuy)
+                .Include(p => p.Employee)
+                .Include(p => p.Company)
+                .Where(p => p.Date == SearchDate && p.Type == PaymentType.Bank)
+                .OrderByDescending(p => p.Date);
+
+            return View(PaymentList);
+        }
+
 
         protected override void Dispose(bool disposing)
         {
