@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using ChulWoo.DAL;
 using ChulWoo.Models;
+using ChulWoo.Viewmodel;
 using System.IO;
 using PagedList;
 
@@ -55,7 +56,7 @@ namespace ChulWoo.Controllers
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
 
-            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Translation))
+            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Personnel))
                 return RedirectToAction("Index", "Home");
 
             if (id == null)
@@ -283,6 +284,138 @@ namespace ChulWoo.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }
+
+        public async Task<ActionResult> EditAddDeposit(int? id)
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Project project = await db.Projects.FindAsync(id);
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+            var projectDeposit = new ProjectDepositData();
+            projectDeposit.Porject = project;
+
+            return View(projectDeposit);
+        }
+
+        // POST: MaterialBuy/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditAddDeposit(ProjectDepositData projectDepositData)
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            if (ModelState.IsValid)
+            {
+                //                db.Entry(materialBuyData).State = EntityState.Modified;
+                Project project = db.Projects.FirstOrDefault(m => m.ID == projectDepositData.Porject.ID);
+
+                projectDepositData.Deposit.EmployeeID = Convert.ToInt32(Session["LoginUserEmployeeID"]);
+                projectDepositData.Deposit.Employee = db.Employees.FirstOrDefault(e => e.ID == projectDepositData.Deposit.EmployeeID);
+                projectDepositData.Deposit.StatementType = Models.StatementType.Deposit;
+                projectDepositData.Deposit.CompanyID = projectDepositData.Porject.CompanyID;
+                projectDepositData.Deposit.ProjectID = projectDepositData.Porject.ID;
+
+                db.Payments.Add(projectDepositData.Deposit);
+                project.Deposits.Add(projectDepositData.Deposit);
+
+                await db.SaveChangesAsync();
+                return RedirectToAction("EditAddDeposit", new { id = projectDepositData.Porject.ID });
+            }
+            return View(projectDepositData);
+        }
+
+        public async Task<ActionResult> DeleteDeposit(int id, int depositid)
+        {
+            Payment Payment = await db.Payments.FindAsync(depositid);
+
+            db.Payments.Remove(Payment);
+
+            //PreDeleteUnit(id, paymentid);
+            await db.SaveChangesAsync();
+            return RedirectToAction("EditAddDeposit", new { id = id });
+        }
+
+        public async Task<ActionResult> EditEditDeposit(int? id, int depositid)
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Project project = await db.Projects.FindAsync(id);
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+            Payment deposit = await db.Payments.FindAsync(depositid);
+            if (deposit == null)
+            {
+                return HttpNotFound();
+            }
+            var projectDeposit = new ProjectDepositData();
+            projectDeposit.Porject = project;
+            projectDeposit.Deposit = deposit;
+
+            projectDeposit.Porject.Deposits = projectDeposit.Porject.Deposits.OrderBy(p => p.Date).ToList();
+
+
+            return View(projectDeposit);
+        }
+
+        // POST: MaterialBuy/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditEditDeposit(int id, int depositid, ProjectDepositData projectDepositData)
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            if (ModelState.IsValid)
+            {
+                //                db.Entry(materialBuyData).State = EntityState.Modified;
+                Project project = db.Projects.FirstOrDefault(m => m.ID == projectDepositData.Porject.ID);
+                Payment payment = await db.Payments.FindAsync(depositid);
+
+                payment.Date = projectDepositData.Deposit.Date;
+                payment.Type = projectDepositData.Deposit.Type;
+                payment.Amount = projectDepositData.Deposit.Amount;
+                payment.CompanyID = projectDepositData.Porject.CompanyID;
+                payment.ProjectID = projectDepositData.Porject.ID;
+
+                if (payment.NoteVn != null && !payment.NoteVn.Equals(projectDepositData.Deposit.NoteVn))
+                {
+                    payment.NoteVn = projectDepositData.Deposit.NoteVn;
+                    payment.Translate = false;
+                }
+                if (projectDepositData.Deposit.NoteVn != null)
+                {
+                    payment.NoteVn = projectDepositData.Deposit.NoteVn;
+                    payment.Translate = false;
+                }
+                if (payment.NoteVn == null || payment.NoteVn.Length <= 0)
+                    payment.Translate = true;
+
+                await db.SaveChangesAsync();
+                return RedirectToAction("EditAddDeposit", new { id = projectDepositData.Porject.ID });
+            }
+            return View(projectDepositData);
+        }
+
 
         protected override void Dispose(bool disposing)
         {

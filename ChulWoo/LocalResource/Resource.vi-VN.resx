@@ -330,4 +330,13 @@
   <data name="HalfDay" xml:space="preserve">
     <value>HalfDay</value>
   </data>
+  <data name="Deposit" xml:space="preserve">
+    <value>nạp tiền</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>rút tiền</value>
+  </data>
+  <data name="Statement" xml:space="preserve">
+    <value>Gửi/rút tiền</value>
+  </data>
 </root>

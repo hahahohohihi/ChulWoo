@@ -79,6 +79,7 @@
                         if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
                         {
                             <li>@Html.ActionLink("MaterialName", "Index", "MaterialName")</li>
+                            <li>@Html.ActionLink("Payment", "Index", "Payment")</li>
                         }
                     }
                 </ul>

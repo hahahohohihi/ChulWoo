@@ -16,6 +16,14 @@ namespace ChulWoo.Models
         [Display(Name = "Card", ResourceType = typeof(Resource))]
         Card,
     }
+    public enum StatementType
+    {
+        [Display(Name = "Payment", ResourceType = typeof(Resource))]
+        Payment,
+        [Display(Name = "Deposit", ResourceType = typeof(Resource))]
+        Deposit
+    }
+
 
     public class Payment
     {
@@ -32,6 +40,10 @@ namespace ChulWoo.Models
         public int? CompanyID { get; set; }
         public virtual Company Company { get; set; }
 
+        // 키값(프로젝트) 키값(프로젝트)
+        public int? ProjectID { get; set; }
+        public virtual Project Project { get; set; }
+
         [Display(Name = "Date", ResourceType = typeof(Resource))]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -47,6 +59,9 @@ namespace ChulWoo.Models
 
         [Display(Name = "PaymentType", ResourceType = typeof(Resource))]
         public PaymentType Type { get; set; }
+
+        [Display(Name = "Statement", ResourceType = typeof(Resource))]
+        public StatementType StatementType { get; set; }
 
         [Display(Name = "Note", ResourceType = typeof(Resource))]
         [StringLength(int.MaxValue)]

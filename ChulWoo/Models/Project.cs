@@ -18,6 +18,7 @@ namespace ChulWoo.Models
         public virtual Company Company { get; set; }
 
         public virtual ICollection<MaterialBuy> MaterialBuys { get; set; }
+        public virtual ICollection<Payment> Deposits { get; set; }
 
         // 프로젝트이름 프로젝트이름
         [Display(Name = "ProjectName", ResourceType = typeof(Resource))]

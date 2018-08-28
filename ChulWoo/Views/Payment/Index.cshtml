@@ -1,5 +1,5 @@
-﻿@*@model IEnumerable<ChulWoo.Models.MaterialName>*@
-@model PagedList.IPagedList<ChulWoo.Models.MaterialName>
+﻿@*@model IEnumerable<ChulWoo.Models.Payment>*@
+@model PagedList.IPagedList<ChulWoo.Models.Payment>
 @using PagedList.Mvc;
 @using ChulWoo.Models;
 @using ChulWoo.Helper;
@@ -12,10 +12,10 @@
 
 <h2>Index</h2>
 
-@using (Html.BeginForm("Index", "MaterialName", FormMethod.Get))
+@using (Html.BeginForm("Index", "Payment", FormMethod.Get))
 {
     <p>
-        Find by Name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        Find by CompanyName: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
         &nbsp; &nbsp;
         @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
         {
@@ -29,13 +29,22 @@
 <table class="table">
     <tr>
         <th>
-            @Resource.MaterialName
+            @Resource.Date
         </th>
         <th>
-            @Resource.MaterialName
+            @Resource.Statement
         </th>
         <th>
-            Sort
+            @Resource.CompanyName
+        </th>
+        <th>
+            @Resource.PaymentType
+        </th>
+        <th>
+            @Resource.Amount
+        </th>
+        <th>
+            @Resource.Note
         </th>
         <th></th>
     </tr>
@@ -44,18 +53,33 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.NameVn)
+                @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NameKr)
+                @EnumExtensions.GetDisplayName(item.StatementType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Sort)
+                @Html.DisplayFor(modelItem => item.Company.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                {
+                    @Html.DisplayFor(modelItem => item.NoteKr)
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.NoteVn)
+                }
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
                 @Html.ActionLink("Details", "Details", new { id = item.ID })
-                @*Html.ActionLink("Delete", "Delete", new { id=item.ID })*@
             </td>
         </tr>
     }

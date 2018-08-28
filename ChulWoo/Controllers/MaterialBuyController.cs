@@ -111,6 +111,8 @@ namespace ChulWoo.Controllers
 
                 materialBuyPaymentData.Payment.EmployeeID = Convert.ToInt32(Session["LoginUserEmployeeID"]);
                 materialBuyPaymentData.Payment.Employee = db.Employees.FirstOrDefault(e => e.ID == materialBuyPaymentData.Payment.EmployeeID);
+                materialBuyPaymentData.Payment.CompanyID = materialBuyPaymentData.MaterialBuy.CompanyID;
+                materialBuyPaymentData.Payment.ProjectID = materialBuyPaymentData.MaterialBuy.ProjectID;
 
                 db.Payments.Add(materialBuyPaymentData.Payment);
                 materialBuy.Payments.Add(materialBuyPaymentData.Payment);
@@ -169,6 +171,9 @@ namespace ChulWoo.Controllers
                 payment.Type = materialBuyPaymentData.Payment.Type;
                 payment.Amount = materialBuyPaymentData.Payment.Amount;
                 payment.AmountString = materialBuyPaymentData.Payment.AmountString;
+                payment.CompanyID = materialBuyPaymentData.MaterialBuy.CompanyID;
+                payment.ProjectID = materialBuyPaymentData.MaterialBuy.ProjectID;
+
                 if (payment.NoteVn != null && !payment.NoteVn.Equals(materialBuyPaymentData.Payment.NoteVn))
                 {
                     payment.NoteVn = materialBuyPaymentData.Payment.NoteVn;

@@ -77,6 +77,10 @@
                         @Html.ActionLink("Delete", "Delete", new { id = item.ID })
                     }
                 }
+                @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) == Convert.ToInt32(Security.Personnel))
+                {
+                    @Html.ActionLink("Details", "Details", new { id = item.ID })
+                }
             </td>
         </tr>
     }

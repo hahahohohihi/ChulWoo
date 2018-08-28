@@ -1,5 +1,6 @@
 ﻿@model ChulWoo.Models.Project
 @using ChulWoo.Models;
+@using ChulWoo.Helper;
 
 @{
     ViewBag.Title = "Details";
@@ -8,7 +9,7 @@
 <h2>
     @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
     {
-        @Html.DisplayFor(model => model.NameKr) 
+        @Html.DisplayFor(model => model.NameKr)
     }
     else
     {
@@ -35,18 +36,75 @@
             @Html.DisplayFor(model => model.Date)
         </dd>
     </dl>
+    @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
+    { 
+        <ul class="attachment">
+            @foreach (var item in Model.UploadFiles)
+            {
+                <li>
+                    <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a>  |
+                    <a class="title" href="/Board/Download/?SFilename=@(item.FolderName+"/"+ item.SaveFileName)&Filename=@item.FileName">Download</a>
+                </li>
+            }
+        </ul>
+    }
+    <br />
 
-    <ul class="attachment">
-        @foreach (var item in Model.UploadFiles)
+    <table cellpadding="10pt">
+        <tr>
+            <th valign="bottom" style="padding-right:12pt">
+                <h3>Deposit</h3>
+            </th>
+            <th valign="bottom" style="padding-bottom:5pt">
+                @Html.ActionLink("Edit", "EditAddDeposit", new { id = Model.ID })
+            </th>
+        </tr>
+    </table>
+
+
+    <table class="table">
+        <tr>
+            <th>@Resource.Date</th>
+            <th>@Resource.PaymentType</th>
+            <th>@Resource.Amount</th>
+            <th>@Resource.Note</th>
+            <th></th>
+        </tr>
+        @if (Model.Deposits != null && Model.Deposits.Count != 0)
         {
-            <li>
-                <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a>  |
-                <a class="title" href="/Board/Download/?SFilename=@(item.FolderName+"/"+ item.SaveFileName)&Filename=@item.FileName">Download</a>
-            </li>
+
+            foreach (var item in Model.Deposits)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.Date)
+                    </td>
+                    <td>
+                        @EnumExtensions.GetDisplayName(item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Amount)
+                    </td>
+                    <td>
+                        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                        {
+                            @item.NoteVn
+                        }
+                        else
+                        {
+                            @item.NoteVn
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditEditDeposit", new { id = Model.ID, depositid = item.ID }) |
+                        @Html.ActionLink("Delete", "DeleteDeposit", new { id = Model.ID, depositid = item.ID })
+                    </td>
+                </tr>
+            }
         }
-    </ul>
+    </table>
 
-
+    <br />
 
     @if (Model.MaterialBuys.Count != 0)
     {
@@ -71,7 +129,7 @@
                             <tr>
                                 <th colspan="4" height="20"></th>
                                 <th>소계</th>
-                                <th style="text-align: right;">@String.Format("{0:0,0}", subtotal)</th>
+                                <th style="text-align: right;">@String.Format("{0:0,0}", subtotal + vat)</th>
                             </tr>
                             subtotal = 0;
                             vat = 0;
@@ -87,8 +145,8 @@
                             <th>@Resource.MaterialName</th>
                             <th>@Resource.Unit</th>
                             <th>@Resource.Quantity</th>
-                            <th>@Resource.UnitPrice</th>
-                            <th>@Resource.Price</th>
+                            <th style="text-align: right;">@Resource.UnitPrice</th>
+                            <th style="text-align: right;">@Resource.Price</th>
                         </tr>
                     }
                     foreach (var unit in item.MaterialBuyUnits)
@@ -107,13 +165,13 @@
                                     @unit.MaterialUnitPrice.MaterialName.NameVn
                                 }
                                 @*if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
-                                {
-                                    @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameKr, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
-                                }
-                                else
-                                {
-                                    @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
-                                }*@
+                                    {
+                                        @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameKr, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
+                                    }*@
                             </td>
                             <td>
                                 @unit.MaterialUnitPrice.UnitString
@@ -155,7 +213,6 @@
 
         </table>
     }
-
 
 </div>
 <p>

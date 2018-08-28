@@ -251,6 +251,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialBuyController.cs" />
     <Compile Include="Controllers\MaterialNameController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PersonnelController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="DAL\ChulWooContext.cs" />
@@ -320,6 +321,18 @@
     <Compile Include="Migrations\201808250949409_180825.Designer.cs">
       <DependentUpon>201808250949409_180825.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808270433497_180827.cs" />
+    <Compile Include="Migrations\201808270433497_180827.Designer.cs">
+      <DependentUpon>201808270433497_180827.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808271016096_18082702.cs" />
+    <Compile Include="Migrations\201808271016096_18082702.Designer.cs">
+      <DependentUpon>201808271016096_18082702.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808280437332_180828.cs" />
+    <Compile Include="Migrations\201808280437332_180828.Designer.cs">
+      <DependentUpon>201808280437332_180828.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Company.cs" />
@@ -340,6 +353,7 @@
     <Compile Include="Viewmodel\MaterialBuyData.cs" />
     <Compile Include="Viewmodel\MaterialBuyPaymentData.cs" />
     <Compile Include="Viewmodel\PaymentListData.cs" />
+    <Compile Include="Viewmodel\ProjectDepositData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -438,6 +452,13 @@
     <Content Include="Views\MaterialBuy\EditDetailsPayment.cshtml" />
     <Content Include="Views\MaterialBuy\PaymentList.cshtml" />
     <Content Include="Views\MaterialBuy\PaymentListDetails.cshtml" />
+    <Content Include="Views\Project\EditAddDeposit.cshtml" />
+    <Content Include="Views\Project\EditEditDeposit.cshtml" />
+    <Content Include="Views\Payment\Create.cshtml" />
+    <Content Include="Views\Payment\Delete.cshtml" />
+    <Content Include="Views\Payment\Details.cshtml" />
+    <Content Include="Views\Payment\Edit.cshtml" />
+    <Content Include="Views\Payment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\App_Data\" />
@@ -503,6 +524,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808250949409_180825.resx">
       <DependentUpon>201808250949409_180825.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808270433497_180827.resx">
+      <DependentUpon>201808270433497_180827.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808271016096_18082702.resx">
+      <DependentUpon>201808271016096_18082702.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808280437332_180828.resx">
+      <DependentUpon>201808280437332_180828.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

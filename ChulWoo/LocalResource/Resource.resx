@@ -330,4 +330,13 @@
   <data name="HalfDay" xml:space="preserve">
     <value />
   </data>
+  <data name="Deposit" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Statement" xml:space="preserve">
+    <value />
+  </data>
 </root>
