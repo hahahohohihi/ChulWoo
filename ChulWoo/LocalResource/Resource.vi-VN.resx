@@ -339,4 +339,28 @@
   <data name="Statement" xml:space="preserve">
     <value>Gửi/rút tiền</value>
   </data>
+  <data name="Complete" xml:space="preserve">
+    <value>hoàn thành</value>
+  </data>
+  <data name="Constructor" xml:space="preserve">
+    <value>Đơn vị thi công</value>
+  </data>
+  <data name="EquipCount" xml:space="preserve">
+    <value>số đầu vào</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Quản lý</value>
+  </data>
+  <data name="PrrocessPerPlan" xml:space="preserve">
+    <value>Tiến độ kế hoạch</value>
+  </data>
+  <data name="PrrocessPerResult" xml:space="preserve">
+    <value>Tiến độ hoàn thành</value>
+  </data>
+  <data name="Weather" xml:space="preserve">
+    <value>Thời tiết</value>
+  </data>
+  <data name="WorkName" xml:space="preserve">
+    <value>người làm việc</value>
+  </data>
 </root>

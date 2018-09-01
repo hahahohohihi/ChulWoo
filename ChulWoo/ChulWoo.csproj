@@ -247,6 +247,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BoardController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\DailyWorkController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialBuyController.cs" />
@@ -333,11 +334,25 @@
     <Compile Include="Migrations\201808280437332_180828.Designer.cs">
       <DependentUpon>201808280437332_180828.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808300716476_180830.cs" />
+    <Compile Include="Migrations\201808300716476_180830.Designer.cs">
+      <DependentUpon>201808300716476_180830.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808310136174_180831.cs" />
+    <Compile Include="Migrations\201808310136174_180831.Designer.cs">
+      <DependentUpon>201808310136174_180831.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808310144191_18083102.cs" />
+    <Compile Include="Migrations\201808310144191_18083102.Designer.cs">
+      <DependentUpon>201808310144191_18083102.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Contract.cs" />
+    <Compile Include="Models\DailyWork.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\EquipmentUnit.cs" />
     <Compile Include="Models\MaterialBuy.cs" />
     <Compile Include="Models\MaterialBuyUnit.cs" />
     <Compile Include="Models\MaterialName.cs" />
@@ -348,7 +363,10 @@
     <Compile Include="Models\Resign.cs" />
     <Compile Include="Models\UploadFile.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\WorkUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Viewmodel\DailyWorkEquipmentData.cs" />
+    <Compile Include="Viewmodel\DailyWorkUnitData.cs" />
     <Compile Include="Viewmodel\EmployeeExtendData.cs" />
     <Compile Include="Viewmodel\MaterialBuyData.cs" />
     <Compile Include="Viewmodel\MaterialBuyPaymentData.cs" />
@@ -459,10 +477,21 @@
     <Content Include="Views\Payment\Details.cshtml" />
     <Content Include="Views\Payment\Edit.cshtml" />
     <Content Include="Views\Payment\Index.cshtml" />
+    <Content Include="Views\DailyWork\Create.cshtml" />
+    <Content Include="Views\DailyWork\Delete.cshtml" />
+    <Content Include="Views\DailyWork\Details.cshtml" />
+    <Content Include="Views\DailyWork\Edit.cshtml" />
+    <Content Include="Views\DailyWork\Index.cshtml" />
+    <Content Include="Views\DailyWork\EditAddWork.cshtml" />
+    <Content Include="Views\DailyWork\EditEditWork.cshtml" />
+    <Content Include="Views\DailyWork\EditAddEquipment.cshtml" />
+    <Content Include="Views\DailyWork\EditEditEquipment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\App_Data\" />
-    <Folder Include="UploadFile\" />
+    <Folder Include="UploadFile\Board\" />
+    <Folder Include="UploadFile\DailyWork\" />
+    <Folder Include="UploadFile\Project\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
@@ -533,6 +562,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808280437332_180828.resx">
       <DependentUpon>201808280437332_180828.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808300716476_180830.resx">
+      <DependentUpon>201808300716476_180830.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808310136174_180831.resx">
+      <DependentUpon>201808310136174_180831.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808310144191_18083102.resx">
+      <DependentUpon>201808310144191_18083102.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

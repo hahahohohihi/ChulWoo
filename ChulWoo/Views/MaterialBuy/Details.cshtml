@@ -127,7 +127,7 @@
                 <th width="18%">Amount<br />Thành tiền</div></th>
             </tr>
             @{
-                var totalPrice = 0;
+                double totalPrice = 0;
                 var count = 1;
                 foreach (var unit in Model.MaterialBuyUnits)
                 {
@@ -149,8 +149,8 @@
                         <td>
                             <div align="center" style="text-align: right;">
                                 @{
-                                    var price = unit.Quantity * unit.MaterialUnitPrice.Price;
-                                    totalPrice = totalPrice+(int)price;
+                                    double price =(double)(unit.Quantity * unit.MaterialUnitPrice.Price);
+                                    totalPrice = totalPrice+price;
                                 }
                                 @String.Format("{0:0,0}", price)
                             </div>

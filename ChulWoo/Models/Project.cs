@@ -17,8 +17,20 @@ namespace ChulWoo.Models
         public int CompanyID { get; set; }
         public virtual Company Company { get; set; }
 
+        // 키값(회사) 키값(회사)
+        [Display(Name = "Constructor", ResourceType = typeof(Resource))]
+        public int? ConstructorID { get; set; }
+        public virtual Company Constructor { get; set; }
+
+        [Display(Name = "Manager", ResourceType = typeof(Resource))]
+        public int? ManagerID { get; set; }
+        public virtual Employee Manager { get; set; }
+
+
         public virtual ICollection<MaterialBuy> MaterialBuys { get; set; }
         public virtual ICollection<Payment> Deposits { get; set; }
+        public virtual ICollection<DailyWork> DailyWorks { get; set; }
+        public virtual ICollection<WorkUnit> WorkUnits { get; set; }
 
         // 프로젝트이름 프로젝트이름
         [Display(Name = "ProjectName", ResourceType = typeof(Resource))]

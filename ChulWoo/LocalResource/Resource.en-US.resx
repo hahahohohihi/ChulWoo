@@ -339,4 +339,28 @@
   <data name="Statement" xml:space="preserve">
     <value>Statement</value>
   </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="Constructor" xml:space="preserve">
+    <value>Constructor</value>
+  </data>
+  <data name="EquipCount" xml:space="preserve">
+    <value>EquipCount</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Manager</value>
+  </data>
+  <data name="PrrocessPerPlan" xml:space="preserve">
+    <value>PrrocessPerPlan</value>
+  </data>
+  <data name="PrrocessPerResult" xml:space="preserve">
+    <value>PrrocessPerResult</value>
+  </data>
+  <data name="Weather" xml:space="preserve">
+    <value>Weather</value>
+  </data>
+  <data name="WorkName" xml:space="preserve">
+    <value>WorkName</value>
+  </data>
 </root>

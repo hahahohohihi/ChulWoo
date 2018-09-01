@@ -1,0 +1,87 @@
+﻿@model IEnumerable<ChulWoo.Models.DailyWork>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { projectid = ViewBag.ProjectID })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Project.NameVn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProparingPerson.DepartmentVn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrrocessPerPlan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrrocessPerResult)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WeatherVn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WeatherKr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoteVn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoteKr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Translate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project.NameVn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProparingPerson.DepartmentVn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrrocessPerPlan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrrocessPerResult)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WeatherVn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WeatherKr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoteVn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoteKr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Translate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

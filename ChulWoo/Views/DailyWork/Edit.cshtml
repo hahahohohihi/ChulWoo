@@ -1,0 +1,279 @@
+﻿@model ChulWoo.Models.DailyWork
+@using ChulWoo.Models;
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.deleteitem').on('click', function (e) {
+            e.preventDefault();
+            var $ctrl = $(this);
+            if (confirm('Do you really want to delete this file?')) {
+                $.ajax({
+                    url: '/Board/DeleteFile',
+                    type: 'POST',
+                    data: { id: $(this).data('id') }
+                }).done(function (data) {
+                    if (data.Result == "OK") {
+                        $ctrl.closest('li').remove();
+                    }
+                    else if (data.Result.Message) {
+                        alert(data.Result.Message);
+                    }
+                }).fail(function () {
+                    alert("There is something wrong. Please try again.");
+                })
+
+            }
+        });
+    })
+</script>
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm("Edit", "DailyWork", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>DailyWork</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProjectID, "ProjectID", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ProjectID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ProjectID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProparingPersonID, "ProparingPersonID", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ProparingPersonID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ProparingPersonID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PrrocessPerPlan, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PrrocessPerPlan, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PrrocessPerPlan, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PrrocessPerResult, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PrrocessPerResult, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PrrocessPerResult, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.WeatherVn, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.WeatherVn, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.WeatherVn, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.WeatherKr, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.WeatherKr, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.WeatherKr, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NoteVn, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NoteVn, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NoteVn, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NoteKr, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NoteKr, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NoteKr, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Translate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Translate)
+                    @Html.ValidationMessageFor(model => model.Translate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="editor-field">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="file" name="file" multiple="multiple" />
+
+                <ul class="attachment">
+                    @foreach (var item in Model.UploadFiles)
+                    {
+                        <li>
+                            <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a>
+                            <a class="title" href="/Board/Download/?SFilename=@(item.FolderName+"/"+ item.SaveFileName)&Filename=@item.FileName">Download</a>
+                            <a href="javascript:void(0);" data-id="@item.ID" id="deleteitem" class="deleteitem">Delete</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+
+
+        <table>
+            <tr>
+                <th valign="bottom" style="padding-right:12pt"><h4>Work Unit</h4></th>
+                <th valign="bottom" style="padding-bottom:5pt">@Html.ActionLink("Edit", "EditAddWork", new { id = Model.ID })</th>
+            </tr>
+        </table>
+
+        <table class="table">
+            <tr>
+                <th>@Resource.WorkName</th>
+                <th>@Resource.StartDate</th>
+                <th>@Resource.Note</th>
+                <th>@Resource.Complete</th>
+                <th></th>
+            </tr>
+            @if (ViewBag.WorkUnits != null && ViewBag.WorkUnits.Count != 0)
+            {
+
+                foreach (WorkUnit item in ViewBag.WorkUnits)
+                {
+                    <tr>
+                        <td>
+                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                            {
+                                @item.WorkNameKr
+                            }
+                            else
+                            {
+                                @item.WorkNameVn
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.StartDate)
+                        </td>
+                        <td>
+                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                            {
+                                @Html.DisplayFor(model => item.NoteKr)
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => item.NoteVn)
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Complete)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditEditWork", new { id = Model.ID, workid = item.ID }) |
+                            @Html.ActionLink("Delete", "DeleteWorkUnit", new { id = Model.ID, workid = item.ID })
+                        </td>
+
+                    </tr>
+                }
+            }
+        </table>
+
+        <br />
+
+        <table>
+            <tr>
+                <th valign="bottom" style="padding-right:12pt"><h4>Equipment Unit</h4></th>
+                <th valign="bottom" style="padding-bottom:5pt">@Html.ActionLink("Edit", "EditAddEquipment", new { id = Model.ID })</th>
+            </tr>
+        </table>
+
+        <table class="table">
+            <tr>
+                <th>@Resource.Name</th>
+                <th>@Resource.EquipCount</th>
+                <th>@Resource.Note</th>
+                <th></th>
+            </tr>
+            @if (Model.EquipmentUnits != null && Model.EquipmentUnits.Count != 0)
+            {
+
+                foreach (var item in Model.EquipmentUnits)
+                {
+                    <tr>
+                        <td>
+                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                            {
+                                @item.NameKr
+                            }
+                            else
+                            {
+                                @item.NameVn
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.EquipCount)
+                        </td>
+                        <td>
+                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                            {
+                                @item.NoteVn
+                            }
+                            else
+                            {
+                                @item.NoteVn
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditEditEquipment", new { id = Model.ID, equipmentid = item.ID }) |
+                            @Html.ActionLink("Delete", "DeleteEquipment", new { id = Model.ID, equipmentid = item.ID })
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+
+
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", new { projectid = Model.ProjectID })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

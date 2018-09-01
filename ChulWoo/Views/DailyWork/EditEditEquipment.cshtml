@@ -1,0 +1,297 @@
+﻿@model ChulWoo.Viewmodel.DailyWorkEquipmentData
+@using ChulWoo.Helper;
+@using ChulWoo.Models;
+
+@{
+    ViewBag.Title = "EditEditEquipment";
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#unit").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DailyWork/SelectEquipmentUnit",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.NameVn, value: item.NameVn };
+                        }))
+
+                    }
+                })
+            }
+        });
+    })
+</script>
+
+<h2>EditEditEquipment</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>MaterialBuy</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.DailyWork.ID)
+        @Html.HiddenFor(model => model.DailyWork.Date)
+
+        <dl class="dl-horizontal">
+            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.DailyWork.Project.NameKr)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DailyWork.Project.NameKr)
+                </dd>
+            }
+            else
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.DailyWork.Project.NameVn)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DailyWork.Project.NameVn)
+                </dd>
+            }
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DailyWork.ProparingPerson.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DailyWork.ProparingPerson.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DailyWork.Date)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DailyWork.Date)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DailyWork.PrrocessPerPlan)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DailyWork.PrrocessPerPlan)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DailyWork.PrrocessPerResult)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DailyWork.PrrocessPerResult)
+            </dd>
+
+            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.DailyWork.WeatherKr)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DailyWork.WeatherKr)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.DailyWork.NoteKr)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DailyWork.NoteKr)
+                </dd>
+            }
+            else
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.DailyWork.WeatherVn)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DailyWork.WeatherVn)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.DailyWork.NoteVn)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DailyWork.NoteVn)
+                </dd>
+            }
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DailyWork.Translate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DailyWork.Translate)
+            </dd>
+
+
+
+        </dl>
+        <table>
+            <tr>
+                <th valign="bottom" style="padding-right:12pt"><h4>Work Unit</h4></th>
+                <th valign="bottom" style="padding-bottom:5pt">@Html.ActionLink("Edit", "EditAddWork", new { id = Model.DailyWork.ID })</th>
+            </tr>
+        </table>
+
+        <table class="table">
+            <tr>
+                <th>@Resource.WorkName</th>
+                <th>@Resource.StartDate</th>
+                <th>@Resource.Note</th>
+                <th>@Resource.Complete</th>
+                <th></th>
+            </tr>
+            @if (ViewBag.WorkUnits != null && ViewBag.WorkUnits.Count != 0)
+            {
+                double totalPrice = 0;
+                foreach (WorkUnit item in ViewBag.WorkUnits)
+                {
+                    <tr>
+                        <td>
+                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                            {
+                                @item.WorkNameKr
+                            }
+                            else
+                            {
+                                @item.WorkNameVn
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.StartDate)
+                        </td>
+                        <td>
+                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                            {
+                                @item.NoteKr
+                            }
+                            else
+                            {
+                                @item.NoteVn
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Complete)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditEditWork", new { id = Model.DailyWork.ID, workid = item.ID }) |
+                            @Html.ActionLink("Delete", "DeleteWorkUnit", new { id = Model.DailyWork.ID, workid = item.ID })
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+
+        <table>
+            <tr>
+                <th valign="bottom" style="padding-right:12pt"><h4>Equipment Unit</h4></th>
+                @*<th valign="bottom" style="padding-bottom:5pt">@Html.ActionLink("Edit", "EditAddEquipment", new { id = Model.DailyWork.ID })</th>*@
+            </tr>
+        </table>
+
+        <table class="table">
+            <tr>
+                <th>@Resource.Name</th>
+                <th>@Resource.EquipCount</th>
+                <th>@Resource.Note</th>
+                <th></th>
+            </tr>
+            @if (Model.DailyWork.EquipmentUnits != null && Model.DailyWork.EquipmentUnits.Count != 0)
+            {
+
+                foreach (var item in Model.DailyWork.EquipmentUnits)
+                {
+                    if (item.ID != Model.EquipmentUnit.ID)
+                    {
+                        <tr>
+                            <td>
+                                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                                {
+                                    @item.NameKr
+                                }
+                                else
+                                {
+                                    @item.NameVn
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.EquipCount)
+                            </td>
+                            <td>
+                                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                                {
+                                    @item.NoteVn
+                                }
+                                else
+                                {
+                                    @item.NoteVn
+                                }
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "EditEditEquipment", new { id = Model.DailyWork.ID, equipmentid = item.ID }) |
+                                @Html.ActionLink("Delete", "DeleteEquipment", new { id = Model.DailyWork.ID, equipmentid = item.ID })
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <th>
+                                @Html.EditorFor(model => model.EquipmentUnit.NameVn, new { htmlAttributes = new { @id = "unit", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EquipmentUnit.NameVn, "", new { @class = "text-danger" })
+                            </th>
+                            <th>
+                                @Html.EditorFor(model => model.EquipmentUnit.EquipCount, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EquipmentUnit.EquipCount, "", new { @class = "text-danger" })
+                            </th>
+                            <th>
+                                @Html.EditorFor(model => model.EquipmentUnit.NoteVn, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EquipmentUnit.NoteVn, "", new { @class = "text-danger" })
+                            </th>
+                            <th>
+                                <input type="submit" value="Add" class="btn btn-default" />
+                            </th>
+                        </tr>
+                    }
+                }
+            }
+        </table>
+
+
+
+
+
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to Edit", "Edit", new { id = Model.DailyWork.ID }) |
+    @Html.ActionLink("Back to List", "Index", new { projectid = Model.DailyWork.ProjectID })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

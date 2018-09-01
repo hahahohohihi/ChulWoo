@@ -1,0 +1,98 @@
+﻿@model ChulWoo.Models.DailyWork
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DailyWork</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.NameVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.NameVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProparingPerson.DepartmentVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProparingPerson.DepartmentVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrrocessPerPlan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrrocessPerPlan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrrocessPerResult)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrrocessPerResult)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WeatherVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WeatherVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WeatherKr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WeatherKr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoteVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoteVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoteKr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoteKr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Translate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Translate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index", new { projectid = Model.ProjectID }))
+</p>

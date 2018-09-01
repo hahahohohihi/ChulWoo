@@ -29,6 +29,9 @@ namespace ChulWoo.DAL
         public DbSet<Board> Boards { get; set; }
         public DbSet<UploadFile> UploadFiles { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<DailyWork> DailyWorks { get; set; }
+        public DbSet<WorkUnit> WorkUnits { get; set; }
+        public DbSet<EquipmentUnit> EquipmentUnits { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         { 

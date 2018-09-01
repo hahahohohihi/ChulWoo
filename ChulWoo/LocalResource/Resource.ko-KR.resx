@@ -339,4 +339,28 @@
   <data name="Statement" xml:space="preserve">
     <value>입출금</value>
   </data>
+  <data name="Complete" xml:space="preserve">
+    <value>완료</value>
+  </data>
+  <data name="Constructor" xml:space="preserve">
+    <value>시공사</value>
+  </data>
+  <data name="EquipCount" xml:space="preserve">
+    <value>투입수</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>관리자</value>
+  </data>
+  <data name="PrrocessPerPlan" xml:space="preserve">
+    <value>계획공정율</value>
+  </data>
+  <data name="PrrocessPerResult" xml:space="preserve">
+    <value>완료공정율</value>
+  </data>
+  <data name="Weather" xml:space="preserve">
+    <value>날씨</value>
+  </data>
+  <data name="WorkName" xml:space="preserve">
+    <value>작업명</value>
+  </data>
 </root>
