@@ -67,10 +67,11 @@ namespace ChulWoo.Controllers
 
             var project = db.Projects.Include(p => p.Company)
                 .Include(p => p.MaterialBuys.Select(mb => mb.Project))
-                .Include(p => p.Deposits.Select(d => d.Project))
                 .Include(p => p.WorkUnits.Select(w => w.Project))
                 .Where(p => p.ID == id)
                 .Single();
+
+            project.Deposits = (ICollection<Payment>)db.Payments.Where(p => p.ProjectID == id && p.StatementType == Models.StatementType.Deposit).ToList();
 
             if (project == null)
             {
