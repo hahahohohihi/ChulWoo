@@ -486,6 +486,8 @@
     <Content Include="Views\DailyWork\EditEditWork.cshtml" />
     <Content Include="Views\DailyWork\EditAddEquipment.cshtml" />
     <Content Include="Views\DailyWork\EditEditEquipment.cshtml" />
+    <Content Include="Views\Project\DetailsDailyWork.cshtml" />
+    <Content Include="Views\Project\DetailsWorkProcess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\App_Data\" />

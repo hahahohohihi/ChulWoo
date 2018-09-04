@@ -78,8 +78,16 @@
                         <li>@Html.ActionLink("Project", "Index", "Project")</li>
                         if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
                         {
-                            <li>@Html.ActionLink("MaterialName", "Index", "MaterialName")</li>
-                            <li>@Html.ActionLink("Payment", "Index", "Payment")</li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Translate
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("MaterialName", "Index", "MaterialName")</li>
+                                    <li>@Html.ActionLink("Payment", "Index", "Payment")</li>
+                                </ul>
+                            </li>
                         }
                     }
                 </ul>

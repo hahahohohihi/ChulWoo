@@ -1,0 +1,140 @@
+﻿@model ChulWoo.Models.Project
+
+@{
+    ViewBag.Title = "DetailsWorkProcess";
+}
+
+<h2>DetailsWorkProcess</h2>
+
+<div>
+    <hr />
+
+    @{
+        DateTime startDate = (DateTime)Model.Date;
+        DateTime nowDate = DateTime.Now;
+
+        int startYear = startDate.Year;
+        int startMonth = startDate.Month;
+        int startDay = startDate.Day;
+        startYear = ViewBag.startYear;
+        startMonth = ViewBag.startMonth;
+        startDay = 1;
+
+        DateTime date_init = new DateTime(startYear, startMonth, 1);
+        int yoil = (int)date_init.DayOfWeek;
+
+        // 이달 마지막날/요일
+        int lastDay = date_init.AddMonths(1).AddDays(-1).Day;
+        int lastyoil = (int)date_init.AddMonths(1).AddDays(-1).DayOfWeek;
+    }
+
+
+    <table border="1">
+        <tr>
+            <th height="50" colspan="@(lastDay - startDay+1+1)" style="text-align: center; font-size:20px">
+                @Html.ActionLink("<<", "DetailsWorkProcess", new { id = Model.ID, startYear = startYear, startMonth = startMonth - 1 })
+                @startYear . @startMonth
+                @Html.ActionLink(">>", "DetailsWorkProcess", new { id = Model.ID, startYear = startYear, startMonth = startMonth + 1 })
+            </th>
+        </tr>
+        <tr>
+            <th></th>
+            @{
+                for (int day = startDay; day <= lastDay; day++)
+                {
+                    if (((yoil + day) % 7) == 1)
+                    {
+                        <th style="background-color:coral; text-align: center;">
+                            @day
+                        </th>
+                    }
+                    else
+                    {
+                        <th style="text-align: center;">
+                            @day
+                        </th>
+                    }
+                }
+            }
+        </tr>
+        <tr>
+            <td></td>
+                @for (int day = startDay; day <= lastDay; day++)
+                {
+                    if (((yoil + day) % 7) == 1)
+                    {
+                        WriteLiteral("<td width=\"20\" style=\"background-color:coral; text-align: center;\">");
+                    }
+                    else
+                    {
+                        WriteLiteral("<td width=\"20\" style=\"text-align: center;\">");
+                    }
+                    switch ((yoil + day) % 7)
+                    {
+                        case 0: WriteLiteral("토</td>"); break;
+                        case 1: WriteLiteral("일</td>"); break;
+                        case 2: WriteLiteral("월</td>"); break;
+                        case 3: WriteLiteral("화</td>"); break;
+                        case 4: WriteLiteral("수</td>"); break;
+                        case 5: WriteLiteral("목</td>"); break;
+                        case 6: WriteLiteral("금</td>"); break;
+                    }
+                }
+        </tr>
+        @foreach (var work in Model.WorkUnits)
+        {
+            if (work.StartDate.Month <= startMonth && (!work.Complete || (work.Complete && startMonth <= ((DateTime)work.EndDate).Month)))
+            {
+                <tr>
+                    <th height="25" width="300">
+                        @work.WorkNameKr
+                    </th>
+                    @{
+                        for (int day = startDay; day <= lastDay; day++)
+                        {
+
+                            if (work.StartDate.Month < startMonth)
+                            {
+                                if (!work.Complete && day <= DateTime.Now.Day)
+                                {
+                                    <th style="background-color:olive" id="@day">
+                                    </th>
+                                }
+                                else if (((yoil + day) % 7) == 1)
+                                {
+                                    <th style="background-color:coral"></th>
+                                }
+                                else
+                                {
+                                    <th>
+                                    </th>
+                                }
+                            }
+                            else
+                            {
+                                if (day >= work.StartDate.Day && ((!work.Complete && (startMonth != DateTime.Now.Month || day <= DateTime.Now.Day)) || (work.Complete && work.EndDate != null && day <= ((DateTime)work.EndDate).Day)))
+                                {
+                                    <th style="background-color:olive">
+                                    </th>
+                                }
+                                else if (((yoil + day) % 7) == 1)
+                                {
+                                    <th style="background-color:coral"></th>
+                                }
+                                else
+                                {
+                                    <th>
+                                    </th>
+                                }
+                            }
+                        }
+                    }
+                </tr>
+            }
+        }
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

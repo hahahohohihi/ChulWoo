@@ -68,6 +68,39 @@ namespace ChulWoo.Controllers
             var project = db.Projects.Include(p => p.Company)
                 .Include(p => p.MaterialBuys.Select(mb => mb.Project))
                 .Include(p => p.WorkUnits.Select(w => w.Project))
+                .Include(p => p.Deposits.Select(w => w.Project))
+                .Where(p => p.ID == id)
+                .Single();
+
+//            project.Deposits = (ICollection<Payment>)db.Payments.Where(p => p.ProjectID == id && p.StatementType == Models.StatementType.Deposit).ToList();
+
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+            if(project.MaterialBuys != null)
+                project.MaterialBuys = project.MaterialBuys.OrderByDescending(m => m.Date).ToList();
+
+            return View(project);
+        }
+
+        public async Task<ActionResult> DetailsWorkProcess(int? id, int? startYear, int? startMonth )
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Personnel))
+                return RedirectToAction("Index", "Home");
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            //            Project project = await db.Projects.FindAsync(id);
+
+            var project = db.Projects.Include(p => p.Company)
+                .Include(p => p.MaterialBuys.Select(mb => mb.Project))
+                .Include(p => p.WorkUnits.Select(w => w.Project))
                 .Where(p => p.ID == id)
                 .Single();
 
@@ -77,7 +110,50 @@ namespace ChulWoo.Controllers
             {
                 return HttpNotFound();
             }
-            if(project.MaterialBuys != null)
+            if (project.MaterialBuys != null)
+                project.MaterialBuys = project.MaterialBuys.OrderByDescending(m => m.Date).ToList();
+
+            if( startYear == null)
+            {
+                ViewBag.startYear = DateTime.Now.Year;
+                ViewBag.startMonth = DateTime.Now.Month;
+            }
+            else
+            {
+                ViewBag.startYear = startYear;
+                ViewBag.startMonth = startMonth;
+            }
+
+            return View(project);
+        }
+
+        public async Task<ActionResult> DetailsDailyWork(int? id)
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Personnel))
+                return RedirectToAction("Index", "Home");
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            //            Project project = await db.Projects.FindAsync(id);
+
+            var project = db.Projects.Include(p => p.Company)
+                .Include(p => p.MaterialBuys.Select(mb => mb.Project))
+                .Include(p => p.WorkUnits.Select(w => w.Project))
+                .Where(p => p.ID == id)
+                .Single();
+
+            project.Deposits = (ICollection<Payment>)db.Payments.Where(p => p.ProjectID == id && p.StatementType == Models.StatementType.Deposit).ToList();
+
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+            if (project.MaterialBuys != null)
                 project.MaterialBuys = project.MaterialBuys.OrderByDescending(m => m.Date).ToList();
 
             return View(project);
@@ -92,7 +168,8 @@ namespace ChulWoo.Controllers
             if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Translation))
                 return RedirectToAction("Index", "Home");
 
-            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name");
+//            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name");
+            ViewBag.ManagerID = new SelectList(db.Employees, "ID", "Name");
             return View();
         }
 
@@ -101,7 +178,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,CompanyID,NameVn,NameKr,Date,Company,UploadFiles,Translate")] Project project)
+        public async Task<ActionResult> Create([Bind(Include = "ID,CompanyID,NameVn,NameKr,Date,Company,Constructor,ConstructorID,Manager,ManagerID,UploadFiles,Translate")] Project project)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
@@ -110,7 +187,8 @@ namespace ChulWoo.Controllers
                 return RedirectToAction("Index", "Home");
 
             project.Company = db.Companys.FirstOrDefault(c => c.Name.Equals(project.Company.Name));
-            if (project.Company != null && ModelState.IsValid)
+            project.Constructor = db.Companys.FirstOrDefault(c => c.Name.Equals(project.Constructor.Name));
+            if (project.Company != null && project.Constructor != null && ModelState.IsValid)
             {
                 List<UploadFile> UploadFiles = new List<UploadFile>();
                 for (int i = 0; i < Request.Files.Count; i++)
@@ -136,6 +214,7 @@ namespace ChulWoo.Controllers
 
                 project.UploadFiles = UploadFiles;
                 project.CompanyID = project.Company.ID;
+                project.ConstructorID = project.Constructor.ID;
                 DateTime date = (DateTime)project.Date;
                 project.Date = new DateTime(date.Year, date.Month, date.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
                 db.Projects.Add(project);
@@ -165,7 +244,8 @@ namespace ChulWoo.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", project.CompanyID);
+//            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", project.CompanyID);
+            ViewBag.ManagerID = new SelectList(db.Employees, "ID", "Name", project.ManagerID);
             return View(project);
         }
 
@@ -174,7 +254,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,CompanyID,NameVn,NameKr,Date,Company,UploadFiles,Translate")] Project project)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,CompanyID,NameVn,NameKr,Date,Company,Manager,ManagerID,Constructor,ConstructorID,UploadFiles,Translate")] Project project)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
@@ -184,7 +264,8 @@ namespace ChulWoo.Controllers
 
             Project sproject = await db.Projects.FindAsync(project.ID);
             Company company = db.Companys.FirstOrDefault(c => c.Name.Equals(project.Company.Name));
-            if (sproject != null && company != null && ModelState.IsValid)
+            Company constructor = db.Companys.FirstOrDefault(c => c.Name.Equals(project.Constructor.Name));
+            if (sproject != null && company != null && constructor != null && ModelState.IsValid)
             {
                 for (int i = 0; i < Request.Files.Count; i++)
                 {
@@ -214,6 +295,8 @@ namespace ChulWoo.Controllers
                 sproject.Date = project.Date;
                 sproject.NameVn = project.NameVn;
                 sproject.NameKr = project.NameKr;
+                sproject.ConstructorID = constructor.ID;
+                sproject.ManagerID = project.ManagerID;
                 sproject.Translate = project.Translate;
 
                 company.Projects.Add(sproject);
