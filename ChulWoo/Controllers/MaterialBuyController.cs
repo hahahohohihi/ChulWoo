@@ -409,7 +409,10 @@ namespace ChulWoo.Controllers
                 return RedirectToAction("Login", "Account");
 
 //            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name");
-            ViewBag.ProjectID = new SelectList(db.Projects.OrderByDescending( p => p.Date), "ID", "NameVn");
+            if(Convert.ToInt32(Session["CurrentCulture"]) == 2)
+                ViewBag.ProjectID = new SelectList(db.Projects.OrderByDescending( p => p.Date), "ID", "NameKr");
+            else
+                ViewBag.ProjectID = new SelectList(db.Projects.OrderByDescending(p => p.Date), "ID", "NameVn");
             return View();
         }
 
@@ -418,7 +421,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Company,ProjectID,Date,NoteVn,NoteKr,VAT,EmployeeID,Translate")] MaterialBuy materialBuy)
+        public async Task<ActionResult> Create([Bind(Include = "ID,Company,ProjectID,Date,NoteVn,NoteKr,VAT,VATPer,EmployeeID,Translate")] MaterialBuy materialBuy)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
@@ -445,7 +448,10 @@ namespace ChulWoo.Controllers
             }
 
  //           ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", materialBuy.CompanyID);
-            ViewBag.ProjectID = new SelectList(db.Projects.OrderByDescending(p => p.Date), "ID", "NameVn", materialBuy.ProjectID);
+            if (Convert.ToInt32(Session["CurrentCulture"]) == 2)
+                ViewBag.ProjectID = new SelectList(db.Projects.OrderByDescending(p => p.Date), "ID", "NameKr", materialBuy.ProjectID);
+            else
+                ViewBag.ProjectID = new SelectList(db.Projects.OrderByDescending(p => p.Date), "ID", "NameVn", materialBuy.ProjectID);
             return View(materialBuy);
         }
 
@@ -466,7 +472,10 @@ namespace ChulWoo.Controllers
             }
 
 //            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", materialBuy.CompanyID);
-            ViewBag.ProjectID = new SelectList(db.Projects.OrderByDescending(p => p.Date), "ID", "NameVn", materialBuy.ProjectID);
+            if (Convert.ToInt32(Session["CurrentCulture"]) == 2)
+                ViewBag.ProjectID = new SelectList(db.Projects.OrderByDescending(p => p.Date), "ID", "NameKr", materialBuy.ProjectID);
+            else
+                ViewBag.ProjectID = new SelectList(db.Projects.OrderByDescending(p => p.Date), "ID", "NameVn", materialBuy.ProjectID);
             return View(materialBuy);
         }
 
@@ -475,7 +484,7 @@ namespace ChulWoo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Company,ProjectID,Date,NoteVn,NoteKr,VAT,Translate")] MaterialBuy materialBuy)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,Company,ProjectID,Date,NoteVn,NoteKr,VAT,VATPer,Translate")] MaterialBuy materialBuy)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
@@ -493,6 +502,7 @@ namespace ChulWoo.Controllers
                 smb.NoteVn = materialBuy.NoteVn;
                 smb.NoteKr = materialBuy.NoteKr;
                 smb.VAT = materialBuy.VAT;
+                smb.VATPer = materialBuy.VATPer;
                 smb.Translate = materialBuy.Translate;
 
 
@@ -502,7 +512,10 @@ namespace ChulWoo.Controllers
                 return RedirectToAction("Index", new { translate = Session["Translate"] });
             }
 //            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", materialBuy.CompanyID);
-            ViewBag.ProjectID = new SelectList(db.Projects.OrderByDescending(p => p.Date), "ID", "NameVn", materialBuy.ProjectID);
+            if (Convert.ToInt32(Session["CurrentCulture"]) == 2)
+                ViewBag.ProjectID = new SelectList(db.Projects.OrderByDescending(p => p.Date), "ID", "NameKr", materialBuy.ProjectID);
+            else
+                ViewBag.ProjectID = new SelectList(db.Projects.OrderByDescending(p => p.Date), "ID", "NameVn", materialBuy.ProjectID);
             return View(materialBuy);
         }
 
@@ -695,7 +708,8 @@ namespace ChulWoo.Controllers
                 Date = d.Date,
                 NoteVn = d.NoteVn,
                 NoteKr = d.NoteKr,
-                VAT = d.VAT
+                VAT = d.VAT,
+                VATPer = d.VATPer
             };
 
             grid.DataBind();

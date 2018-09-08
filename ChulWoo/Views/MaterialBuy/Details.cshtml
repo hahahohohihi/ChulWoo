@@ -202,11 +202,7 @@
                     <th height="30">V.A.T</th>
                     <th>
                         @{
-                            var vat = totalPrice * 0.1;
-                            if (Model.VAT == false)
-                            {
-                                vat = 0;
-                            }
+                            var vat = totalPrice * Model.VATPer;
                         }
                         @String.Format("{0:0,0}", vat)
                     </th>

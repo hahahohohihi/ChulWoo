@@ -107,14 +107,7 @@
                     <th></th>
                     <th>VAT</th>
                     <th>
-                        @if (Model.MaterialBuy.VAT == true)
-                        {
-                            @String.Format("{0:0,0}", totalPrice * 0.1)
-                        }
-                        else
-                        {
-                            @String.Format("{0:0,0}", 0)
-                        }
+                        @String.Format("{0:0,0}", totalPrice * Model.MaterialBuy.VATPer)
                     </th>
                     <th></th>
                 </tr>
@@ -124,14 +117,7 @@
                     <th></th>
                     <th>Total Price</th>
                     <th>
-                        @if (Model.MaterialBuy.VAT == true)
-                        {
-                            @String.Format("{0:0,0}", totalPrice * 1.1)
-                        }
-                        else
-                        {
-                            @String.Format("{0:0,0}", totalPrice * 1.0)
-                        }
+                        @String.Format("{0:0,0}", totalPrice + (totalPrice * Model.MaterialBuy.VATPer))
                     </th>
                     <th></th>
                 </tr>

@@ -43,5 +43,6 @@ namespace ChulWoo.DAL
 //            modelBuilder.Entity<Company>().MapToStoredProcedures();
         }
 
+        public System.Data.Entity.DbSet<ChulWoo.Models.FactoryDailyWork> FactoryDailyWorks { get; set; }
     }
 }

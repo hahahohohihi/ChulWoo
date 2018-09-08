@@ -36,12 +36,15 @@ namespace ChulWoo.Models
         public DateTime? Date { get; set; }
 
         [Display(Name = "SubNote", ResourceType = typeof(Resource))]
+        [StringLength(100, ErrorMessage = "Cannot be longer than 50 characters.")]
         public string NoteVn { get; set; }
         [Display(Name = "SubNote", ResourceType = typeof(Resource))]
+        [StringLength(100, ErrorMessage = "Cannot be longer than 50 characters.")]
         public string NoteKr { get; set; }
 
         [DefaultValue(true)]
         public bool VAT { get; set; }
+        public float VATPer { get; set; }
 
 
         [Display(Name = "Translate", ResourceType = typeof(Resource))]

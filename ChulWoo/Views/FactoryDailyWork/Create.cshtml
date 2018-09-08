@@ -1,34 +1,24 @@
-﻿@model ChulWoo.Models.MaterialBuy
+﻿@model ChulWoo.Models.FactoryDailyWork
 
 @{
-    ViewBag.Title = "View";
+    ViewBag.Title = "Create";
 }
 
-<h2>View</h2>
+<h2>Create</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>MaterialBuy</h4>
+        <h4>FactoryDailyWork</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID)
-
         <div class="form-group">
-            @Html.LabelFor(model => model.CompanyID, "CompanyID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ProparingPersonID, "ProparingPersonID", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("CompanyID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.CompanyID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ProjectID, "ProjectID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("ProjectID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ProjectID, "", new { @class = "text-danger" })
+                @Html.DropDownList("ProparingPersonID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ProparingPersonID, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -49,18 +39,26 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.VATPer, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NoteKr, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NoteKr, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NoteKr, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Translate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.VATPer, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.VATPer, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Translate)
+                    @Html.ValidationMessageFor(model => model.Translate, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>

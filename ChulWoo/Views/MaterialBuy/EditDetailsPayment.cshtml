@@ -143,7 +143,11 @@
             <tr>
                 <td height="50">Diễn giả : <br />내역</td>
                 <td>
-                    @Model.MaterialBuy.MaterialBuyUnits.First().MaterialUnitPrice.MaterialName.NameKr
+                    @foreach( var unit in Model.MaterialBuy.MaterialBuyUnits )
+                    {
+                        @unit.MaterialUnitPrice.MaterialName.NameVn;
+                    }
+                    @*Model.MaterialBuy.MaterialBuyUnits.First().MaterialUnitPrice.MaterialName.NameVn*@
                 </td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
@@ -155,10 +159,7 @@
                     @{
                         var item = Model.MaterialBuy.MaterialBuyUnits.First();
                         var totalprice = item.MaterialUnitPrice.Price * item.Quantity;
-                        if (Model.MaterialBuy.VAT == true)
-                        {
-                            totalprice = totalprice * 1.1;
-                        }
+                            totalprice = totalprice + (totalprice * item.MaterialBuy.VATPer);
                     }
                     @String.Format("{0:0,0}", Model.Payment.Amount)
                 </td>

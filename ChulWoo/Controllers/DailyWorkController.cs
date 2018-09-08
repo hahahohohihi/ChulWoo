@@ -373,6 +373,13 @@ namespace ChulWoo.Controllers
                 dailyWorkEquipmentData.EquipmentUnit.DailyWorkID = dailyWorkEquipmentData.DailyWork.ID;
                 dailyWorkEquipmentData.EquipmentUnit.Date = (DateTime)dailyWorkEquipmentData.DailyWork.Date;
 
+                EquipmentUnit equipTemp = db.EquipmentUnits.FirstOrDefault(e => e.NameVn.Equals(dailyWorkEquipmentData.EquipmentUnit.NameVn));
+                if( equipTemp != null )
+                {
+                    dailyWorkEquipmentData.EquipmentUnit.NameKr = equipTemp.NameKr;
+                }
+                
+
                 db.EquipmentUnits.Add(dailyWorkEquipmentData.EquipmentUnit);
                 dailyWork.EquipmentUnits.Add(dailyWorkEquipmentData.EquipmentUnit);
 

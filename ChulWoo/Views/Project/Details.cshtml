@@ -46,8 +46,8 @@
        @Html.DisplayFor(model => model.Date)
    </dd>
 </dl>
-@if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
-        {
+@if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Personnel))
+{
    <ul class="attachment">
        @foreach (var item in Model.UploadFiles)
         {
@@ -55,7 +55,7 @@
                <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a>  |
                <a class="title" href="/Board/Download/?SFilename=@(item.FolderName+"/"+ item.SaveFileName)&Filename=@item.FileName">Download</a>
            </li>
-       }
+        }
    </ul>
 }
 <br />
@@ -126,8 +126,8 @@
    <table class="table">
        @{
            MaterialBuy tempitem = null;
-double subtotal = 0;
-double vat = 0;
+            double subtotal = 0;
+            double vat = 0;
            foreach (var item in Model.MaterialBuys)
            {
                if (tempitem == null || tempitem.Date != item.Date)
@@ -145,7 +145,7 @@ double vat = 0;
                            <th style="text-align: right;">@String.Format("{0:0,0}", subtotal + vat)</th>
                        </tr>
                        subtotal = 0;
-vat = 0;
+                        vat = 0;
                    }
 
                    <tr>
@@ -170,8 +170,8 @@ vat = 0;
                        </td>
                        <td>
                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
-{
-    @unit.MaterialUnitPrice.MaterialName.NameKr
+                            {
+                                @unit.MaterialUnitPrice.MaterialName.NameKr
                            }
                            else
                            {
@@ -185,49 +185,45 @@ vat = 0;
     {
         @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
     }*@
-</td>
-<td>
-    @unit.MaterialUnitPrice.UnitString
-</td>
-<td>
-    @unit.Quantity
-</td>
-<td style="text-align: right;">
-    @Html.DisplayFor(model => unit.MaterialUnitPrice.Price)
-</td>
-<td style="text-align: right;">
-    @{
-                                            var price = unit.Quantity * unit.MaterialUnitPrice.Price;
-subtotal = subtotal + (double) price;
-                                            if (unit.MaterialBuy.VAT == true)
-                                            {
-                                                vat = vat + ((double) price * 0.1);
-                                            }
-    }
-    @String.Format("{0:0,0}", price)
+                        </td>
+                        <td>
+                            @unit.MaterialUnitPrice.UnitString
+                        </td>
+                        <td>
+                            @unit.Quantity
+                        </td>
+                        <td style="text-align: right;">
+                            @Html.DisplayFor(model => unit.MaterialUnitPrice.Price)
+                        </td>
+                        <td style="text-align: right;">
+                            @{
+                                var price = unit.Quantity * unit.MaterialUnitPrice.Price;
+                                subtotal = subtotal + (double) price;
+                                vat = vat + ((double)price * unit.MaterialBuy.VATPer);
+                            }
+                            @String.Format("{0:0,0}", price)
 
-</td>
+                        </td>
 
                         </tr>
                     }
                     tempitem = item;
                 }
             }
-<tr>
-    <th colspan="4" height="20"></th>
-    <th>VAT</th>
-    <th style="text-align: right;">@String.Format("{0:0,0}", vat)</th>
-</tr>
-<tr>
-    <th colspan="4" height="20"></th>
-    <th>소계</th>
-    <th style="text-align: right;">@String.Format("{0:0,0}", subtotal + vat)</th>
-</tr>
+            <tr>
+                <th colspan="4" height="20"></th>
+                <th>VAT</th>
+                <th style="text-align: right;">@String.Format("{0:0,0}", vat)</th>
+            </tr>
+            <tr>
+                <th colspan="4" height="20"></th>
+                <th>소계</th>
+                <th style="text-align: right;">@String.Format("{0:0,0}", subtotal + vat)</th>
+            </tr>
 
         </table>
     }
 
-</div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")

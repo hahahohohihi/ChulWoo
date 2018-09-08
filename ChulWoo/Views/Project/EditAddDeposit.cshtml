@@ -1,5 +1,6 @@
 ﻿@model ChulWoo.Viewmodel.ProjectDepositData
 @using ChulWoo.Helper;
+@using ChulWoo.Models;
 
 @{
     ViewBag.Title = "EditAddDeposit";
@@ -80,34 +81,37 @@
 
                 foreach (var item in Model.Porject.Deposits)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(model => item.Date)
-                        </td>
-                        <td>
-                            @EnumExtensions.GetDisplayName(item.Type)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => item.Amount)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => item.AmountString)
-                        </td>
-                        <td>
-                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
-                            {
-                                @item.NoteVn
-                            }
-                            else
-                            {
-                                @item.NoteVn
-                            }
-                        </td>
-                        <td>
-                            @Html.ActionLink("Edit", "EditEditDeposit", new { id = Model.Porject.ID, depositid = item.ID }) |
-                            @Html.ActionLink("Delete", "DeleteDeposit", new { id = Model.Porject.ID, depositid = item.ID })
-                        </td>
-                    </tr>
+                    if (item.StatementType == StatementType.Deposit)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => item.Date)
+                            </td>
+                            <td>
+                                @EnumExtensions.GetDisplayName(item.Type)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.Amount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.AmountString)
+                            </td>
+                            <td>
+                                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                                {
+                                    @item.NoteVn
+                                }
+                                else
+                                {
+                                    @item.NoteVn
+                                }
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "EditEditDeposit", new { id = Model.Porject.ID, depositid = item.ID }) |
+                                @Html.ActionLink("Delete", "DeleteDeposit", new { id = Model.Porject.ID, depositid = item.ID })
+                            </td>
+                        </tr>
+                    }
                 }
             }
             <tr>

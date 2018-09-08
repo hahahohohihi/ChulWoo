@@ -70,9 +70,10 @@
                     @*<li>@Html.ActionLink("연락처", "Contact", "Home")</li>*@
                     @if (Context.Session["LoginUserID"] != null)
                     {
-                        <li> @Html.ActionLink("Board", "Index", "Board") </li>
+                        <li>@Html.ActionLink("Board", "Index", "Board") </li>
                         <li>@Html.ActionLink("Employee", "Index", "Employee")</li>
                         <li>@Html.ActionLink("Personnel", "Index", "Personnel")</li>
+                        <li>@Html.ActionLink("Factory", "Index", "FactoryDailyWork")</li>
                         <li>@Html.ActionLink("Company", "Index", "Company")</li>
                         <li>@Html.ActionLink("MaterialBuy", "Index", "MaterialBuy")</li>
                         <li>@Html.ActionLink("Project", "Index", "Project")</li>
@@ -86,6 +87,9 @@
                                 <ul class="dropdown-menu">
                                     <li>@Html.ActionLink("MaterialName", "Index", "MaterialName")</li>
                                     <li>@Html.ActionLink("Payment", "Index", "Payment")</li>
+                                    <li>@Html.ActionLink("DailyWorkReport", "Index", "DailyWork")</li>
+                                    <li>@Html.ActionLink("WorkUnit", "Index", "WorkUnit")</li>
+                                    <li>@Html.ActionLink("EquipmentUnit", "Index", "EquipmentUnit")</li>
                                 </ul>
                             </li>
                         }

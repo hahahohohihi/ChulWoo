@@ -11,7 +11,7 @@ namespace ChulWoo.Models
 {
     public enum Security
     {
-        Public, Personnel, Translation, Power, Admin
+        Public, Personnel, Manager, Translation, Power, Admin
     }
 
     public class User
@@ -33,5 +33,7 @@ namespace ChulWoo.Models
         public Security? Security { get; set; }
 
         public DateTime? LastLogin { get; set; }
+
+        public int Language { get; set; }
     }
 }

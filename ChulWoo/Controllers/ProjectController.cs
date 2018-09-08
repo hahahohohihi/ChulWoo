@@ -188,7 +188,7 @@ namespace ChulWoo.Controllers
 
             project.Company = db.Companys.FirstOrDefault(c => c.Name.Equals(project.Company.Name));
             project.Constructor = db.Companys.FirstOrDefault(c => c.Name.Equals(project.Constructor.Name));
-            if (project.Company != null && project.Constructor != null && ModelState.IsValid)
+            if (project.Company != null && ModelState.IsValid)
             {
                 List<UploadFile> UploadFiles = new List<UploadFile>();
                 for (int i = 0; i < Request.Files.Count; i++)
@@ -214,7 +214,8 @@ namespace ChulWoo.Controllers
 
                 project.UploadFiles = UploadFiles;
                 project.CompanyID = project.Company.ID;
-                project.ConstructorID = project.Constructor.ID;
+                if( project.Constructor != null )
+                    project.ConstructorID = project.Constructor.ID;
                 DateTime date = (DateTime)project.Date;
                 project.Date = new DateTime(date.Year, date.Month, date.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
                 db.Projects.Add(project);
@@ -232,7 +233,7 @@ namespace ChulWoo.Controllers
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
 
-            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Translation))
+            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Personnel))
                 return RedirectToAction("Index", "Home");
 
             if (id == null)
@@ -265,7 +266,7 @@ namespace ChulWoo.Controllers
             Project sproject = await db.Projects.FindAsync(project.ID);
             Company company = db.Companys.FirstOrDefault(c => c.Name.Equals(project.Company.Name));
             Company constructor = db.Companys.FirstOrDefault(c => c.Name.Equals(project.Constructor.Name));
-            if (sproject != null && company != null && constructor != null && ModelState.IsValid)
+            if (sproject != null && company != null && ModelState.IsValid)
             {
                 for (int i = 0; i < Request.Files.Count; i++)
                 {
@@ -295,9 +296,11 @@ namespace ChulWoo.Controllers
                 sproject.Date = project.Date;
                 sproject.NameVn = project.NameVn;
                 sproject.NameKr = project.NameKr;
-                sproject.ConstructorID = constructor.ID;
                 sproject.ManagerID = project.ManagerID;
                 sproject.Translate = project.Translate;
+
+                if( constructor != null )
+                    sproject.ConstructorID = constructor.ID;
 
                 company.Projects.Add(sproject);
                 db.Entry(sproject).State = EntityState.Modified;

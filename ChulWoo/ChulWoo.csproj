@@ -249,6 +249,7 @@
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\DailyWorkController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\FactoryDailyWorkController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialBuyController.cs" />
     <Compile Include="Controllers\MaterialNameController.cs" />
@@ -346,6 +347,10 @@
     <Compile Include="Migrations\201808310144191_18083102.Designer.cs">
       <DependentUpon>201808310144191_18083102.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809080857215_180908.cs" />
+    <Compile Include="Migrations\201809080857215_180908.Designer.cs">
+      <DependentUpon>201809080857215_180908.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Company.cs" />
@@ -353,6 +358,8 @@
     <Compile Include="Models\DailyWork.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\EquipmentUnit.cs" />
+    <Compile Include="Models\FactoryDailyWork.cs" />
+    <Compile Include="Models\FactoryWorkUnit.cs" />
     <Compile Include="Models\MaterialBuy.cs" />
     <Compile Include="Models\MaterialBuyUnit.cs" />
     <Compile Include="Models\MaterialName.cs" />
@@ -488,6 +495,11 @@
     <Content Include="Views\DailyWork\EditEditEquipment.cshtml" />
     <Content Include="Views\Project\DetailsDailyWork.cshtml" />
     <Content Include="Views\Project\DetailsWorkProcess.cshtml" />
+    <Content Include="Views\FactoryDailyWork\Create.cshtml" />
+    <Content Include="Views\FactoryDailyWork\Delete.cshtml" />
+    <Content Include="Views\FactoryDailyWork\Details.cshtml" />
+    <Content Include="Views\FactoryDailyWork\Edit.cshtml" />
+    <Content Include="Views\FactoryDailyWork\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\App_Data\" />
@@ -573,6 +585,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808310144191_18083102.resx">
       <DependentUpon>201808310144191_18083102.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809080857215_180908.resx">
+      <DependentUpon>201809080857215_180908.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

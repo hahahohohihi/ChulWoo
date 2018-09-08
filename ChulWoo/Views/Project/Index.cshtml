@@ -22,7 +22,7 @@
     <p>
         Find by ProjectName: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
         &nbsp; &nbsp;
-        @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
+        @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Personnel))
         {
             Write("Translate:  ");
             @Html.CheckBox("translate", (bool?)Session["Translate"])
@@ -65,7 +65,7 @@
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
+                @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Personnel))
                 {
                     @Html.ActionLink("Edit", "Edit", new { id = item.ID })
                     Write(" | ");
@@ -76,10 +76,6 @@
                     {
                         @Html.ActionLink("Delete", "Delete", new { id = item.ID })
                     }
-                }
-                @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) == Convert.ToInt32(Security.Personnel))
-                {
-                    @Html.ActionLink("Details", "Details", new { id = item.ID })
                 }
             </td>
         </tr>
