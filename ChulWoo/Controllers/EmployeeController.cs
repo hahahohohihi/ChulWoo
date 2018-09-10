@@ -265,6 +265,8 @@ namespace ChulWoo.Controllers
                 {
                     if (employeeToUpdate.Resign.ResignDate == null)
                         employeeToUpdate.Resign = null;
+                    else
+                        employeeToUpdate.ResignID = employeeToUpdate.ID;
                     db.Entry(employeeToUpdate).OriginalValues["RowVersion"] = rowVersion;
                     await db.SaveChangesAsync();
 

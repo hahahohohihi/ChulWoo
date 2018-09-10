@@ -41,7 +41,8 @@ namespace ChulWoo.Controllers
         // GET: FactoryDailyWork/Create
         public ActionResult Create()
         {
-            ViewBag.ProparingPersonID = new SelectList(db.Employees, "ID", "DepartmentVn");
+            var employees = db.Employees.Where(e => e.ResignID == null);
+            ViewBag.ProparingPersonID = new SelectList(employees, "ID", "Name", Session["LoginUserEmployeeID"]);
             return View();
         }
 
@@ -59,7 +60,8 @@ namespace ChulWoo.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ProparingPersonID = new SelectList(db.Employees, "ID", "DepartmentVn", factoryDailyWork.ProparingPersonID);
+            var employees = db.Employees.Where(e => e.ResignID == null);
+            ViewBag.ProparingPersonID = new SelectList(employees, "ID", "Name", factoryDailyWork.ProparingPersonID);
             return View(factoryDailyWork);
         }
 
@@ -75,7 +77,8 @@ namespace ChulWoo.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ProparingPersonID = new SelectList(db.Employees, "ID", "DepartmentVn", factoryDailyWork.ProparingPersonID);
+            var employees = db.Employees.Where(e => e.ResignID == null);
+            ViewBag.ProparingPersonID = new SelectList(employees, "ID", "Name", factoryDailyWork.ProparingPersonID);
             return View(factoryDailyWork);
         }
 
@@ -92,7 +95,8 @@ namespace ChulWoo.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.ProparingPersonID = new SelectList(db.Employees, "ID", "DepartmentVn", factoryDailyWork.ProparingPersonID);
+            var employees = db.Employees.Where(e => e.ResignID == null);
+            ViewBag.ProparingPersonID = new SelectList(employees, "ID", "Name", factoryDailyWork.ProparingPersonID);
             return View(factoryDailyWork);
         }
 
