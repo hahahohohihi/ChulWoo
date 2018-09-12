@@ -60,7 +60,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TitleVn, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TitleVn, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.TitleVn, new { htmlAttributes = new { @class = "form-control", @style = "width:600px; max-width:600px;" } })
                 @Html.ValidationMessageFor(model => model.TitleVn, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -68,7 +68,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TitleKr, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TitleKr, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.TitleKr, new { htmlAttributes = new { @class = "form-control", @style = "width:600px; max-width:600px;" } })
                 @Html.ValidationMessageFor(model => model.TitleKr, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -76,7 +76,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NoteVn, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.NoteVn, new { @class = "form-control", @Style = "height:100px; width:100%;" })
+                @Html.TextAreaFor(model => model.NoteVn, new { @class = "form-control", @style = "height:100px; width:600px; max-width:600px;" })
                 @Html.ValidationMessageFor(model => model.NoteVn, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -84,7 +84,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NoteKr, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.NoteKr, new { @class = "form-control", @Style = "height:100px; width:100%;" })
+                @Html.TextAreaFor(model => model.NoteKr, new { @class = "form-control", @style = "height:100px; width:600px; max-width:600px;" })
                 @Html.ValidationMessageFor(model => model.NoteKr, "", new { @class = "text-danger" })
             </div>
         </div>

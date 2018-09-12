@@ -11,6 +11,8 @@ namespace ChulWoo.Controllers
 {
     public class HomeController : BaseController
     {
+        private ChulWooContext db = new ChulWooContext();
+
         public ActionResult Index()
         {
             if(Session["LoginUserID"] == null)
@@ -53,10 +55,19 @@ namespace ChulWoo.Controllers
             // Cache the new current culture into the user HTTP session.   
             //  
             Session["CurrentCulture"] = id;
+
+            int SID = Convert.ToInt32(Session["LoginUserID"]);
+            if( SID > 0 )
+            {
+                User user = db.Users.FirstOrDefault( u => u.ID == SID );
+                user.Language = id;
+                db.SaveChanges();
+            }
+
             //  
             // Redirect to the same page from where the request was made!   \
             //  
-            if( Request.UrlReferrer != null )
+            if ( Request.UrlReferrer != null && !Request.UrlReferrer.LocalPath.Equals("/Account/Login") )
                 return Redirect(Request.UrlReferrer.ToString());
             else
                 return RedirectToAction("Index", "Home");

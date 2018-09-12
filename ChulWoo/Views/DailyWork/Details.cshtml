@@ -91,8 +91,30 @@
         </dd>
 
     </dl>
+    <table width="620">
+        <tr>
+            @{
+                int count = 0;
+                foreach (var item in Model.UploadFiles)
+                {
+                    <td>
+                        <a href="~/UploadFile/DailyWork/@item.SaveFileName" target="_blank">
+                            <img width="300" src="~/UploadFile/DailyWork/@item.SaveFileName" />
+                        </a>
+                    </td>
+                    count++;
+                    if (count == 2)
+                    {
+                        WriteLiteral("</tr><tr>");
+                        count = 0;
+                    }
+                }
+            }
+        </tr>
+    </table>
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index", new { projectid = Model.ProjectID }))
+    @Html.ActionLink("Back to List", "Index", new { projectid = Model.ProjectID })
 </p>

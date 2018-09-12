@@ -351,6 +351,14 @@
     <Compile Include="Migrations\201809080857215_180908.Designer.cs">
       <DependentUpon>201809080857215_180908.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809110430591_180911.cs" />
+    <Compile Include="Migrations\201809110430591_180911.Designer.cs">
+      <DependentUpon>201809110430591_180911.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809121035205_180912.cs" />
+    <Compile Include="Migrations\201809121035205_180912.Designer.cs">
+      <DependentUpon>201809121035205_180912.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Company.cs" />
@@ -375,6 +383,7 @@
     <Compile Include="Viewmodel\DailyWorkEquipmentData.cs" />
     <Compile Include="Viewmodel\DailyWorkUnitData.cs" />
     <Compile Include="Viewmodel\EmployeeExtendData.cs" />
+    <Compile Include="Viewmodel\FactoryDailyWorkUnitData.cs" />
     <Compile Include="Viewmodel\MaterialBuyData.cs" />
     <Compile Include="Viewmodel\MaterialBuyPaymentData.cs" />
     <Compile Include="Viewmodel\PaymentListData.cs" />
@@ -500,6 +509,8 @@
     <Content Include="Views\FactoryDailyWork\Details.cshtml" />
     <Content Include="Views\FactoryDailyWork\Edit.cshtml" />
     <Content Include="Views\FactoryDailyWork\Index.cshtml" />
+    <Content Include="Views\FactoryDailyWork\EditAddWorkUnit.cshtml" />
+    <Content Include="Views\FactoryDailyWork\EditEditWorkUnit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\App_Data\" />
@@ -588,6 +599,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809080857215_180908.resx">
       <DependentUpon>201809080857215_180908.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809110430591_180911.resx">
+      <DependentUpon>201809110430591_180911.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809121035205_180912.resx">
+      <DependentUpon>201809121035205_180912.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

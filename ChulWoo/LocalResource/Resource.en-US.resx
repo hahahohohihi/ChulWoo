@@ -363,4 +363,22 @@
   <data name="WorkName" xml:space="preserve">
     <value>WorkName</value>
   </data>
+  <data name="DayAllNight" xml:space="preserve">
+    <value>DayAllNight</value>
+  </data>
+  <data name="DayOvertime" xml:space="preserve">
+    <value>DayOvertime</value>
+  </data>
+  <data name="DayWork" xml:space="preserve">
+    <value>DayWork</value>
+  </data>
+  <data name="NightOvertime" xml:space="preserve">
+    <value>NightOvertime</value>
+  </data>
+  <data name="NightWork" xml:space="preserve">
+    <value>NightWork</value>
+  </data>
+  <data name="WorkType" xml:space="preserve">
+    <value>WorkType</value>
+  </data>
 </root>

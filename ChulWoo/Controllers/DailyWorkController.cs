@@ -11,6 +11,7 @@ using ChulWoo.DAL;
 using ChulWoo.Models;
 using ChulWoo.Viewmodel;
 using System.IO;
+using PagedList;
 
 namespace ChulWoo.Controllers
 {
@@ -19,22 +20,42 @@ namespace ChulWoo.Controllers
         private ChulWooContext db = new ChulWooContext();
 
         // GET: DailyWork
-        public async Task<ActionResult> Index(int? projectid)
+        public async Task<ActionResult> Index(int? projectid, int? page, string currentFilter, string searchString, bool? translate)
         {
-            if( projectid == null )
-            {
-                var dailyWorks = db.DailyWorks.Include(d => d.Project).Include(d => d.ProparingPerson)
-                    .OrderByDescending(d => d.Date);
-                return View(await dailyWorks.ToListAsync());
-            }
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            if (searchString != null)
+                page = 1;
             else
+                searchString = currentFilter;
+
+            ViewBag.CurrentFilter = searchString;
+            Session["Translate"] = translate;
+
+            var dailyWorks = db.DailyWorks.Include(d => d.Project)
+                .Include(d => d.ProparingPerson)
+                .OrderByDescending(d => d.Date);
+
+            if (projectid != null)
             {
                 ViewBag.ProjectID = projectid;
-                var dailyWorks = db.DailyWorks.Where(d => d.ProjectID == projectid)
-                    .Include(d => d.Project).Include(d => d.ProparingPerson)
+                dailyWorks = (IOrderedQueryable<DailyWork>)dailyWorks.Where(d => d.ProjectID == projectid)
                     .OrderByDescending(d => d.Date);
-                return View(await dailyWorks.ToListAsync());
             }
+
+            if (!String.IsNullOrEmpty(searchString))
+                dailyWorks = (IOrderedQueryable<DailyWork>)dailyWorks.Where(d => d.Project.NameKr.Contains(searchString) || d.Project.NameVn.Contains(searchString));
+
+            if (translate == true)
+                dailyWorks = (IOrderedQueryable<DailyWork>)dailyWorks.Where(m => !m.Translate);
+
+            //            var projects = db.Projects.Include(p => p.Company);
+            return View(dailyWorks.ToPagedList(pageNumber, pageSize));
+
         }
 
         // GET: DailyWork/Details/5

@@ -1,81 +1,127 @@
-﻿@model IEnumerable<ChulWoo.Models.DailyWork>
+﻿@model PagedList.IPagedList<ChulWoo.Models.DailyWork>
+@using PagedList.Mvc;
+@using ChulWoo.Models;
+@using ChulWoo.Helper;
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+@if (ViewBag.ProjectID == null)
+{
+    <h2>Daily Work List</h2>
+}
+else
+{
+    var dailyWork = Model.FirstOrDefault(m => m.ProjectID == ViewBag.ProjectID);
+    if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+    {
+        <h2>Daily Work List - @dailyWork.Project.NameKr</h2>
+    }
+    else
+    {
+        <h2>Daily Work List - @dailyWork.Project.NameVn</h2>
+    }
+}
 
 <p>
     @Html.ActionLink("Create New", "Create", new { projectid = ViewBag.ProjectID })
 </p>
+
+@using (Html.BeginForm("Index", "DailyWork", FormMethod.Get))
+{
+    <p>
+        Find by ProjectName: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        &nbsp; &nbsp;
+        @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Personnel))
+        {
+            Write("Translate:  ");
+            @Html.CheckBox("translate", (bool?)Session["Translate"])
+        }
+        <input type="submit" value="Search" />
+    </p>
+}
+
 <table class="table">
     <tr>
+        @if (ViewBag.ProjectID == null)
+        { 
+            <th>
+                @Resource.ProjectName
+            </th>
+        }
         <th>
-            @Html.DisplayNameFor(model => model.Project.NameVn)
+            ProparingPerson
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ProparingPerson.DepartmentVn)
+            @Resource.Date
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Date)
+            @Resource.PrrocessPerPlan
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PrrocessPerPlan)
+            @Resource.PrrocessPerResult
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PrrocessPerResult)
+            @Resource.Weather
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.WeatherVn)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.WeatherKr)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NoteVn)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NoteKr)
+            @Resource.Note
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Project.NameVn)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProparingPerson.DepartmentVn)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PrrocessPerPlan)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PrrocessPerResult)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.WeatherVn)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.WeatherKr)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NoteVn)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NoteKr)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            @if (ViewBag.ProjectID == null)
+            { 
+                <td>
+                    @Html.DisplayFor(Item => item.Project.NameVn)
+                </td>
+            }
+            <td>
+                @Html.DisplayFor(Item => item.ProparingPerson.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(Item => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(Item => item.PrrocessPerPlan)
+            </td>
+            <td>
+                @Html.DisplayFor(Item => item.PrrocessPerResult)
+            </td>
+            <td>
+                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                {
+                    @Html.DisplayFor(Item => item.WeatherKr)
+                }
+                else
+                {
+                    @Html.DisplayFor(Item => item.WeatherVn)
+                }
+            </td>
+            <td>
+                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                {
+                    @Html.DisplayFor(Item => item.NoteKr)
+                }
+                else
+                {
+                    @Html.DisplayFor(Item => item.NoteVn)
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { projectid = ViewBag.ProjectID, page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, translate = (bool?)Session["Translate"] }))

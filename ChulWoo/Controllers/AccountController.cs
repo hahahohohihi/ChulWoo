@@ -42,10 +42,12 @@ namespace ChulWoo.Controllers
 
                         user.LastLogin = DateTime.Now;
 
+
                         db.Entry(user).State = EntityState.Modified;
                         db.SaveChanges();
 
-                        return RedirectToAction("Index", "Home");
+//                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("ChangeCurrentCulture", "Home", new { id = user.Language });
                     }
                     else
                         ModelState.AddModelError(string.Empty, "Recheck UserPassword");

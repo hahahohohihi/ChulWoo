@@ -234,6 +234,33 @@ namespace ChulWoo.LocalResource {
         /// <summary>
         ///   과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
+        public static string DayAllNight {
+            get {
+                return ResourceManager.GetString("DayAllNight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string DayOvertime {
+            get {
+                return ResourceManager.GetString("DayOvertime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string DayWork {
+            get {
+                return ResourceManager.GetString("DayWork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
         public static string Department {
             get {
                 return ResourceManager.GetString("Department", resourceCulture);
@@ -426,6 +453,24 @@ namespace ChulWoo.LocalResource {
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string NightOvertime {
+            get {
+                return ResourceManager.GetString("NightOvertime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string NightWork {
+            get {
+                return ResourceManager.GetString("NightWork", resourceCulture);
             }
         }
         
@@ -795,6 +840,15 @@ namespace ChulWoo.LocalResource {
         public static string WorkName {
             get {
                 return ResourceManager.GetString("WorkName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string WorkType {
+            get {
+                return ResourceManager.GetString("WorkType", resourceCulture);
             }
         }
     }

@@ -363,4 +363,22 @@
   <data name="WorkName" xml:space="preserve">
     <value>người làm việc</value>
   </data>
+  <data name="DayAllNight" xml:space="preserve">
+    <value>tăng ca thâu đêm</value>
+  </data>
+  <data name="DayOvertime" xml:space="preserve">
+    <value>tăng ca</value>
+  </data>
+  <data name="DayWork" xml:space="preserve">
+    <value>giờ hành chính</value>
+  </data>
+  <data name="NightOvertime" xml:space="preserve">
+    <value>tăng ca (đêm )</value>
+  </data>
+  <data name="NightWork" xml:space="preserve">
+    <value>làm đêm</value>
+  </data>
+  <data name="WorkType" xml:space="preserve">
+    <value>phân loại công việc</value>
+  </data>
 </root>

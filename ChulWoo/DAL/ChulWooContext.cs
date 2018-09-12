@@ -32,6 +32,8 @@ namespace ChulWoo.DAL
         public DbSet<DailyWork> DailyWorks { get; set; }
         public DbSet<WorkUnit> WorkUnits { get; set; }
         public DbSet<EquipmentUnit> EquipmentUnits { get; set; }
+        public DbSet<FactoryDailyWork> FactoryDailyWorks { get; set; }
+        public DbSet<FactoryWorkUnit> FactoryWorkUnits { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         { 
@@ -43,6 +45,5 @@ namespace ChulWoo.DAL
 //            modelBuilder.Entity<Company>().MapToStoredProcedures();
         }
 
-        public System.Data.Entity.DbSet<ChulWoo.Models.FactoryDailyWork> FactoryDailyWorks { get; set; }
     }
 }

@@ -363,4 +363,22 @@
   <data name="WorkName" xml:space="preserve">
     <value>작업명</value>
   </data>
+  <data name="DayAllNight" xml:space="preserve">
+    <value>철야</value>
+  </data>
+  <data name="DayOvertime" xml:space="preserve">
+    <value>야근</value>
+  </data>
+  <data name="DayWork" xml:space="preserve">
+    <value>일반근무</value>
+  </data>
+  <data name="NightOvertime" xml:space="preserve">
+    <value>저녁야근</value>
+  </data>
+  <data name="NightWork" xml:space="preserve">
+    <value>저녁근무</value>
+  </data>
+  <data name="WorkType" xml:space="preserve">
+    <value>작업구분</value>
+  </data>
 </root>
