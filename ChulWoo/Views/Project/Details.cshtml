@@ -18,57 +18,106 @@
 </h2>
 
 <table width="100%">
-   <tr>
-       <th style="text-align: left;">
-           @Html.ActionLink("DetailsWorkProcess", "DetailsWorkProcess", new { id = Model.ID })
-       </th>
-       <th style="text-align: right;">
-           @Html.ActionLink("DailyWorkReport", "Index", "DailyWork", new { projectid = Model.ID }, null)
-       </th>
-   </tr>
+    <tr>
+        <th style="text-align: left;">
+            @Html.ActionLink("DetailsWorkProcess", "DetailsWorkProcess", new { id = Model.ID })
+        </th>
+        <th style="text-align: right;">
+            @Html.ActionLink("DailyWorkReport", "Index", "DailyWork", new { projectid = Model.ID }, null)
+        </th>
+    </tr>
 </table>
 
 <hr />
 <dl class="dl-horizontal">
-   <dt>
-       @Html.DisplayNameFor(model => model.Company.Name)
-   </dt>
+    <dt>
+        @Html.DisplayNameFor(model => model.Company.Name)
+    </dt>
 
-   <dd>
-       @Html.DisplayFor(model => model.Company.Name)
-   </dd>
+    <dd>
+        @Html.DisplayFor(model => model.Company.Name)
+    </dd>
 
-   <dt>
-       @Html.DisplayNameFor(model => model.Date)
-   </dt>
+    <dt>
+        @Html.DisplayNameFor(model => model.Date)
+    </dt>
 
-   <dd>
-       @Html.DisplayFor(model => model.Date)
-   </dd>
+    <dd>
+        @Html.DisplayFor(model => model.Date)
+    </dd>
+
+    <dt>@Resource.TotalDeposit</dt>
+    <dd>@String.Format("{0:0,0}", @ViewBag.TotalDeposit)</dd>
+    <dt>@Resource.TotalContractPrice</dt>
+    <dd>@String.Format("{0:0,0}", @ViewBag.TotalPrice + @ViewBag.TotalVAT) (VAT @String.Format("{0:0,0}", @ViewBag.TotalVAT))</dd>
+    <dt>@Resource.TotalPayment</dt>
+    <dd>@String.Format("{0:0,0}", @ViewBag.TotalPayment)</dd>
 </dl>
-@if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Personnel))
+
+
+@using (Html.BeginForm("Details", "Project", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-   <ul class="attachment">
-       @foreach (var item in Model.UploadFiles)
-        {
-           <li>
-               <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a>  |
-               <a class="title" href="/Board/Download/?SFilename=@(item.FolderName+"/"+ item.SaveFileName)&Filename=@item.FileName">Download</a>
-           </li>
-        }
-   </ul>
+    @Html.AntiForgeryToken()
+
+    if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Personnel))
+    {
+        <table width="100%">
+            <tr>
+                <td>
+                    <ul class="attachment">
+                        @foreach (var item in Model.UploadFiles)
+                        {
+                            if (item.Security == false)
+                            {
+                                <li>
+                                    <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a>  |
+                                    <a class="title" href="/Board/Download/?SFilename=@(item.FolderName + "/" + item.SaveFileName)&Filename=@item.FileName">Download</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </td>
+                @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Power))
+                {
+                    <td>
+                        <div class="editor-field">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="file" name="file" multiple="multiple"/>
+                                <input type="submit" value="Save" class="btn btn-default"/>
+
+                                <ul class="attachment">
+                                    @foreach (var item in Model.UploadFiles)
+                                    {
+                                        if (item.Security == true)
+                                        {
+                                            <li>
+                                                <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a> | 
+                                                <a class="title" href="/Board/Download/?SFilename=@(item.FolderName + "/" + item.SaveFileName)&Filename=@item.FileName">Download</a> | 
+                                                <a href="javascript:void(0);" data-id="@item.ID" id="deleteitem" class="deleteitem">Delete</a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                }
+            </tr>
+        </table>
+    }
 }
+
 <br />
 
 <table cellpadding="10pt">
-   <tr>
-       <th valign="bottom" style="padding-right:12pt">
-           <h3>Deposit</h3>
-       </th>
-       <th valign="bottom" style="padding-bottom:5pt">
-           @Html.ActionLink("Edit", "EditAddDeposit", new { id = Model.ID })
-       </th>
-   </tr>
+    <tr>
+        <th valign="bottom" style="padding-right:12pt">
+            <h3>Deposit</h3>
+        </th>
+        <th valign="bottom" style="padding-bottom:5pt">
+            @Html.ActionLink("Edit", "EditAddDeposit", new { id = Model.ID })
+        </th>
+    </tr>
 </table>
 
 
@@ -121,70 +170,70 @@
 
 @if (Model.MaterialBuys.Count != 0)
 {
-   <h3>Material Buy</h3>
+    <h3>Material Buy</h3>
 
-   <table class="table">
-       @{
-           MaterialBuy tempitem = null;
+    <table class="table">
+        @{
+            MaterialBuy tempitem = null;
             double subtotal = 0;
             double vat = 0;
-           foreach (var item in Model.MaterialBuys)
-           {
-               if (tempitem == null || tempitem.Date != item.Date)
-               {
-                   if (tempitem != null)
-                   {
-                       <tr>
-                           <th colspan="4" height="20"></th>
-                           <th>VAT</th>
-                           <th style="text-align: right;">@String.Format("{0:0,0}", vat)</th>
-                       </tr>
-                       <tr>
-                           <th colspan="4" height="20"></th>
-                           <th>소계</th>
-                           <th style="text-align: right;">@String.Format("{0:0,0}", subtotal + vat)</th>
-                       </tr>
-                       subtotal = 0;
+            foreach (var item in Model.MaterialBuys)
+            {
+                if (tempitem == null || tempitem.Date != item.Date)
+                {
+                    if (tempitem != null)
+                    {
+                        <tr>
+                            <th colspan="4" height="20"></th>
+                            <th>VAT</th>
+                            <th style="text-align: right;">@String.Format("{0:0,0}", vat)</th>
+                        </tr>
+                        <tr>
+                            <th colspan="4" height="20"></th>
+                            <th>소계</th>
+                            <th style="text-align: right;">@String.Format("{0:0,0}", subtotal + vat)</th>
+                        </tr>
+                        subtotal = 0;
                         vat = 0;
-                   }
+                    }
 
-                   <tr>
-                       <td colspan="6">
-                           <b>@Html.DisplayNameFor(model => item.Date)</b> @Html.DisplayFor(model => item.Date)
-                       </td>
-                   </tr>
-                   <tr>
-                       <th>@Resource.CompanyName</th>
-                       <th>@Resource.MaterialName</th>
-                       <th>@Resource.Unit</th>
-                       <th>@Resource.Quantity</th>
-                       <th style="text-align: right;">@Resource.UnitPrice</th>
-                       <th style="text-align: right;">@Resource.Price</th>
-                   </tr>
-               }
-               foreach (var unit in item.MaterialBuyUnits)
-               {
-                   <tr>
-                       <td>
-                           @item.Company.Name
-                       </td>
-                       <td>
-                           @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                    <tr>
+                        <td colspan="6">
+                            <b>@Html.DisplayNameFor(model => item.Date)</b> @Html.DisplayFor(model => item.Date)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Resource.CompanyName</th>
+                        <th>@Resource.MaterialName</th>
+                        <th>@Resource.Unit</th>
+                        <th>@Resource.Quantity</th>
+                        <th style="text-align: right;">@Resource.UnitPrice</th>
+                        <th style="text-align: right;">@Resource.Price</th>
+                    </tr>
+                }
+                foreach (var unit in item.MaterialBuyUnits)
+                {
+                    <tr>
+                        <td>
+                            @item.Company.Name
+                        </td>
+                        <td>
+                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
                             {
                                 @unit.MaterialUnitPrice.MaterialName.NameKr
-                           }
-                           else
-                           {
-                               @unit.MaterialUnitPrice.MaterialName.NameVn
-                           }
-@*if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
-    {
-        @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameKr, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
-    }
-    else
-    {
-        @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
-    }*@
+                            }
+                            else
+                            {
+                                @unit.MaterialUnitPrice.MaterialName.NameVn
+                            }
+                            @*if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                                {
+                                    @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameKr, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
+                                }
+                                else
+                                {
+                                    @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
+                                }*@
                         </td>
                         <td>
                             @unit.MaterialUnitPrice.UnitString
@@ -198,31 +247,31 @@
                         <td style="text-align: right;">
                             @{
                                 var price = unit.Quantity * unit.MaterialUnitPrice.Price;
-                                subtotal = subtotal + (double) price;
+                                subtotal = subtotal + (double)price;
                                 vat = vat + ((double)price * unit.MaterialBuy.VATPer);
                             }
                             @String.Format("{0:0,0}", price)
 
                         </td>
 
-                        </tr>
-                    }
-                    tempitem = item;
+                    </tr>
                 }
+                tempitem = item;
             }
-            <tr>
-                <th colspan="4" height="20"></th>
-                <th>VAT</th>
-                <th style="text-align: right;">@String.Format("{0:0,0}", vat)</th>
-            </tr>
-            <tr>
-                <th colspan="4" height="20"></th>
-                <th>소계</th>
-                <th style="text-align: right;">@String.Format("{0:0,0}", subtotal + vat)</th>
-            </tr>
+        }
+        <tr>
+            <th colspan="4" height="20"></th>
+            <th>VAT</th>
+            <th style="text-align: right;">@String.Format("{0:0,0}", vat)</th>
+        </tr>
+        <tr>
+            <th colspan="4" height="20"></th>
+            <th>소계</th>
+            <th style="text-align: right;">@String.Format("{0:0,0}", subtotal + vat)</th>
+        </tr>
 
-        </table>
-    }
+    </table>
+}
 
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |

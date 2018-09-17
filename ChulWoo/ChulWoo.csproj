@@ -359,6 +359,10 @@
     <Compile Include="Migrations\201809121035205_180912.Designer.cs">
       <DependentUpon>201809121035205_180912.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809170229210_180917.cs" />
+    <Compile Include="Migrations\201809170229210_180917.Designer.cs">
+      <DependentUpon>201809170229210_180917.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Company.cs" />
@@ -399,6 +403,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\autosize.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -605,6 +610,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809121035205_180912.resx">
       <DependentUpon>201809121035205_180912.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809170229210_180917.resx">
+      <DependentUpon>201809170229210_180917.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

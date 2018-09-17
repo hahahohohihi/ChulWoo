@@ -1,4 +1,6 @@
 ﻿@model ChulWoo.Models.FactoryDailyWork
+@using ChulWoo.Helper;
+@using ChulWoo.Models;
 
 @{
     ViewBag.Title = "Edit";
@@ -9,116 +11,124 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>FactoryDailyWork</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.ID)
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.ProparingPersonID, "ProparingPersonID", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("ProparingPersonID", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.ProparingPersonID, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    <div class="form-horizontal">
+        <h4>FactoryDailyWork</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.NoteVn, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.NoteVn, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.NoteVn, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.NoteKr, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.NoteKr, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.NoteKr, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Translate, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.Translate)
-                @Html.ValidationMessageFor(model => model.Translate, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProparingPersonID, "ProparingPersonID", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ProparingPersonID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ProparingPersonID, "", new { @class = "text-danger" })
             </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <table>
-        <tr>
-            <th valign="bottom" style="padding-right:12pt"><h4>Work Unit</h4></th>
-            <th valign="bottom" style="padding-bottom:5pt">@Html.ActionLink("Edit", "EditAddWorkUnit", new { id = Model.ID })</th>
-        </tr>
-    </table>
+        <div class="form-group">
+            @Html.LabelFor(model => model.NoteVn, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.NoteVn, new { @class = "form-control", @Style = "width:100%; max-width:500px", @rows = "1" })
+                @Html.ValidationMessageFor(model => model.NoteVn, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-    <table class="table">
-        <tr>
-            <th>@Resource.ProjectName</th>
-            <th>@Resource.EquipCount</th>
-            <th>@Resource.Note</th>
-            <th></th>
-        </tr>
-        @if (Model.FactoryWorkUnits != null && Model.FactoryWorkUnits.Count != 0)
-        {
+        <div class="form-group">
+            @Html.LabelFor(model => model.NoteKr, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.NoteKr, new { @class = "form-control", @Style = "width:100%; max-width:500px", @rows = "1" })
+                @Html.ValidationMessageFor(model => model.NoteKr, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-            foreach (var item in Model.FactoryWorkUnits)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Translate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Translate)
+                    @Html.ValidationMessageFor(model => model.Translate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+
+        <table>
+            <tr>
+                <th valign="bottom" style="padding-right:12pt"><h4>Work Unit</h4></th>
+                <th valign="bottom" style="padding-bottom:5pt">@Html.ActionLink("Edit", "EditAddWorkUnit", new { id = Model.ID })</th>
+            </tr>
+        </table>
+
+        <table class="table">
+            <tr>
+                <th>@Resource.ProjectName</th>
+                <th>@Resource.WorkType</th>
+                <th>@Resource.EquipCount</th>
+                <th>@Resource.Note</th>
+                <th></th>
+            </tr>
+            @if (Model.FactoryWorkUnits != null && Model.FactoryWorkUnits.Count != 0)
             {
-                <tr>
-                    <td>
-                        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
-                        {
-                            @item.Project.NameKr
-                        }
-                        else
-                        {
-                            @item.Project.NameVn
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.EquipCount)
-                    </td>
-                    <td>
-                        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
-                        {
-                            @Html.TextAreaFor(model => item.NoteKr, new { @class = "form-control", @Style = "height:100px; width:100%;", @readonly = true })
-                        }
-                        else
-                        {
-                            @Html.TextAreaFor(model => item.NoteVn, new { @class = "form-control", @Style = "height:100px; width:100%;", @readonly = true })
-                        }
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "EditEditWorkUnit", new { id = Model.ID, workunitid = item.ID }) |
-                        @Html.ActionLink("Delete", "DeleteWorkUnit", new { id = Model.ID, workunitid = item.ID })
-                    </td>
-                </tr>
-            }
-        }
-    </table>
 
-</div>
+                foreach (var item in Model.FactoryWorkUnits)
+                {
+                    <tr>
+                        <td>
+                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                            {
+                                @item.Project.NameKr
+                            }
+                            else
+                            {
+                                @item.Project.NameVn
+                            }
+                        </td>
+                        <td>
+                            @EnumExtensions.GetDisplayName(item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.EquipCount)
+                        </td>
+                        <td>
+                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                            {
+                                @Html.TextAreaFor(model => item.NoteKr, new { @class = "form-control", @Style = "height:100px; width:100%;resize:none;border:0;", @readonly = true, @rows = "1" })
+                            }
+                            else
+                            {
+                                @Html.TextAreaFor(model => item.NoteVn, new { @class = "form-control", @Style = "height:100px; width:100%;resize:none;border:0;", @readonly = true, @rows = "1" })
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditEditWorkUnit", new { id = Model.ID, workunitid = item.ID }) |
+                            @Html.ActionLink("Delete", "DeleteWorkUnit", new { id = Model.ID, workunitid = item.ID })
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+
+    </div>
 }
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+
+<script src="~/Scripts/autosize.js"></script>
+<script>autosize(document.querySelectorAll('textarea'));</script>

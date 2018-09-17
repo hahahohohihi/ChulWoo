@@ -381,4 +381,13 @@
   <data name="WorkType" xml:space="preserve">
     <value>작업구분</value>
   </data>
+  <data name="TotalContractPrice" xml:space="preserve">
+    <value>전체 구매계약금액</value>
+  </data>
+  <data name="TotalDeposit" xml:space="preserve">
+    <value>전체 입금액</value>
+  </data>
+  <data name="TotalPayment" xml:space="preserve">
+    <value>전체 지불액</value>
+  </data>
 </root>

@@ -381,4 +381,13 @@
   <data name="WorkType" xml:space="preserve">
     <value>WorkType</value>
   </data>
+  <data name="TotalContractPrice" xml:space="preserve">
+    <value>TotalContractPrice</value>
+  </data>
+  <data name="TotalDeposit" xml:space="preserve">
+    <value>TotalDeposit</value>
+  </data>
+  <data name="TotalPayment" xml:space="preserve">
+    <value>TotalPayment</value>
+  </data>
 </root>

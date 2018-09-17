@@ -191,16 +191,8 @@
                                 @Html.ValidationMessageFor(model => model.Payment.AmountString, "", new { @class = "text-danger" })
                             </th>
                             <th>
-                                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
-                                {
-                                    @Html.EditorFor(model => model.Payment.NoteKr, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Payment.NoteKr, "", new { @class = "text-danger" })
-                                }
-                                else
-                                {
-                                    @Html.EditorFor(model => model.Payment.NoteVn, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Payment.NoteVn, "", new { @class = "text-danger" })
-                                }
+                                @Html.EditorFor(model => model.Payment.NoteVn, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Payment.NoteVn, "", new { @class = "text-danger" })
                             </th>
                             <th>
                                 <input type="submit" value="Add" class="btn btn-default" />

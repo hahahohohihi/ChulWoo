@@ -43,7 +43,8 @@ namespace ChulWoo.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
                 materialBuys = (IOrderedQueryable<MaterialBuy>)materialBuys.Where(m => m.Company.Name.Contains(searchString) || 
-                    m.Project.NameKr.Contains(searchString) || m.Project.NameVn.Contains(searchString) );
+                m.Project.NameKr.Contains(searchString) || m.Project.NameVn.Contains(searchString) ||
+                m.MaterialBuyUnits.Count(mu => mu.MaterialUnitPrice.MaterialName.NameKr.Contains(searchString) || mu.MaterialUnitPrice.MaterialName.NameVn.Contains(searchString)) > 0);
 
             if (translate == true)
                 materialBuys = (IOrderedQueryable<MaterialBuy>)materialBuys.Where(m => !m.Translate);
@@ -267,7 +268,8 @@ namespace ChulWoo.Controllers
             if (ModelState.IsValid)
             {
                 //                db.Entry(materialBuyData).State = EntityState.Modified;
-                MaterialName mName = db.MaterialNames.FirstOrDefault(m => m.NameVn.Equals(materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn));
+                MaterialName mName = db.MaterialNames.FirstOrDefault(m => m.NameVn.Equals(materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn) ||
+                    m.NameVn.Equals(materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameKr));
                 if(mName != null)
                 {
                     materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialNameID = mName.ID;
@@ -277,8 +279,6 @@ namespace ChulWoo.Controllers
                 {
                     if (materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameKr == null)
                         materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameKr = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn;
-                    else if (materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn == null)
-                        materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameKr;
 
                     db.MaterialNames.Add(materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName);
                 }

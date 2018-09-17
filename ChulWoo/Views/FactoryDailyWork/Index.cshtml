@@ -48,33 +48,39 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ProparingPerson.Name)
+                @Html.DisplayFor(model => item.ProparingPerson.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                @Html.DisplayFor(model => item.Date)
             </td>
             <td>
                 @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
                 {
-                    @Html.DisplayFor(modelItem => item.NoteKr)
+                    @Html.TextAreaFor(model => item.NoteKr, new { @class = "form-control", @Style = "width:300px;max-width:300px;resize:none;border:0;", @readonly = true, @rows = "1" })
                 }
                 else
                 {
-                    @Html.DisplayFor(modelItem => item.NoteVn)
+                    @Html.TextAreaFor(model => item.NoteVn, new { @class = "form-control", @Style = "width:300px;max-width:300px;resize:none;border:0;", @readonly = true, @rows = "1" })
                 }
             </td>
             <td>
-                @foreach (var unit in item.FactoryWorkUnits)
-                {
-                    if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                @{
+                    var temp = item.FactoryWorkUnits.GroupBy(f => f.ProjectID).ToList();
+                    //var temp = from unit in item.FactoryWorkUnits
+                    //           group unit by unit.ProjectID into data
+                    //           select new { Project = data };
+                    foreach (var unit in temp)
                     {
-                        @unit.Project.NameKr
+                        if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                        {
+                            @unit.ElementAt(0).Project.NameKr
+                        }
+                        else
+                        {
+                            @unit.ElementAt(0).Project.NameVn
+                        }
+                        <br />
                     }
-                    else
-                    {
-                        @unit.Project.NameVn
-                    }
-                    <br />
                 }
             </td>
             <td>
@@ -90,3 +96,6 @@
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, translate = (bool?)Session["Translate"] }))
+
+<script src="~/Scripts/autosize.js"></script>
+<script>autosize(document.querySelectorAll('textarea'));</script>

@@ -155,16 +155,8 @@
 
             <tr>
                 <th>
-                    @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
-                    {
-                        @Html.EditorFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameKr, new { htmlAttributes = new { @id = "Mname", @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameKr, "", new { @class = "text-danger" })
-                    }
-                    else
-                    {
-                        @Html.EditorFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn, new { htmlAttributes = new { @id = "Mname", @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn, "", new { @class = "text-danger" })
-                    }
+                    @Html.EditorFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn, new { htmlAttributes = new { @id = "Mname", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn, "", new { @class = "text-danger" })
                 </th>
                 @*
                 <th>

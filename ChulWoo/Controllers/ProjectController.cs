@@ -78,11 +78,95 @@ namespace ChulWoo.Controllers
             {
                 return HttpNotFound();
             }
+
+            double tPrice = 0, tVAT = 0, tPayment = 0, tDeposit = 0;
             if(project.MaterialBuys != null)
+            {
                 project.MaterialBuys = project.MaterialBuys.OrderByDescending(m => m.Date).ToList();
+
+                foreach( var item in project.MaterialBuys)
+                {
+                    foreach (var unit in item.MaterialBuyUnits)
+                    {
+                        var price = ((double)unit.Quantity * unit.MaterialUnitPrice.Price);
+                        tPrice += price;
+                        tVAT += price * unit.MaterialBuy.VATPer;
+                    }
+                    foreach (var unit in item.Payments)
+                    {
+                        if (unit.StatementType != Models.StatementType.Deposit)
+                        {
+                            tPayment += unit.Amount;
+                        }
+                    }
+                }
+            }
+
+            if (project.Deposits != null)
+            {
+                foreach (var item in project.Deposits)
+                {
+                    if (item.StatementType == Models.StatementType.Deposit)
+                    {
+                        tDeposit += item.Amount;
+                    }
+                }
+            }
+            ViewBag.TotalPrice = tPrice;
+            ViewBag.TotalVAT = tVAT;
+            ViewBag.TotalPayment = tPayment;
+            ViewBag.TotalDeposit = tDeposit;
+
 
             return View(project);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Details([Bind(Include = "ID,CompanyID,NameVn,NameKr,Date,Company,Manager,ManagerID,Constructor,ConstructorID,UploadFiles,Translate")] Project project)
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Translation))
+                return RedirectToAction("Index", "Home");
+
+            Project sproject = await db.Projects.FindAsync(project.ID);
+            if (sproject != null && ModelState.IsValid)
+            {
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    var file = Request.Files[i];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(file.FileName);
+                        UploadFile uploadFile = new UploadFile()
+                        {
+                            FileName = fileName,
+                            SaveFileName = Guid.NewGuid() + "_" + fileName,
+                            FolderName = "Project",
+                            Date = DateTime.Now,
+                            Security = true
+                        };
+                        var path = Path.Combine(Server.MapPath("~/UploadFile/"), uploadFile.FolderName + "/" + uploadFile.SaveFileName);
+                        file.SaveAs(path);
+
+                        db.Entry(uploadFile).State = EntityState.Added;
+
+                        sproject.UploadFiles.Add(uploadFile);
+                    }
+                }
+
+                await db.SaveChangesAsync();
+                //                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = project.ID });
+            }
+
+            //            ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", project.CompanyID);
+            return View(project);
+        }
+
 
         public async Task<ActionResult> DetailsWorkProcess(int? id, int? startYear, int? startMonth )
         {

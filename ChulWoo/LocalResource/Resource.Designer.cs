@@ -765,6 +765,33 @@ namespace ChulWoo.LocalResource {
         /// <summary>
         ///   과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
+        public static string TotalContractPrice {
+            get {
+                return ResourceManager.GetString("TotalContractPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string TotalDeposit {
+            get {
+                return ResourceManager.GetString("TotalDeposit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string TotalPayment {
+            get {
+                return ResourceManager.GetString("TotalPayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
         public static string Transfer {
             get {
                 return ResourceManager.GetString("Transfer", resourceCulture);

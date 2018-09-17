@@ -381,4 +381,13 @@
   <data name="WorkType" xml:space="preserve">
     <value>phân loại công việc</value>
   </data>
+  <data name="TotalContractPrice" xml:space="preserve">
+    <value>Toàn bộ số tiền hợp đồng mua bán</value>
+  </data>
+  <data name="TotalDeposit" xml:space="preserve">
+    <value>Toàn bộ số tiền nạp vào</value>
+  </data>
+  <data name="TotalPayment" xml:space="preserve">
+    <value>Toàn bộ số tiền thanh toán</value>
+  </data>
 </root>
