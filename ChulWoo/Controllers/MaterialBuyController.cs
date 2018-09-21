@@ -123,6 +123,49 @@ namespace ChulWoo.Controllers
             }
             return View(materialBuyPaymentData);
         }
+
+        public async Task<ActionResult> AddAllPayment(int? id)
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Personnel))
+                return RedirectToAction("Index", "Home");
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            MaterialBuy materialBuy = await db.MaterialBuys.FindAsync(id);
+            if (materialBuy == null)
+            {
+                return HttpNotFound();
+            }
+
+            var paymentsum = materialBuy.Payments.Sum(p => p.Amount);
+            var price = materialBuy.MaterialBuyUnits.Sum(m => m.Quantity * m.MaterialUnitPrice.Price);
+            var amount = price + price * materialBuy.VATPer - paymentsum;
+            if( amount > 0 )
+            {
+                Payment payment = new Payment();
+                payment.CompanyID = materialBuy.CompanyID;
+                payment.Date = DateTime.Now;
+                payment.EmployeeID = Convert.ToInt32(Session["LoginUserEmployeeID"]);
+                payment.ProjectID = materialBuy.ProjectID;
+                payment.StatementType = Models.StatementType.Payment;
+                payment.Type = PaymentType.Bank;
+                payment.Amount = (double)amount;
+
+                db.Payments.Add(payment);
+                materialBuy.Payments.Add(payment);
+
+                await db.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Edit", "MaterialBuy", new { id = id });
+        }
+
+
         public async Task<ActionResult> EditEditPayment(int? id, int paymentid)
         {
             if (Session["LoginUserID"] == null)
@@ -425,6 +468,9 @@ namespace ChulWoo.Controllers
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
+
+            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Personnel))
+                return RedirectToAction("Index", "Home");
 
             if (ModelState.IsValid)
             {

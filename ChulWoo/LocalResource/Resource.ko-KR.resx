@@ -390,4 +390,10 @@
   <data name="TotalPayment" xml:space="preserve">
     <value>전체 지불액</value>
   </data>
+  <data name="Lone" xml:space="preserve">
+    <value>대출</value>
+  </data>
+  <data name="PayBack" xml:space="preserve">
+    <value>상환</value>
+  </data>
 </root>

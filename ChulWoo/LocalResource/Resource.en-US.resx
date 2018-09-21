@@ -390,4 +390,10 @@
   <data name="TotalPayment" xml:space="preserve">
     <value>TotalPayment</value>
   </data>
+  <data name="Lone" xml:space="preserve">
+    <value>Lone</value>
+  </data>
+  <data name="PayBack" xml:space="preserve">
+    <value>PayBack</value>
+  </data>
 </root>

@@ -113,8 +113,17 @@
 
 
 
-        <h4>Material Unit</h4>
-        @Html.ActionLink("Edit", "EditAddUnit", new { id = Model.ID })
+        <table cellpadding="10pt">
+            <tr>
+                <th valign="bottom" style="padding-right:12pt">
+                    <h3>Material Unit</h3>
+                </th>
+                <th valign="bottom" style="padding-bottom:5pt">
+                    @Html.ActionLink("Edit", "EditAddUnit", new { id = Model.ID })
+                </th>
+            </tr>
+        </table>
+
 
         <table class="table">
             <tr>
@@ -177,8 +186,21 @@
 
         <br />
 
-        <h4>Material Payment</h4>
-        @Html.ActionLink("Edit", "EditAddPayment", new { id = Model.ID })
+        <table cellpadding="10pt">
+            <tr>
+                <th valign="bottom" style="padding-right:15pt">
+                    <h3>Material Payment</h3>
+                </th>
+                <th valign="bottom" style="padding-bottom:5pt;padding-right:15pt">
+                    @Html.ActionLink("Edit", "EditAddPayment", new { id = Model.ID })
+                </th>
+                <th valign="bottom" style="padding-bottom:5pt">
+                    @Html.ActionLink("All Payment", "AddAllPayment", new { id = Model.ID })
+                </th>
+            </tr>
+        </table>
+
+
         <table class="table">
             <tr>
                 <th>@Resource.Date</th>

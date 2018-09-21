@@ -1,0 +1,140 @@
+﻿@model ChulWoo.Viewmodel.AllPaymentIndexData
+
+@{
+    ViewBag.Title = "AllPaymentIndex";
+}
+
+<h2>@Model.Company.Name</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Company.ID)
+    <div>
+        <table>
+            <tr>
+                <td style="padding-right:5pt">
+                    Start Date :
+                </td>
+                <td style="padding-right:15pt">
+                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @id = "startDate", @class = "form-control" } })
+                </td>
+                <td style="padding-right:5pt">
+                    End Date :
+                </td>
+                <td style="padding-right:10pt">
+                    @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @id = "endDate", @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.ActionLink("Search", "AllPaymentIndex", new { id = Model.Company.ID }, new { @class = "btn btn-default", @onclick = "SearchDate(this);" })
+                </td>
+            </tr>
+        </table>
+
+        <br />
+
+        @if (Model.Company.MaterialBuys.Count != 0)
+        {
+            double sum_tprice = 0;
+            double sum_vat = 0;
+            double sum_paymentsum = 0;
+
+            <table class="table">
+                <tr>
+                    <th>@Resource.Date</th>
+                    <th>@Resource.ProjectName</th>
+                    <th>@Resource.MaterialName</th>
+                    <th>@Resource.Price</th>
+                    <th>@Resource.Payment</th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model.Company.MaterialBuys)
+                {
+                    if (item.MaterialBuyUnits != null && item.MaterialBuyUnits.Count != 0)
+                    {
+                        double totalPrice = 0;
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => item.Date)
+                            </td>
+                            <td>
+                                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                                {
+                                    @Html.DisplayFor(model => item.Project.NameKr)
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(model => item.Project.NameVn)
+                                }
+                            </td>
+                            <td>
+                                @foreach (var unit in item.MaterialBuyUnits)
+                                {
+                                    var price = unit.Quantity * unit.MaterialUnitPrice.Price;
+                                    totalPrice = totalPrice + (double)price;
+
+                                    @unit.MaterialUnitPrice.MaterialName.NameKr <br />
+                                }
+                            </td>
+                            @{
+                                var tprice = totalPrice * item.VATPer + totalPrice;
+                                var vat = item.VATPer * totalPrice;
+                                var paymentsum = item.Payments.Sum(p => p.Amount);
+
+                                sum_tprice = sum_tprice + tprice;
+                                sum_vat = sum_vat + vat;
+                                sum_paymentsum = sum_paymentsum + paymentsum;
+                            }
+                            <td>@String.Format("{0:0,0} (VAT {1:0,0})", tprice, vat)</td>
+                            <td>@String.Format("{0:0,0}", paymentsum)</td>
+
+                        </tr>
+                    }
+                }
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>@String.Format("{0:0,0} (VAT {1:0,0})", sum_tprice, sum_vat)</th>
+                    <th>@String.Format("{0:0,0}", sum_tprice - sum_paymentsum)</th>
+                </tr>
+            </table>
+            <div>
+                <table class="nav navbar-nav navbar-right">
+                    <tr>
+                        <th style="padding-right:6pt">@Resource.SendDate :</th>
+                        <th style="padding-right:12pt">
+                            @Html.EditorFor(model => model.PaymentDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+                        </th>
+                        <th style="padding-right:6pt">@Resource.Note :</th>
+                        <th style="padding-right:12pt">
+                            @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control", @style = "width:500px;max-width:500px" } })
+                            @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+                        </th>
+                        <th style="padding-right:30pt">
+                            <input type="submit" value="Payment" class="btn btn-default" />
+                        </th>
+                    </tr>
+                </table>
+            </div>
+        }
+    </div>
+    <br />
+}
+
+<script>
+    function SearchDate(link) {
+
+        var sd = $("#startDate").val();
+        var ed = $("#endDate").val();
+
+        link.href = link.href + "?startDate=" + sd + "&endDate=" + ed;
+
+        //        alert(link.href);
+
+    }
+
+</script>

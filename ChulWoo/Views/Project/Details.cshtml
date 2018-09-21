@@ -177,6 +177,7 @@
             MaterialBuy tempitem = null;
             double subtotal = 0;
             double vat = 0;
+            double payment = 0;
             foreach (var item in Model.MaterialBuys)
             {
                 if (tempitem == null || tempitem.Date != item.Date)
@@ -184,17 +185,18 @@
                     if (tempitem != null)
                     {
                         <tr>
-                            <th colspan="4" height="20"></th>
-                            <th>VAT</th>
-                            <th style="text-align: right;">@String.Format("{0:0,0}", vat)</th>
+                            <th colspan="3" height="20"></th>
+                            <th>소계</th>
+                            <th colspan="2" style="text-align: right;">@String.Format("{0:0,0} (VAT {1:0,0})", subtotal + vat, vat)</th>
                         </tr>
                         <tr>
-                            <th colspan="4" height="20"></th>
-                            <th>소계</th>
-                            <th style="text-align: right;">@String.Format("{0:0,0}", subtotal + vat)</th>
+                            <th colspan="3" height="20"></th>
+                            <th>Payment</th>
+                            <th colspan="2" style="text-align: right;">@String.Format("{0:0,0}", payment)</th>
                         </tr>
                         subtotal = 0;
                         vat = 0;
+                        payment = 0;
                     }
 
                     <tr>
@@ -215,25 +217,25 @@
                 {
                     <tr>
                         <td>
-                            @item.Company.Name
+                            @Html.ActionLink(item.Company.Name, "Details", "Company", new { id = item.CompanyID }, null)
                         </td>
                         <td>
                             @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
                             {
-                                @unit.MaterialUnitPrice.MaterialName.NameKr
+                                @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameKr, "Details", "MaterialBuy", new { id = item.ID }, null)
                             }
                             else
                             {
-                                @unit.MaterialUnitPrice.MaterialName.NameVn
+                                @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = item.ID }, null)
                             }
                             @*if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
-                                {
-                                    @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameKr, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
-                                }
-                                else
-                                {
-                                    @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
-                                }*@
+                            {
+                                @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameKr, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
+                            }
+                            else
+                            {
+                                @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
+                            }*@
                         </td>
                         <td>
                             @unit.MaterialUnitPrice.UnitString
@@ -256,18 +258,19 @@
 
                     </tr>
                 }
+                payment = item.Payments.Sum(p => p.Amount);
                 tempitem = item;
             }
         }
         <tr>
-            <th colspan="4" height="20"></th>
-            <th>VAT</th>
-            <th style="text-align: right;">@String.Format("{0:0,0}", vat)</th>
+            <th colspan="3" height="20"></th>
+            <th>소계</th>
+            <th colspan="2" style="text-align: right;">@String.Format("{0:0,0} (VAT {1:0,0})", subtotal + vat, vat)</th>
         </tr>
         <tr>
-            <th colspan="4" height="20"></th>
-            <th>소계</th>
-            <th style="text-align: right;">@String.Format("{0:0,0}", subtotal + vat)</th>
+            <th colspan="3" height="20"></th>
+            <th>Payment</th>
+            <th colspan="2" style="text-align: right;">@String.Format("{0:0,0}", payment)</th>
         </tr>
 
     </table>

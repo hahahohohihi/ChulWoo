@@ -91,7 +91,16 @@
 
     @if (Model.MaterialBuys.Count != 0)
     {
-        <h3>Material Sell</h3>
+        <table cellpadding="10pt">
+            <tr>
+                <th valign="bottom" style="padding-right:15pt">
+                    <h3>Material Sell</h3>
+                </th>
+                <th valign="bottom" style="padding-bottom:5pt">
+                    @Html.ActionLink("All Payment", "AllPaymentIndex", new { id = Model.ID })
+                </th>
+            </tr>
+        </table>
 
         foreach (var item in Model.MaterialBuys)
         {
@@ -133,6 +142,7 @@
                     <th>@Resource.Quantity</th>
                     <th>@Resource.UnitPrice</th>
                     <th>@Resource.Price</th>
+                    <th></th>
                 </tr>
                 @if (item.MaterialBuyUnits != null && item.MaterialBuyUnits.Count != 0)
                 {
@@ -143,11 +153,11 @@
                             <td>
                                 @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
                                 {
-                                    @unit.MaterialUnitPrice.MaterialName.NameKr
+                                    @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameKr, "Details", "MaterialBuy", new { id = item.ID }, null)
                                 }
                                 else
                                 {
-                                    @unit.MaterialUnitPrice.MaterialName.NameVn
+                                    @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = item.ID }, null)
                                 }
                             </td>
                             <td>
@@ -166,29 +176,39 @@
                                 }
                                 @String.Format("{0:0,0.00}", price)
                             </td>
+                            <td></td>
                         </tr>
                     }
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th>VAT</th>
-                        <th>@String.Format("{0:0,0}", totalPrice * item.VATPer)</th>
-                        <th></th>
-                    </tr>
+
+                    var tprice = totalPrice * item.VATPer + totalPrice;
+                    var vat = item.VATPer + totalPrice;
+                    var paymentsum = item.Payments.Sum(p => p.Amount);
                     <tr>
                         <th></th>
                         <th></th>
                         <th></th>
                         <th>Total Price</th>
-                        <th>@String.Format("{0:0,0}", totalPrice * 1.1)</th>
+                        <th>@String.Format("{0:0,0} (VAT {1:0,0})", tprice, vat)</th>
                         <th></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Payment</th>
+                        <th>@String.Format("{0:0,0}", paymentsum)</th>
+                        <th>
+                            @if (tprice > paymentsum)
+                            {
+                                @Html.ActionLink("Payment", "AddPayment", new { id = item.ID })
+                            }
+                        </th>
                     </tr>
                 }
             </table>
             <br />
-            }
-            }
+        }
+    }
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |

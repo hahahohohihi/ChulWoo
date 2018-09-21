@@ -21,7 +21,11 @@ namespace ChulWoo.Models
         [Display(Name = "Payment", ResourceType = typeof(Resource))]
         Payment,
         [Display(Name = "Deposit", ResourceType = typeof(Resource))]
-        Deposit
+        Deposit,
+        [Display(Name = "Lone", ResourceType = typeof(Resource))]
+        Lone,
+        [Display(Name = "PayBack", ResourceType = typeof(Resource))]
+        PayBack
     }
 
 

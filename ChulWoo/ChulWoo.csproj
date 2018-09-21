@@ -384,6 +384,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\WorkUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Viewmodel\AllPaymentIndexData.cs" />
     <Compile Include="Viewmodel\DailyWorkEquipmentData.cs" />
     <Compile Include="Viewmodel\DailyWorkUnitData.cs" />
     <Compile Include="Viewmodel\EmployeeExtendData.cs" />
@@ -516,6 +517,7 @@
     <Content Include="Views\FactoryDailyWork\Index.cshtml" />
     <Content Include="Views\FactoryDailyWork\EditAddWorkUnit.cshtml" />
     <Content Include="Views\FactoryDailyWork\EditEditWorkUnit.cshtml" />
+    <Content Include="Views\Company\AllPaymentIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\App_Data\" />
