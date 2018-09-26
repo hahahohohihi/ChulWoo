@@ -37,8 +37,7 @@ namespace ChulWoo.Models
         public virtual Employee Employee { get; set; }
 
         // 키값(단가) 키값(단가)
-        public int? MaterialBuyID { get; set; }
-        public virtual MaterialBuy MaterialBuy { get; set; }
+        public virtual ICollection<MaterialBuy> MaterialBuys { get; set; }
 
         // 키값(회사) 키값(회사)
         public int? CompanyID { get; set; }

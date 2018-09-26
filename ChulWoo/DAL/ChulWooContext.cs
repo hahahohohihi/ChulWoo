@@ -43,6 +43,12 @@ namespace ChulWoo.DAL
 //            modelBuilder.Entity<Personnel>().MapToStoredProcedures();
 //           modelBuilder.Entity<Project>().MapToStoredProcedures();
 //            modelBuilder.Entity<Company>().MapToStoredProcedures();
+
+            modelBuilder.Entity<MaterialBuy>()
+                .HasMany(m => m.Payments).WithMany(p => p.MaterialBuys)
+                .Map( t => t.MapLeftKey("MaterialBuyID")
+                    .MapRightKey("PaymentID")
+                    .ToTable("MaterialBuyPayment"));
         }
 
     }

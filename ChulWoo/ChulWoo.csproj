@@ -363,6 +363,22 @@
     <Compile Include="Migrations\201809170229210_180917.Designer.cs">
       <DependentUpon>201809170229210_180917.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809210944023_180921.cs" />
+    <Compile Include="Migrations\201809210944023_180921.Designer.cs">
+      <DependentUpon>201809210944023_180921.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809211008207_18092102.cs" />
+    <Compile Include="Migrations\201809211008207_18092102.Designer.cs">
+      <DependentUpon>201809211008207_18092102.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809220944408_180922.cs" />
+    <Compile Include="Migrations\201809220944408_180922.Designer.cs">
+      <DependentUpon>201809220944408_180922.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809260933255_180926.cs" />
+    <Compile Include="Migrations\201809260933255_180926.Designer.cs">
+      <DependentUpon>201809260933255_180926.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Company.cs" />
@@ -393,6 +409,7 @@
     <Compile Include="Viewmodel\MaterialBuyPaymentData.cs" />
     <Compile Include="Viewmodel\PaymentListData.cs" />
     <Compile Include="Viewmodel\ProjectDepositData.cs" />
+    <Compile Include="Viewmodel\ProjectMakeReceiptData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -518,6 +535,8 @@
     <Content Include="Views\FactoryDailyWork\EditAddWorkUnit.cshtml" />
     <Content Include="Views\FactoryDailyWork\EditEditWorkUnit.cshtml" />
     <Content Include="Views\Company\AllPaymentIndex.cshtml" />
+    <Content Include="Views\Project\EditAddMakeReceipt.cshtml" />
+    <Content Include="Views\Project\EditEditMakeReceipt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\App_Data\" />
@@ -615,6 +634,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809170229210_180917.resx">
       <DependentUpon>201809170229210_180917.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809210944023_180921.resx">
+      <DependentUpon>201809210944023_180921.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809211008207_18092102.resx">
+      <DependentUpon>201809211008207_18092102.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809220944408_180922.resx">
+      <DependentUpon>201809220944408_180922.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809260933255_180926.resx">
+      <DependentUpon>201809260933255_180926.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

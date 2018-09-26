@@ -8,6 +8,14 @@ using ChulWoo.LocalResource;
 
 namespace ChulWoo.Models
 {
+    public enum MaterialBuyType
+    {
+        [Display(Name = "MaterialBuy", ResourceType = typeof(Resource))]
+        MaterialBuy,
+        [Display(Name = "MakeReceipt", ResourceType = typeof(Resource))]
+        MakeReceipt
+    }
+
     public class MaterialBuy
     {
         // 키값(자재구매) 키값(자재구매)
@@ -36,15 +44,16 @@ namespace ChulWoo.Models
         public DateTime? Date { get; set; }
 
         [Display(Name = "SubNote", ResourceType = typeof(Resource))]
-        [StringLength(100, ErrorMessage = "Cannot be longer than 50 characters.")]
+        [StringLength(int.MaxValue)]
         public string NoteVn { get; set; }
         [Display(Name = "SubNote", ResourceType = typeof(Resource))]
-        [StringLength(100, ErrorMessage = "Cannot be longer than 50 characters.")]
+        [StringLength(int.MaxValue)]
         public string NoteKr { get; set; }
 
-        [DefaultValue(true)]
-        public bool VAT { get; set; }
         public float VATPer { get; set; }
+
+
+        public MaterialBuyType MaterialBuyType { get; set; }
 
 
         [Display(Name = "Translate", ResourceType = typeof(Resource))]

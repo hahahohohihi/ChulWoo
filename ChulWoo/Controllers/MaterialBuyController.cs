@@ -547,7 +547,6 @@ namespace ChulWoo.Controllers
                 smb.Date = materialBuy.Date;
                 smb.NoteVn = materialBuy.NoteVn;
                 smb.NoteKr = materialBuy.NoteKr;
-                smb.VAT = materialBuy.VAT;
                 smb.VATPer = materialBuy.VATPer;
                 smb.Translate = materialBuy.Translate;
 
@@ -620,11 +619,21 @@ namespace ChulWoo.Controllers
 
             if (materialBuy.Payments.Count > 0)
             {
-                var mtp = db.Payments.Where(p => p.MaterialBuyID == id).ToArray();
+                var mtp = db.Payments.Where(p => p.MaterialBuys.Count(m=>m.ID == id) > 0 ).ToArray();
 
                 foreach (var item in mtp)
                 {
-                    db.Payments.Remove(item);
+                    if( item.MaterialBuys.Count() > 1 )
+                    {
+                        foreach( var mb in item.MaterialBuys )
+                        {
+                            if (mb.ID == id)
+                                item.MaterialBuys.Remove(mb);
+                        }
+                        
+                    }
+                    else
+                        db.Payments.Remove(item);
                 }
             }
 
@@ -674,9 +683,9 @@ namespace ChulWoo.Controllers
         {
             byte[] buffer = null;
 
-            IEnumerable<Payment> payments = db.Payments.Include(p => p.MaterialBuy)
-                .Include(p => p.Employee)
+            IEnumerable<Payment> payments = db.Payments.Include(p => p.Employee)
                 .Include(p => p.Company)
+//                .Include(p => p.MaterialBuy)
                 .Where(p => p.Date == SearchDate && p.Type == PaymentType.Bank)
                 .OrderByDescending(p => p.Date);
 
@@ -754,15 +763,14 @@ namespace ChulWoo.Controllers
                 Date = d.Date,
                 NoteVn = d.NoteVn,
                 NoteKr = d.NoteKr,
-                VAT = d.VAT,
                 VATPer = d.VATPer
             };
 
             grid.DataBind();
 
-            IEnumerable<Payment> payments = db.Payments.Include(p => p.MaterialBuy)
-                .Include(p => p.Employee)
+            IEnumerable<Payment> payments = db.Payments.Include(p => p.Employee)
                 .Include(p => p.Company)
+//                .Include(p => p.MaterialBuy)
                 .Where(p => p.Date == SearchDate && p.Type == PaymentType.Bank)
                 .OrderByDescending(p => p.Date);
 
@@ -943,14 +951,16 @@ namespace ChulWoo.Controllers
             if (SearchDate == null )
             {
                 PaymentList.SearchDate = DateTime.Today;
-                PaymentList.Payments = db.Payments.Include(p => p.Employee).Include(p => p.MaterialBuy)
+                PaymentList.Payments = db.Payments.Include(p => p.Employee)
+//                    .Include(p => p.MaterialBuy)
                     .Where(p => p.Date == PaymentList.SearchDate)
                     .OrderByDescending(p => p.Date);
             }
             else
             {
                 PaymentList.SearchDate = (DateTime)SearchDate;
-                PaymentList.Payments = db.Payments.Include(p => p.Employee).Include(p => p.MaterialBuy)
+                PaymentList.Payments = db.Payments.Include(p => p.Employee)
+//                    .Include(p => p.MaterialBuy)
                         .Where(p => p.Date == SearchDate)
                         .OrderByDescending(p => p.Date);
             }
@@ -965,9 +975,9 @@ namespace ChulWoo.Controllers
             PaymentListData PaymentList = new PaymentListData();
 
             PaymentList.SearchDate = DateTime.Today;
-            PaymentList.Payments = db.Payments.Include(p => p.MaterialBuy)
-                .Include(p => p.Employee)
+            PaymentList.Payments = db.Payments.Include(p => p.Employee)
                 .Include(p => p.Company)
+//                .Include(p => p.MaterialBuy)
                 .Where(p => p.Date == SearchDate && p.Type == PaymentType.Bank)
                 .OrderByDescending(p => p.Date);
 

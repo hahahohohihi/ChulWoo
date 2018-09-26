@@ -36,7 +36,7 @@ namespace ChulWoo.Controllers
 
             var payments = db.Payments.Include(p => p.Company)
                 .Include(p => p.Employee)
-                .Include(p => p.MaterialBuy)
+//                .Include(p => p.MaterialBuy)
                 .OrderByDescending(p => p.Date);
 
             if (!String.IsNullOrEmpty(searchString))
@@ -89,7 +89,7 @@ namespace ChulWoo.Controllers
 
             ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", payment.CompanyID);
             ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "DepartmentVn", payment.EmployeeID);
-            ViewBag.MaterialBuyID = new SelectList(db.MaterialBuys, "ID", "NoteVn", payment.MaterialBuyID);
+//            ViewBag.MaterialBuyID = new SelectList(db.MaterialBuys, "ID", "NoteVn", payment.MaterialBuyID);
             return View(payment);
         }
 
@@ -107,7 +107,7 @@ namespace ChulWoo.Controllers
             }
             ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", payment.CompanyID);
             ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "DepartmentVn", payment.EmployeeID);
-            ViewBag.MaterialBuyID = new SelectList(db.MaterialBuys, "ID", "NoteVn", payment.MaterialBuyID);
+//            ViewBag.MaterialBuyID = new SelectList(db.MaterialBuys, "ID", "NoteVn", payment.MaterialBuyID);
             return View(payment);
         }
 
@@ -127,7 +127,7 @@ namespace ChulWoo.Controllers
             }
             ViewBag.CompanyID = new SelectList(db.Companys, "ID", "Name", payment.CompanyID);
             ViewBag.EmployeeID = new SelectList(db.Employees, "ID", "DepartmentVn", payment.EmployeeID);
-            ViewBag.MaterialBuyID = new SelectList(db.MaterialBuys, "ID", "NoteVn", payment.MaterialBuyID);
+//            ViewBag.MaterialBuyID = new SelectList(db.MaterialBuys, "ID", "NoteVn", payment.MaterialBuyID);
             return View(payment);
         }
 

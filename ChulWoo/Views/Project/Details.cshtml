@@ -82,8 +82,8 @@
                     <td>
                         <div class="editor-field">
                             <div class="col-md-offset-2 col-md-10">
-                                <input type="file" name="file" multiple="multiple"/>
-                                <input type="submit" value="Save" class="btn btn-default"/>
+                                <input type="file" name="file" multiple="multiple" />
+                                <input type="submit" value="Save" class="btn btn-default" />
 
                                 <ul class="attachment">
                                     @foreach (var item in Model.UploadFiles)
@@ -91,8 +91,8 @@
                                         if (item.Security == true)
                                         {
                                             <li>
-                                                <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a> | 
-                                                <a class="title" href="/Board/Download/?SFilename=@(item.FolderName + "/" + item.SaveFileName)&Filename=@item.FileName">Download</a> | 
+                                                <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a> |
+                                                <a class="title" href="/Board/Download/?SFilename=@(item.FolderName + "/" + item.SaveFileName)&Filename=@item.FileName">Download</a> |
                                                 <a href="javascript:void(0);" data-id="@item.ID" id="deleteitem" class="deleteitem">Delete</a>
                                             </li>
                                         }
@@ -108,6 +108,73 @@
 }
 
 <br />
+
+<table cellpadding="10pt">
+    <tr>
+        <th valign="bottom" style="padding-right:12pt">
+            <h3>Make Receipt</h3>
+        </th>
+        <th valign="bottom" style="padding-bottom:5pt">
+            @Html.ActionLink("Edit", "EditAddMakeReceipt", new { id = Model.ID })
+        </th>
+    </tr>
+</table>
+
+
+<table class="table">
+    <tr>
+        <th>@Resource.Date</th>
+        <th>@Resource.Name</th>
+        <th>@Resource.Amount</th>
+        <th>@Resource.Deposit</th>
+        <th>@Resource.Note</th>
+        <th></th>
+    </tr>
+    @if (Model.MaterialBuys != null && Model.MaterialBuys.Count != 0)
+    {
+
+        foreach (var item in Model.MaterialBuys)
+        {
+            if (item.MaterialBuyType == MaterialBuyType.MakeReceipt)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.MaterialBuyUnits.FirstOrDefault().MaterialUnitPrice.MaterialName.NameVn)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.MaterialBuyUnits.FirstOrDefault().MaterialUnitPrice.Price)
+                    </td>
+                    <td>
+                        @{
+                            var deposit = item.Payments.Where(p=>p.StatementType == StatementType.Deposit && p.MaterialBuys.Count(m=>m.ID == item.ID)>0)
+                                .Sum(p => p.Amount);
+                        }
+                        @String.Format("{0:0,0}", deposit)
+                    </td>
+                    <td>
+                        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                        {
+                            @item.NoteVn
+                        }
+                        else
+                        {
+                            @item.NoteVn
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Deposit", "AddAllDeposit", new { id = Model.ID, makereceiptid = item.ID }) |
+                        @Html.ActionLink("Edit", "EditEditMakeReceipt", new { id = Model.ID, makereceiptid = item.ID }) |
+                        @Html.ActionLink("Delete", "DeleteMakeReceipt", new { id = Model.ID, makereceiptid = item.ID })
+                    </td>
+                </tr>
+            }
+        }
+    }
+</table>
+
 
 <table cellpadding="10pt">
     <tr>
@@ -180,86 +247,89 @@
             double payment = 0;
             foreach (var item in Model.MaterialBuys)
             {
-                if (tempitem == null || tempitem.Date != item.Date)
+                if (item.MaterialBuyType == MaterialBuyType.MaterialBuy)
                 {
-                    if (tempitem != null)
+                    if (tempitem == null || tempitem.Date != item.Date)
+                    {
+                        if (tempitem != null)
+                        {
+                            <tr>
+                                <th colspan="3" height="20"></th>
+                                <th>소계</th>
+                                <th colspan="2" style="text-align: right;">@String.Format("{0:0,0} (VAT {1:0,0})", subtotal + vat, vat)</th>
+                            </tr>
+                            <tr>
+                                <th colspan="3" height="20"></th>
+                                <th>Payment</th>
+                                <th colspan="2" style="text-align: right;">@String.Format("{0:0,0}", payment)</th>
+                            </tr>
+                            subtotal = 0;
+                            vat = 0;
+                            payment = 0;
+                        }
+
+                        <tr>
+                            <td colspan="6">
+                                <b>@Html.DisplayNameFor(model => item.Date)</b> @Html.DisplayFor(model => item.Date)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@Resource.CompanyName</th>
+                            <th>@Resource.MaterialName</th>
+                            <th>@Resource.Unit</th>
+                            <th>@Resource.Quantity</th>
+                            <th style="text-align: right;">@Resource.UnitPrice</th>
+                            <th style="text-align: right;">@Resource.Price</th>
+                        </tr>
+                    }
+                    foreach (var unit in item.MaterialBuyUnits)
                     {
                         <tr>
-                            <th colspan="3" height="20"></th>
-                            <th>소계</th>
-                            <th colspan="2" style="text-align: right;">@String.Format("{0:0,0} (VAT {1:0,0})", subtotal + vat, vat)</th>
+                            <td>
+                                @Html.ActionLink(item.Company.Name, "Details", "Company", new { id = item.CompanyID }, null)
+                            </td>
+                            <td>
+                                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                                {
+                                    @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameKr, "Details", "MaterialBuy", new { id = item.ID }, null)
+                                }
+                                else
+                                {
+                                    @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = item.ID }, null)
+                                }
+                                @*if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                                {
+                                    @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameKr, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
+                                }
+                                else
+                                {
+                                    @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
+                                }*@
+                            </td>
+                            <td>
+                                @unit.MaterialUnitPrice.UnitString
+                            </td>
+                            <td>
+                                @unit.Quantity
+                            </td>
+                            <td style="text-align: right;">
+                                @Html.DisplayFor(model => unit.MaterialUnitPrice.Price)
+                            </td>
+                            <td style="text-align: right;">
+                                @{
+                                    var price = unit.Quantity * unit.MaterialUnitPrice.Price;
+                                    subtotal = subtotal + (double)price;
+                                    vat = vat + ((double)price * unit.MaterialBuy.VATPer);
+                                }
+                                @String.Format("{0:0,0}", price)
+
+                            </td>
+
                         </tr>
-                        <tr>
-                            <th colspan="3" height="20"></th>
-                            <th>Payment</th>
-                            <th colspan="2" style="text-align: right;">@String.Format("{0:0,0}", payment)</th>
-                        </tr>
-                        subtotal = 0;
-                        vat = 0;
-                        payment = 0;
                     }
-
-                    <tr>
-                        <td colspan="6">
-                            <b>@Html.DisplayNameFor(model => item.Date)</b> @Html.DisplayFor(model => item.Date)
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>@Resource.CompanyName</th>
-                        <th>@Resource.MaterialName</th>
-                        <th>@Resource.Unit</th>
-                        <th>@Resource.Quantity</th>
-                        <th style="text-align: right;">@Resource.UnitPrice</th>
-                        <th style="text-align: right;">@Resource.Price</th>
-                    </tr>
+                    payment = item.Payments.Sum(p => p.Amount);
+                    tempitem = item;
                 }
-                foreach (var unit in item.MaterialBuyUnits)
-                {
-                    <tr>
-                        <td>
-                            @Html.ActionLink(item.Company.Name, "Details", "Company", new { id = item.CompanyID }, null)
-                        </td>
-                        <td>
-                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
-                            {
-                                @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameKr, "Details", "MaterialBuy", new { id = item.ID }, null)
-                            }
-                            else
-                            {
-                                @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = item.ID }, null)
-                            }
-                            @*if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
-                            {
-                                @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameKr, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
-                            }
-                            else
-                            {
-                                @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
-                            }*@
-                        </td>
-                        <td>
-                            @unit.MaterialUnitPrice.UnitString
-                        </td>
-                        <td>
-                            @unit.Quantity
-                        </td>
-                        <td style="text-align: right;">
-                            @Html.DisplayFor(model => unit.MaterialUnitPrice.Price)
-                        </td>
-                        <td style="text-align: right;">
-                            @{
-                                var price = unit.Quantity * unit.MaterialUnitPrice.Price;
-                                subtotal = subtotal + (double)price;
-                                vat = vat + ((double)price * unit.MaterialBuy.VATPer);
-                            }
-                            @String.Format("{0:0,0}", price)
-
-                        </td>
-
-                    </tr>
-                }
-                payment = item.Payments.Sum(p => p.Amount);
-                tempitem = item;
             }
         }
         <tr>

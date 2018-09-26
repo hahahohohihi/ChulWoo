@@ -396,6 +396,15 @@ namespace ChulWoo.LocalResource {
         /// <summary>
         ///   과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
+        public static string MakeReceipt {
+            get {
+                return ResourceManager.GetString("MakeReceipt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
         public static string Male {
             get {
                 return ResourceManager.GetString("Male", resourceCulture);
@@ -435,6 +444,15 @@ namespace ChulWoo.LocalResource {
         public static string Married {
             get {
                 return ResourceManager.GetString("Married", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string MaterialBuy {
+            get {
+                return ResourceManager.GetString("MaterialBuy", resourceCulture);
             }
         }
         

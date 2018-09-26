@@ -27,11 +27,15 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MaterialBuy.NoteVn)
+            @Html.DisplayNameFor(model => model.MaterialBuys.FirstOrDefault().NoteVn)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MaterialBuy.NoteVn)
+            @foreach( var item in Model.MaterialBuys )
+            {
+                @item.NoteVn;
+                <br />
+            }
         </dd>
 
         <dt>

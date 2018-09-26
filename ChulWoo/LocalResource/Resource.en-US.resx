@@ -396,4 +396,10 @@
   <data name="PayBack" xml:space="preserve">
     <value>PayBack</value>
   </data>
+  <data name="MakeReceipt" xml:space="preserve">
+    <value>MakeReceipt</value>
+  </data>
+  <data name="MaterialBuy" xml:space="preserve">
+    <value>MaterialBuy</value>
+  </data>
 </root>

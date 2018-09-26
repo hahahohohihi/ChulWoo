@@ -396,4 +396,10 @@
   <data name="PayBack" xml:space="preserve">
     <value>Trả nợ</value>
   </data>
+  <data name="MakeReceipt" xml:space="preserve">
+    <value>xuất hóa đơn</value>
+  </data>
+  <data name="MaterialBuy" xml:space="preserve">
+    <value>mua vật tư</value>
+  </data>
 </root>

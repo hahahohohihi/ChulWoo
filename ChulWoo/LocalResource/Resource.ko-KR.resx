@@ -396,4 +396,10 @@
   <data name="PayBack" xml:space="preserve">
     <value>상환</value>
   </data>
+  <data name="MakeReceipt" xml:space="preserve">
+    <value>영수증발행</value>
+  </data>
+  <data name="MaterialBuy" xml:space="preserve">
+    <value>자재구매</value>
+  </data>
 </root>

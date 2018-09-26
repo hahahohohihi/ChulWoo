@@ -1,0 +1,153 @@
+﻿@model ChulWoo.Viewmodel.ProjectMakeReceiptData
+@using ChulWoo.Helper;
+@using ChulWoo.Models;
+
+@{
+    ViewBag.Title = "EditAddDeposit";
+}
+
+<h2>EditAddDeposit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Porject.ID)
+    @Html.HiddenFor(model => model.Porject.CompanyID)
+
+
+    <h2>
+        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+        {
+            @Html.DisplayFor(model => model.Porject.NameKr)
+        }
+        else
+        {
+            @Html.DisplayFor(model => model.Porject.NameVn)
+        }
+    </h2>
+
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Porject.Company.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Porject.Company.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Porject.Date)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Porject.Date)
+            </dd>
+        </dl>
+        @*
+            <ul class="attachment">
+                @foreach (var item in Model.UploadFiles)
+                {
+                    <li>
+                        <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a>  |
+                        <a class="title" href="/Board/Download/?SFilename=@(item.FolderName+"/"+ item.SaveFileName)&Filename=@item.FileName">Download</a>
+                    </li>
+                }
+            </ul>
+        *@
+        <br />
+
+        <table>
+            <tr>
+                <th valign="bottom" style="padding-right:12pt">
+                    <h3>Make Receipt</h3>
+                </th>
+            </tr>
+        </table>
+
+
+        <table class="table">
+            <tr>
+                <th>@Resource.Date</th>
+                <th>@Resource.Name</th>
+                <th>@Resource.Amount</th>
+                <th>VATPer</th>
+                <th>@Resource.Note</th>
+                <th></th>
+            </tr>
+            @if (Model.Porject.Deposits != null && Model.Porject.Deposits.Count != 0)
+            {
+
+                foreach (var item in Model.Porject.MaterialBuys)
+                {
+                    if (item.MaterialBuyType == MaterialBuyType.MakeReceipt)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => item.Date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.MaterialBuyUnits.FirstOrDefault().MaterialUnitPrice.MaterialName.NameVn)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.MaterialBuyUnits.FirstOrDefault().MaterialUnitPrice.Price)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.VATPer)
+                            </td>
+                            <td>
+                                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                                {
+                                    @item.NoteVn
+                                }
+                                else
+                                {
+                                    @item.NoteVn
+                                }
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "EditEditMakeReceipt", new { id = Model.Porject.ID, makereceiptid = item.ID }) |
+                                @Html.ActionLink("Delete", "DeleteMakeReceipt", new { id = Model.Porject.ID, makereceiptid = item.ID })
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+            <tr>
+                <th>
+                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                </th>
+                <th>
+                    @Html.EditorFor(model => model.NameVn, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NameVn, "", new { @class = "text-danger" })
+                </th>
+                <th>
+                    @Html.TextBoxFor(model => model.Price, "{0:0.00}", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                </th>
+                <th>
+                    @Html.TextBoxFor(model => model.VATPer, "{0:0.00}", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.VATPer, "", new { @class = "text-danger" })
+                </th>
+                <th>
+                    @Html.EditorFor(model => model.NoteVn, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NoteVn, "", new { @class = "text-danger" })
+                </th>
+                <th>
+                    <input type="submit" value="Add" class="btn btn-default" />
+                </th>
+            </tr>
+        </table>
+    </div>
+}
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Porject.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
