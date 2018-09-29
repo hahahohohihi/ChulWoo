@@ -268,6 +268,18 @@ namespace ChulWoo.Controllers
             if( allPayment.PaymentDate == null )
                 allPayment.PaymentDate = DateTime.Now;
 
+            Payment payment = new Payment();
+            payment.CompanyID = allPayment.Company.ID;
+            payment.Date = allPayment.PaymentDate;
+            payment.EmployeeID = Convert.ToInt32(Session["LoginUserEmployeeID"]);
+//            payment.ProjectID = ;
+            payment.StatementType = Models.StatementType.Payment;
+            payment.Type = PaymentType.Bank;
+            payment.Amount = 0;
+            payment.NoteVn = allPayment.Note;
+            payment.NoteKr = allPayment.Note;
+            payment.MaterialBuys = new List<MaterialBuy>();
+
             foreach ( var item in MaterialBuys)
             {
                 var paymentsum = item.Payments.Sum(p => p.Amount);
@@ -275,21 +287,15 @@ namespace ChulWoo.Controllers
                 var amount = price + price * item.VATPer - paymentsum;
                 if (amount > 0)
                 {
-                    Payment payment = new Payment();
-                    payment.CompanyID = item.CompanyID;
-                    payment.Date = allPayment.PaymentDate;
-                    payment.EmployeeID = Convert.ToInt32(Session["LoginUserEmployeeID"]);
-                    payment.ProjectID = item.ProjectID;
-                    payment.StatementType = Models.StatementType.Payment;
-                    payment.Type = PaymentType.Bank;
-                    payment.Amount = (double)amount;
-                    payment.NoteVn = allPayment.Note;
-                    payment.NoteKr = allPayment.Note;
+                    payment.Amount += (double)amount;
+                    payment.MaterialBuys.Add(item);
 
-                    db.Payments.Add(payment);
                     item.Payments.Add(payment);
                 }
             }
+            if( payment.Amount > 0 )
+                db.Payments.Add(payment);
+
             await db.SaveChangesAsync();
 
             allPayment.Company.MaterialBuys = allPayment.Company.MaterialBuys.Where(m => m.CompanyID == allPayment.Company.ID && m.Date <= allPayment.EndDate && m.Date >= allPayment.StartDate)

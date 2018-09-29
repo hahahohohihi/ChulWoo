@@ -1,29 +1,33 @@
 ﻿@model ChulWoo.Models.DailyWork
+@using ChulWoo.Models;
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>
+    공사일보 - NHẬT KÝ CÔNG VIỆC
+</h2>
 
 <div>
-    <h4>DailyWork</h4>
+    <h4>
+        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+        {
+            @Html.DisplayFor(model => model.Project.NameKr)
+        }
+        else
+        {
+            @Html.DisplayFor(model => model.Project.NameVn)
+        }
+    </h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Project.NameVn)
+            @Html.DisplayNameFor(model => model.ProparingPerson.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Project.NameVn)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ProparingPerson.DepartmentVn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ProparingPerson.DepartmentVn)
+            @Html.DisplayFor(model => model.ProparingPerson.Name)
         </dd>
 
         <dt>
@@ -55,15 +59,15 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.WeatherVn)
-        </dd>
+            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+            {
+                @Html.DisplayFor(model => model.WeatherKr)
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.WeatherVn)
+            }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.WeatherKr)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.WeatherKr)
         </dd>
 
         <dt>
@@ -71,26 +75,134 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.NoteVn)
-        </dd>
+            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+            {
+                @Html.DisplayFor(model => model.NoteKr)
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.NoteVn)
+            }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NoteKr)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NoteKr)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Translate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Translate)
         </dd>
 
     </dl>
+
+    <table class="table">
+        <tr>
+            <th>@Resource.WorkName</th>
+            <th>@Resource.StartDate</th>
+            <th>@Resource.Note</th>
+            <th></th>
+        </tr>
+        @if (ViewBag.WorkUnits != null && ViewBag.WorkUnits.Count != 0)
+        {
+
+            foreach (WorkUnit item in ViewBag.WorkUnits)
+            {
+                <tr>
+                    <td>
+                        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                        {
+                            @item.WorkNameKr
+                        }
+                        else
+                        {
+                            @item.WorkNameVn
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.StartDate)
+                    </td>
+                    <td>
+                        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                        {
+                            @Html.DisplayFor(model => item.NoteKr)
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => item.NoteVn)
+                        }
+                    </td>
+                    <td></td>
+
+                </tr>
+            }
+        }
+    </table>
+
+    @{
+        var temp = ((List<EquipmentUnit>)ViewBag.AllEquips).GroupBy(f => f.NameVn).ToList();
+        //var temp = from unit in item.FactoryWorkUnits
+        //           group unit by unit.ProjectID into data
+        //           select new { Project = data };
+        foreach (var unit in temp)
+        {
+            if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+            {
+                @unit.ElementAt(0).NameKr
+                @unit.Sum(u=>u.EquipCount)
+            }
+            else
+            {
+                @unit.ElementAt(0).NameVn
+            }
+            <br />
+        }
+    }
+
+    <br />
+
+    <table>
+        <tr>
+            <th valign="bottom" style="padding-right:12pt"><h4>Equipment Unit</h4></th>
+            @*<th valign="bottom" style="padding-bottom:5pt">@Html.ActionLink("Edit", "EditAddEquipment", new { id = Model.ID })</th>*@
+        </tr>
+    </table>
+
+    <table class="table">
+        <tr>
+            <th>@Resource.Name</th>
+            <th>@Resource.EquipCount</th>
+            <th>@Resource.Note</th>
+            <th></th>
+        </tr>
+        @if (Model.EquipmentUnits != null && Model.EquipmentUnits.Count != 0)
+        {
+
+            foreach (var item in Model.EquipmentUnits)
+            {
+                <tr>
+                    <td>
+                        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                        {
+                            @item.NameKr
+                        }
+                        else
+                        {
+                            @item.NameVn
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.EquipCount)
+                    </td>
+                    <td>
+                        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                        {
+                            @item.NoteVn
+                        }
+                        else
+                        {
+                            @item.NoteVn
+                        }
+                    </td>
+                    <td></td>
+                </tr>
+            }
+        }
+    </table>
+
+
     <table width="620">
         <tr>
             @{

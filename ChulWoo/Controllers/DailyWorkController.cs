@@ -70,6 +70,8 @@ namespace ChulWoo.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.WorkUnits = db.WorkUnits.Where(w => w.StartDate <= dailyWork.Date && (w.Complete == false || w.EndDate >= dailyWork.Date)).ToList();
+            ViewBag.AllEquips = db.EquipmentUnits.Where(e=>e.ID > 0).ToList();
             return View(dailyWork);
         }
 

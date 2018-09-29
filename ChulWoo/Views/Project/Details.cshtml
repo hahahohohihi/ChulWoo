@@ -115,7 +115,7 @@
             <h3>Make Receipt</h3>
         </th>
         <th valign="bottom" style="padding-bottom:5pt">
-            @Html.ActionLink("Edit", "EditAddMakeReceipt", new { id = Model.ID })
+            @Html.ActionLink("Add", "EditAddMakeReceipt", new { id = Model.ID })
         </th>
     </tr>
 </table>
@@ -123,12 +123,13 @@
 
 <table class="table">
     <tr>
-        <th>@Resource.Date</th>
-        <th>@Resource.Name</th>
-        <th>@Resource.Amount</th>
-        <th>@Resource.Deposit</th>
-        <th>@Resource.Note</th>
-        <th></th>
+        <th width="8%">@Resource.Date</th>
+        <th width="20%">@Resource.Name</th>
+        <th width="10%">@Resource.Amount</th>
+        <th width="8%">VATPer</th>
+        <th width="10%">@Resource.Deposit</th>
+        <th width="30%">@Resource.Note</th>
+        <th width="14%"></th>
     </tr>
     @if (Model.MaterialBuys != null && Model.MaterialBuys.Count != 0)
     {
@@ -146,6 +147,9 @@
                     </td>
                     <td>
                         @Html.DisplayFor(model => item.MaterialBuyUnits.FirstOrDefault().MaterialUnitPrice.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.VATPer)
                     </td>
                     <td>
                         @{
@@ -176,19 +180,21 @@
 </table>
 
 
-<table cellpadding="10pt">
+<table style="margin-left:40pt">
     <tr>
         <th valign="bottom" style="padding-right:12pt">
-            <h3>Deposit</h3>
+            <h4>Deposit</h4>
         </th>
+        @*
         <th valign="bottom" style="padding-bottom:5pt">
-            @Html.ActionLink("Edit", "EditAddDeposit", new { id = Model.ID })
+            @Html.ActionLink("Add", "EditAddDeposit", new { id = Model.ID })
         </th>
+        *@
     </tr>
 </table>
 
 
-<table class="table">
+<table class="table" style="margin-left:40pt">
     <tr>
         <th>@Resource.Date</th>
         <th>@Resource.PaymentType</th>
@@ -327,7 +333,26 @@
 
                         </tr>
                     }
-                    payment = item.Payments.Sum(p => p.Amount);
+                    foreach( var pay in item.Payments)
+                    {
+                        if( pay.MaterialBuys.Count() > 1 )
+                        {
+                            foreach( var mb in pay.MaterialBuys)
+                            {
+                                if( mb.ProjectID == Model.ID )
+                                {
+                                    foreach (var u in mb.MaterialBuyUnits)
+                                    {
+                                        payment = payment + (double)((u.Quantity * u.MaterialUnitPrice.Price) * (double)(1+u.MaterialBuy.VATPer));
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            payment = payment + pay.Amount;
+                        }
+                    }
                     tempitem = item;
                 }
             }

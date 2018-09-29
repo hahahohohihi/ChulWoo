@@ -506,7 +506,7 @@ namespace ChulWoo.Controllers
                 project.Deposits.Add(projectDepositData.Deposit);
 
                 await db.SaveChangesAsync();
-                return RedirectToAction("EditAddDeposit", new { id = projectDepositData.Porject.ID });
+                return RedirectToAction("Details", new { id = projectDepositData.Porject.ID });
             }
             return View(projectDepositData);
         }
@@ -519,7 +519,7 @@ namespace ChulWoo.Controllers
 
             //PreDeleteUnit(id, paymentid);
             await db.SaveChangesAsync();
-            return RedirectToAction("EditAddDeposit", new { id = id });
+            return RedirectToAction("Details", new { id = id });
         }
 
         public async Task<ActionResult> EditEditDeposit(int? id, int depositid)
@@ -587,7 +587,7 @@ namespace ChulWoo.Controllers
                     payment.Translate = true;
 
                 await db.SaveChangesAsync();
-                return RedirectToAction("EditAddDeposit", new { id = projectDepositData.Porject.ID });
+                return RedirectToAction("Details", new { id = projectDepositData.Porject.ID });
             }
             return View(projectDepositData);
         }

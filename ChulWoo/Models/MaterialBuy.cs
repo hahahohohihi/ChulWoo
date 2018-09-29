@@ -50,7 +50,7 @@ namespace ChulWoo.Models
         [StringLength(int.MaxValue)]
         public string NoteKr { get; set; }
 
-        public float VATPer { get; set; }
+        public double VATPer { get; set; }
 
 
         public MaterialBuyType MaterialBuyType { get; set; }

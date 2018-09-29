@@ -47,15 +47,15 @@
             </dd>
         </dl>
         @*
-            <ul class="attachment">
-                @foreach (var item in Model.UploadFiles)
-                {
-                    <li>
-                        <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a>  |
-                        <a class="title" href="/Board/Download/?SFilename=@(item.FolderName+"/"+ item.SaveFileName)&Filename=@item.FileName">Download</a>
-                    </li>
-                }
-            </ul>
+        <ul class="attachment">
+            @foreach (var item in Model.UploadFiles)
+            {
+                <li>
+                    <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a>  |
+                    <a class="title" href="/Board/Download/?SFilename=@(item.FolderName+"/"+ item.SaveFileName)&Filename=@item.FileName">Download</a>
+                </li>
+            }
+        </ul>
         *@
         <br />
 
@@ -70,12 +70,12 @@
 
         <table class="table">
             <tr>
-                <th>@Resource.Date</th>
-                <th>@Resource.Name</th>
-                <th>@Resource.Amount</th>
-                <th>VATPer</th>
-                <th>@Resource.Note</th>
-                <th></th>
+                <th width="15%">@Resource.Date</th>
+                <th width="20%">@Resource.Name</th>
+                <th width="10%">@Resource.Amount</th>
+                <th width="10%">VATPer</th>
+                <th width="35%">@Resource.Note</th>
+                <th width="10%"></th>
             </tr>
             @if (Model.Porject.Deposits != null && Model.Porject.Deposits.Count != 0)
             {
@@ -141,10 +141,67 @@
                 </th>
             </tr>
         </table>
+
+        <table style="margin-left:40pt">
+            <tr>
+                <th valign="bottom" style="padding-right:12pt">
+                    <h4>Deposit</h4>
+                </th>
+            </tr>
+        </table>
+
+
+        <table class="table" style="margin-left:40pt">
+            <tr>
+                <th>@Resource.Date</th>
+                <th>@Resource.PaymentType</th>
+                <th>@Resource.Amount</th>
+                <th>@Resource.Note</th>
+                <th></th>
+            </tr>
+            @if (Model.Porject.Deposits != null && Model.Porject.Deposits.Count != 0)
+            {
+                foreach (var item in Model.Porject.Deposits)
+                {
+                    if (item.StatementType == StatementType.Deposit)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => item.Date)
+                            </td>
+                            <td>
+                                @EnumExtensions.GetDisplayName(item.Type)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.Amount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.AmountString)
+                            </td>
+                            <td>
+                                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                                {
+                                    @item.NoteVn
+                                }
+                                else
+                                {
+                                    @item.NoteVn
+                                }
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "EditEditDeposit", new { id = Model.Porject.ID, depositid = item.ID }) |
+                                @Html.ActionLink("Delete", "DeleteDeposit", new { id = Model.Porject.ID, depositid = item.ID })
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </table>
+
     </div>
 }
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Porject.ID }) |
+    @Html.ActionLink("Details", "Details", new { id = Model.Porject.ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 

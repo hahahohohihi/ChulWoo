@@ -26,7 +26,7 @@ namespace ChulWoo.Viewmodel
         [DisplayFormat(DataFormatString = "{0:0,0.00}", ApplyFormatInEditMode = true)]
         public double Price { get; set; }
 
-        public float VATPer { get; set; }
+        public double VATPer { get; set; }
 
         [Display(Name = "SubNote", ResourceType = typeof(Resource))]
         [StringLength(int.MaxValue)]

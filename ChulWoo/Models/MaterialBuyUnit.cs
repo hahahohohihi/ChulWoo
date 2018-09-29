@@ -22,6 +22,6 @@ namespace ChulWoo.Models
         // 수량 수량
         [Display(Name = "Quantity", ResourceType = typeof(Resource))]
         [DisplayFormat(DataFormatString = "{0:0,0.00}", ApplyFormatInEditMode = true)]
-        public float? Quantity { get; set; }
+        public double Quantity { get; set; }
     }
 }
