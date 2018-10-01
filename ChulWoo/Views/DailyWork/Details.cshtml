@@ -131,25 +131,41 @@
         }
     </table>
 
-    @{
-        var temp = ((List<EquipmentUnit>)ViewBag.AllEquips).GroupBy(f => f.NameVn).ToList();
-        //var temp = from unit in item.FactoryWorkUnits
-        //           group unit by unit.ProjectID into data
-        //           select new { Project = data };
-        foreach (var unit in temp)
-        {
-            if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+    @*{
+            var temp = ((List<EquipmentUnit>)ViewBag.AllEquips).GroupBy(f => f.NameVn).ToList();
+            //var temp = from unit in item.FactoryWorkUnits
+            //           group unit by unit.ProjectID into data
+            //           select new { Project = data };
+            foreach (var unit in temp)
             {
-                @unit.ElementAt(0).NameKr
-                @unit.Sum(u=>u.EquipCount)
+                if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                {
+                    var tt = unit.FirstOrDefault(u => u.Date == Model.Date);
+                    if (tt != null)
+                    {
+                        Write(String.Format("{0}  {1}  {2}", unit.ElementAt(0).NameKr, unit.Sum(u => u.EquipCount), tt.EquipCount));
+                    }
+                    else
+                    {
+                        Write(String.Format("{0}  {1}", unit.ElementAt(0).NameKr, unit.Sum(u => u.EquipCount)));
+                    }
+
+                }
+                else
+                {
+                    var tt = unit.FirstOrDefault(u => u.Date == Model.Date);
+                    if (tt != null)
+                    {
+                        Write(String.Format("{0}  {1}  {2}", unit.ElementAt(0).NameVn, unit.Sum(u => u.EquipCount), tt.EquipCount));
+                    }
+                    else
+                    {
+                        Write(String.Format("{0}  {1}", unit.ElementAt(0).NameVn, unit.Sum(u => u.EquipCount)));
+                    }
+                }
+                <br />
             }
-            else
-            {
-                @unit.ElementAt(0).NameVn
-            }
-            <br />
-        }
-    }
+        }*@
 
     <br />
 
@@ -164,11 +180,13 @@
         <tr>
             <th>@Resource.Name</th>
             <th>@Resource.EquipCount</th>
+            <th>Total Count</th>
             <th>@Resource.Note</th>
             <th></th>
         </tr>
         @if (Model.EquipmentUnits != null && Model.EquipmentUnits.Count != 0)
         {
+            var temp = ((List<EquipmentUnit>)ViewBag.AllEquips).GroupBy(f => f.NameVn).ToList();
 
             foreach (var item in Model.EquipmentUnits)
             {
@@ -185,6 +203,15 @@
                     </td>
                     <td>
                         @Html.DisplayFor(model => item.EquipCount)
+                    </td>
+                    <td>
+                        @{
+                            var tt = temp.FirstOrDefault(u => u.Key == item.NameVn);
+                            if (tt != null)
+                            {
+                                Write(String.Format("{0}", tt.Sum(u => u.EquipCount)));
+                            }
+                        }
                     </td>
                     <td>
                         @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)

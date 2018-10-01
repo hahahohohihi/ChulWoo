@@ -16,6 +16,15 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 
+<table width="100%">
+    <tr>
+        <th style="text-align: left;">
+            @Html.ActionLink("DetailsPersonnel", "DetailsPersonnel")
+        </th>
+    </tr>
+</table>
+<br />
+
 @using (Html.BeginForm("Index", "Personnel", FormMethod.Get))
 {
     <p>

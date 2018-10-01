@@ -541,6 +541,7 @@
     <Content Include="Views\Company\AllPaymentIndex.cshtml" />
     <Content Include="Views\Project\EditAddMakeReceipt.cshtml" />
     <Content Include="Views\Project\EditEditMakeReceipt.cshtml" />
+    <Content Include="Views\Personnel\DetailsPersonnel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\App_Data\" />

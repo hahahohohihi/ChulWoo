@@ -46,6 +46,18 @@ namespace ChulWoo.Controllers
             return View(personnels.ToPagedList(pageNumber, pageSize));
         }
 
+        public async Task<ActionResult> DetailsPersonnel()
+        {
+            if (Session["LoginUserID"] == null)
+                return RedirectToAction("Login", "Account");
+
+            var personnels = db.Personnels.Include(p => p.Employee).OrderByDescending(p => p.SendDate);
+
+            ViewBag.Employees = db.Employees.Where(e => e.ResignID == null).ToList();
+
+            return View(personnels.ToList());
+        }
+
         // GET: Personnel/Details/5
         public async Task<ActionResult> Details(int? id)
         {
