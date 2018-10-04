@@ -17,7 +17,31 @@ namespace ChulWoo.Controllers
         {
             if(Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
-            return View();
+
+            int userid = (int)Session["LoginUserID"];
+            var user = db.Users.FirstOrDefault(u => u.ID == userid);
+
+            ViewBag.newBoard = db.Boards.Count(b => b.Date >= user.LastLogin);
+            ViewBag.newPersonnel = db.Personnels.Count(p => p.SendDate >= user.LastLogin);
+            ViewBag.newFactory = db.FactoryDailyWorks.Count(f => f.Date >= user.LastLogin);
+            ViewBag.newMaterialBuy = db.MaterialBuys.Count(m => m.Date >= user.LastLogin);
+            ViewBag.newProject = db.Projects.Count(p => p.Date >= user.LastLogin);
+
+            ViewBag.tranBoard = db.Boards.Count(b => b.Translate == false);
+            ViewBag.tranEmployee = db.Employees.Count(e => e.Translate == false);
+            ViewBag.tranPersonnel = db.Personnels.Count(p => p.Translate == false);
+            ViewBag.tranFactory = db.FactoryDailyWorks.Count(f => f.Translate == false);
+            ViewBag.tranMaterialBuy = db.MaterialBuys.Count(m => m.Translate == false);
+            ViewBag.tranProject = db.Projects.Count(p => p.Translate == false);
+            ViewBag.tranMaterialName = db.MaterialNames.Count(m => m.Translate == false);
+            ViewBag.tranPayment = db.Payments.Count(m => m.Translate == false);
+            ViewBag.tranDailyWorkReport = db.DailyWorks.Count(d => d.Translate == false);
+            ViewBag.tranWorkUnit = db.WorkUnits.Count(w => w.Translate == false);
+            ViewBag.tranEquipmentUnit = db.EquipmentUnits.Count(e => e.Translate == false);
+
+            var personnels = db.Personnels.Where(p => p.StartDate <= DateTime.Today && p.EndDate >= DateTime.Today);
+
+            return View(personnels);
         }
 
         [HttpPost]

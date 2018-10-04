@@ -125,7 +125,7 @@
                     @Html.ValidationMessageFor(model => model.WorkUnit.EquipCount, "", new { @class = "text-danger" })
                 </th>
                 <th>
-                    @Html.TextAreaFor(model => model.WorkUnit.NoteVn, new { @class = "form-control", @Style = "width:300px;max-width:300px;resize:none;border:1;", @rows = "1" })
+                    @Html.TextAreaFor(model => model.WorkUnit.NoteVn, new { @id = "unit", @class = "form-control", @Style = "width:300px;max-width:300px;resize:none;border:1;", @rows = "1" })
                     @Html.ValidationMessageFor(model => model.WorkUnit.NoteVn, "", new { @class = "text-danger" })
                 </th>
                 <th>
@@ -143,3 +143,28 @@
 
 <script src="~/Scripts/autosize.js"></script>
 <script>autosize(document.querySelectorAll('textarea'));</script>
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#unit").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/FactoryDailyWork/SelectWorkUnit",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.NoteVn, value: item.NoteVn };
+                        }))
+
+                    }
+                })
+            }
+        });
+    })
+</script>

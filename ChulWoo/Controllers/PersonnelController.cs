@@ -46,7 +46,7 @@ namespace ChulWoo.Controllers
             return View(personnels.ToPagedList(pageNumber, pageSize));
         }
 
-        public async Task<ActionResult> DetailsPersonnel()
+        public async Task<ActionResult> DetailsPersonnel(int? startYear, int? startMonth)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
@@ -54,6 +54,17 @@ namespace ChulWoo.Controllers
             var personnels = db.Personnels.Include(p => p.Employee).OrderByDescending(p => p.SendDate);
 
             ViewBag.Employees = db.Employees.Where(e => e.ResignID == null).ToList();
+
+            if (startYear == null)
+            {
+                ViewBag.startYear = DateTime.Now.Year;
+                ViewBag.startMonth = DateTime.Now.Month;
+            }
+            else
+            {
+                ViewBag.startYear = startYear;
+                ViewBag.startMonth = startMonth;
+            }
 
             return View(personnels.ToList());
         }

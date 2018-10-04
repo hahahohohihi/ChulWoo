@@ -70,6 +70,7 @@ namespace ChulWoo.Controllers
             {
                 return HttpNotFound();
             }
+
             return View(factoryDailyWork);
         }
 
@@ -322,6 +323,13 @@ namespace ChulWoo.Controllers
             //PreDeleteUnit(id, paymentid);
             await db.SaveChangesAsync();
             return RedirectToAction("Details", new { id = id });
+        }
+
+        [HttpPost]
+        public JsonResult SelectWorkUnit(string Prefix)
+        {
+            var names = db.FactoryWorkUnits.Where(m => m.NoteVn.ToLower().Contains(Prefix.ToLower())).Select(m => new { m.NoteVn }).Distinct().ToList();
+            return Json(names, JsonRequestBehavior.AllowGet);
         }
 
 

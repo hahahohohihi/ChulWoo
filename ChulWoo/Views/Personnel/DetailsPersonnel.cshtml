@@ -5,158 +5,262 @@
     ViewBag.Title = "DetailsPersonnel";
 }
 
+
+
+@{
+    DateTime startDate = (DateTime)DateTime.Now;
+    DateTime nowDate = DateTime.Now;
+
+    int startYear = startDate.Year;
+    int startMonth = startDate.Month;
+    int startDay = startDate.Day;
+    startYear = ViewBag.startYear;
+    startMonth = ViewBag.startMonth;
+    startDay = 1;
+
+    DateTime date_init = new DateTime(startYear, startMonth, 1);
+    int yoil = (int)date_init.DayOfWeek;
+
+    // 이달 마지막날/요일
+    int lastDay = date_init.AddMonths(1).AddDays(-1).Day;
+    int lastyoil = (int)date_init.AddMonths(1).AddDays(-1).DayOfWeek;
+}
+
+
 <h2>DetailsPersonnel</h2>
 
-
-<div>
+<div id="wrap">
     <hr />
 
-    @{
-        DateTime startDate = (DateTime)DateTime.Now;
-        DateTime nowDate = DateTime.Now;
-
-        int startYear = startDate.Year;
-        int startMonth = startDate.Month;
-        int startDay = startDate.Day;
-        //startYear = ViewBag.startYear;
-        //startMonth = ViewBag.startMonth;
-        startDay = 1;
-
-        DateTime date_init = new DateTime(startYear, startMonth, 1);
-        int yoil = (int)date_init.DayOfWeek;
-
-        // 이달 마지막날/요일
-        int lastDay = date_init.AddMonths(1).AddDays(-1).Day;
-        int lastyoil = (int)date_init.AddMonths(1).AddDays(-1).DayOfWeek;
-    }
-
-
-    <table border="1">
-        <tr>
-            <th height="50" colspan="@(lastDay - startDay+1+1)" style="text-align: center; font-size:20px">
-                @*Html.ActionLink("<<", "DetailsWorkProcess", new { id = Model.ID, startYear = startYear, startMonth = startMonth - 1 })*@
-                @startYear . @startMonth
-                @*Html.ActionLink(">>", "DetailsWorkProcess", new { id = Model.ID, startYear = startYear, startMonth = startMonth + 1 })*@
-            </th>
-        </tr>
-        <tr>
-            <th></th>
-            @{
-                for (int day = startDay; day <= lastDay; day++)
+    <table id="tblExport" border="1">
+        <thead>
+            <tr>
+                <th height="50" colspan="@(lastDay - startDay+1+4+6)" style="text-align: center; font-size:20px">
+                    @Html.ActionLink("<<", "DetailsPersonnel", new { startYear = startYear, startMonth = startMonth - 1 })
+                    @startYear . @startMonth
+                    @Html.ActionLink(">>", "DetailsPersonnel", new { startYear = startYear, startMonth = startMonth + 1 })
+                </th>
+            </tr>
+            <tr>
+                <th rowspan="3">SỐ<br />TT</th>
+                <th rowspan="3">Mã NV</th>
+                <th rowspan="3">HỌ VÀ TÊN</th>
+                <th rowspan="3">Chức Danh</th>
+                <th colspan="@(lastDay - startDay+1+6)">NGÀY TRONG THÁNG/ THỨ TRONG TUẦN</th>
+            </tr>
+            <tr>
+                @{
+                    for (int day = startDay; day <= lastDay; day++)
+                    {
+                        if (((yoil + day) % 7) == 1)
+                        {
+                            <th style="background-color:coral; text-align: center;">
+                                @day
+                            </th>
+                        }
+                        else
+                        {
+                            <th style="text-align: center;">
+                                @day
+                            </th>
+                        }
+                    }
+                }
+                <th colspan="6">Ngày công</th>
+            </tr>
+            <tr>
+                @for (int day = startDay; day <= lastDay; day++)
                 {
                     if (((yoil + day) % 7) == 1)
                     {
-                        <th style="background-color:coral; text-align: center;">
-                            @day
-                        </th>
+                        WriteLiteral("<td width=\"20\" style=\"color:red;background-color:coral; text-align: center;writing-mode:vertical-rl;\">");
                     }
                     else
                     {
-                        <th style="text-align: center;">
-                            @day
-                        </th>
+                        WriteLiteral("<td width=\"20\" style=\"text-align: center;writing-mode:vertical-rl;\">");
+                    }
+                    switch ((yoil + day) % 7)
+                    {
+                        case 0: WriteLiteral("T7</td>"); break;
+                        case 1: WriteLiteral("CN</td>"); break;
+                        case 2: WriteLiteral("T2</td>"); break;
+                        case 3: WriteLiteral("T3</td>"); break;
+                        case 4: WriteLiteral("T4</td>"); break;
+                        case 5: WriteLiteral("T5</td>"); break;
+                        case 6: WriteLiteral("T6</td>"); break;
+                            //case 0: WriteLiteral("토</td>"); break;
+                            //case 1: WriteLiteral("일</td>"); break;
+                            //case 2: WriteLiteral("월</td>"); break;
+                            //case 3: WriteLiteral("화</td>"); break;
+                            //case 4: WriteLiteral("수</td>"); break;
+                            //case 5: WriteLiteral("목</td>"); break;
+                            //case 6: WriteLiteral("금</td>"); break;
                     }
                 }
-            }
-        </tr>
-        <tr>
-            <td></td>
-            @for (int day = startDay; day <= lastDay; day++)
-            {
-                if (((yoil + day) % 7) == 1)
-                {
-                    WriteLiteral("<td width=\"20\" style=\"color:red;background-color:coral; text-align: center;writing-mode:vertical-rl;\">");
-                }
-                else
-                {
-                    WriteLiteral("<td width=\"20\" style=\"text-align: center;writing-mode:vertical-rl;\">");
-                }
-                switch ((yoil + day) % 7)
-                {
-                    case 0: WriteLiteral("T7</td>"); break;
-                    case 1: WriteLiteral("CN</td>"); break;
-                    case 2: WriteLiteral("T2</td>"); break;
-                    case 3: WriteLiteral("T3</td>"); break;
-                    case 4: WriteLiteral("T4</td>"); break;
-                    case 5: WriteLiteral("T5</td>"); break;
-                    case 6: WriteLiteral("T6</td>"); break;
-                        //case 0: WriteLiteral("토</td>"); break;
-                        //case 1: WriteLiteral("일</td>"); break;
-                        //case 2: WriteLiteral("월</td>"); break;
-                        //case 3: WriteLiteral("화</td>"); break;
-                        //case 4: WriteLiteral("수</td>"); break;
-                        //case 5: WriteLiteral("목</td>"); break;
-                        //case 6: WriteLiteral("금</td>"); break;
-                }
-            }
-        </tr>
-        @{
-            var list = ((List<Employee>)ViewBag.Employees).Where(e => e.Country.Equals("Hàn Quốc"));
-            foreach (var emp in list)
-            {
-                <tr>
-                    <th height="25" width="300" style="writing-mode:vertical-rl;">
-                        @emp.Name
-                    </th>
-                </tr>
-            }
-        }
-        @*foreach (var work in Model.WorkUnits)
-            {
-                if (work.StartDate.Month <= startMonth && (!work.Complete || (work.Complete && startMonth <= ((DateTime)work.EndDate).Month)))
+                <th style="text-align: center;">NC thực làm</th>
+                <th style="text-align: center;">Nghỉ lễ</th>
+                <th style="text-align: center;">Nghỉ phép</th>
+                <th style="text-align: center;">Nghỉ chế độ</th>
+                <th style="text-align: center;">Tính lương</th>
+                <th style="text-align: center;">Tăng ca (h)</th>
+            </tr>
+            <tr>
+                <td colspan="4">Thời gian làm việc</td>
+                <td colspan="@(lastDay - startDay+1)">8h - 5h30</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var list = ((List<Employee>)ViewBag.Employees).Where(e => !e.Country.Equals("Hàn Quốc")).OrderBy(e => e.EmployeeNo);
+                var count = 0;
+                var totWork = 0;
+                foreach (var emp in list)
                 {
                     <tr>
-                        <th height="25" width="300">
-                            @work.WorkNameKr
-                        </th>
-                        @{
-                            for (int day = startDay; day <= lastDay; day++)
-                            {
+                        <td>@count</td>
+                        <td>@emp.EmployeeNo</td>
+                        <td>@emp.Name</td>
+                        <td>@emp.JobPosition</td>
 
-                                if (work.StartDate.Month < startMonth)
+                        @for (int day = startDay; day <= lastDay; day++)
+                        {
+                            DateTime pic = new DateTime(startYear, startMonth, day);
+                            var per = Model.FirstOrDefault(p => p.EmployeeID == emp.ID && p.StartDate <= pic && p.EndDate >= pic);
+                            if (per == null && ((yoil + day) % 7) != 1)
+                            {
+                                <td>8</td>
+                                totWork = totWork + 1;
+                            }
+                            else
+                            {
+                                if (per == null)//|| ((yoil + day) % 7) == 1)
                                 {
-                                    if (!work.Complete && day <= DateTime.Now.Day)
-                                    {
-                                        <th style="background-color:olive" id="@day">
-                                        </th>
-                                    }
-                                    else if (((yoil + day) % 7) == 1)
-                                    {
-                                        <th style="background-color:coral"></th>
-                                    }
-                                    else
-                                    {
-                                        <th>
-                                        </th>
-                                    }
+                                    <td></td>
                                 }
                                 else
                                 {
-                                    if (day >= work.StartDate.Day && ((!work.Complete && (startMonth != DateTime.Now.Month || day <= DateTime.Now.Day)) || (work.Complete && work.EndDate != null && day <= ((DateTime)work.EndDate).Day)))
+                                    switch (per.Type)
                                     {
-                                        <th style="background-color:olive">
-                                        </th>
-                                    }
-                                    else if (((yoil + day) % 7) == 1)
-                                    {
-                                        <th style="background-color:coral"></th>
-                                    }
-                                    else
-                                    {
-                                        <th>
-                                        </th>
+                                        case PersonnelType.AnnualLeave: WriteLiteral("<td style=\"background-color:cornflowerblue\">P</td>"); break;
+                                        case PersonnelType.NopayLeave: WriteLiteral("<td style=\"background-color:darkgray\">K</td>"); break;
+                                        case PersonnelType.SickLeave:
+                                        case PersonnelType.MaternityLeave:
+                                        case PersonnelType.CompassionateLeave:
+                                        case PersonnelType.MarriageLeave:
+                                        case PersonnelType.HospitalizationLeave: WriteLiteral("<td style=\"background-color:burlywood\">CD</td>"); break;
+                                        default: WriteLiteral("<td></td>"); break;
                                     }
                                 }
                             }
                         }
+                        <td>@totWork</td>
                     </tr>
+                    count++;
+                    totWork = 0;
                 }
-            }*@
+            }
+        </tbody>
     </table>
+    @*foreach (var work in Model.WorkUnits)
+        {
+            if (work.StartDate.Month <= startMonth && (!work.Complete || (work.Complete && startMonth <= ((DateTime)work.EndDate).Month)))
+            {
+                <tr>
+                    <th height="25" width="300">
+                        @work.WorkNameKr
+                    </th>
+                    @{
+                        for (int day = startDay; day <= lastDay; day++)
+                        {
+
+                            if (work.StartDate.Month < startMonth)
+                            {
+                                if (!work.Complete && day <= DateTime.Now.Day)
+                                {
+                                    <th style="background-color:olive" id="@day">
+                                    </th>
+                                }
+                                else if (((yoil + day) % 7) == 1)
+                                {
+                                    <th style="background-color:coral"></th>
+                                }
+                                else
+                                {
+                                    <th>
+                                    </th>
+                                }
+                            }
+                            else
+                            {
+                                if (day >= work.StartDate.Day && ((!work.Complete && (startMonth != DateTime.Now.Month || day <= DateTime.Now.Day)) || (work.Complete && work.EndDate != null && day <= ((DateTime)work.EndDate).Day)))
+                                {
+                                    <th style="background-color:olive">
+                                    </th>
+                                }
+                                else if (((yoil + day) % 7) == 1)
+                                {
+                                    <th style="background-color:coral"></th>
+                                }
+                                else
+                                {
+                                    <th>
+                                    </th>
+                                }
+                            }
+                        }
+                    }
+                </tr>
+            }
+        }*@
 </div>
+
+<a id="btnExport" href="#" download="">
+    <button type='button'>Export</button>
+</a>
 
 <p>
     @*Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |*@
     @Html.ActionLink("Back to List", "Index")
 </p>
 
+
+
+<script type="text/javascript" src="~/Scripts/jquery.battatech.excelexport.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        function itoStr($num) {
+            $num < 10 ? $num = '0' + $num : $num;
+            return $num.toString();
+        }
+
+        var btn = $('#btnExport');
+        var tbl = 'tblExport';
+
+        btn.on('click', function () {
+            var dt = new Date();
+            var year = itoStr(dt.getFullYear());
+            var month = itoStr(dt.getMonth() + 1);
+            var day = itoStr(dt.getDate());
+            var hour = itoStr(dt.getHours());
+            var mins = itoStr(dt.getMinutes());
+
+            var postfix = year + month + day + "_" + hour + mins;
+            var fileName = "MyTable_" + postfix + ".xls";
+
+            var uri = $("#" + tbl).excelexportjs({
+                containerid: tbl
+                , datatype: 'table'
+                , returnUri: true
+            });
+
+            $(this).attr('download', fileName).attr('href', uri).attr('target', '_blank');
+        });
+    });
+</script>

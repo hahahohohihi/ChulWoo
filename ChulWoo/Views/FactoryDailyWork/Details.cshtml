@@ -1,4 +1,6 @@
 ﻿@model ChulWoo.Models.FactoryDailyWork
+@using ChulWoo.Models;
+@using ChulWoo.Helper;
 
 @{
     ViewBag.Title = "Details";
@@ -11,11 +13,11 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.ProparingPerson.DepartmentVn)
+            @Html.DisplayNameFor(model => model.ProparingPerson.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ProparingPerson.DepartmentVn)
+            @Html.DisplayFor(model => model.ProparingPerson.Name)
         </dd>
 
         <dt>
@@ -31,15 +33,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.NoteVn)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NoteKr)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NoteKr)
+            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+            {
+                @Html.TextAreaFor(model => model.NoteKr, new { @class = "form-control", @Style = "height:150px; width:600px; max-width:600px;", @readonly = true })
+            }
+            else
+            {
+                @Html.TextAreaFor(model => model.NoteVn, new { @class = "form-control", @Style = "height:150px; width:600px; max-width:600px;", @readonly = true })
+            }
         </dd>
 
         <dt>
@@ -52,6 +53,70 @@
 
     </dl>
 </div>
+
+<table width="100%" class="table">
+    <tr>
+        <th width="40%">@Resource.ProjectName</th>
+        <th width="40%">@Resource.WorkName</th>
+        <th width="10%">@Resource.DayWork</th>
+        <th width="10%">@Resource.DayOvertime</th>
+    </tr>
+    @{
+        var temp = Model.FactoryWorkUnits.GroupBy(f => f.ProjectID).ToList();
+        //var temp = from unit in item.FactoryWorkUnits
+        //           group unit by unit.ProjectID into data
+        //           select new { Project = data };
+        foreach (var unit in temp)
+        {
+            var temp2 = unit.GroupBy(u => u.NoteVn).ToList();
+            foreach (var micro in temp2)
+            {
+                <tr>
+                    <td>
+                        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                        {
+                            @micro.ElementAt(0).Project.NameKr
+                        }
+                        else
+                        {
+                            @micro.ElementAt(0).Project.NameVn
+                        }
+                    </td>
+                    <td>
+                        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                        {
+                            @micro.ElementAt(0).NoteKr
+                        }
+                        else
+                        {
+                            @micro.ElementAt(0).NoteVn
+                        }
+                    </td>
+                    <td>
+                        @{
+                            var mm = micro.FirstOrDefault(m => m.Type == WorkType.DayWork);
+                            if( mm != null )
+                            {
+                                WriteLiteral(mm.EquipCount);
+                            }
+                        }
+                    </td>
+                    <td>
+                        @{
+                            var mmm = micro.FirstOrDefault(m => m.Type == WorkType.DayOvertime);
+                            if (mmm != null)
+                            {
+                                WriteLiteral(mmm.EquipCount);
+                            }
+                        }
+                    </td>
+                </tr>
+
+            }
+        }
+    }
+</table>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
