@@ -1,0 +1,92 @@
+﻿@model PagedList.IPagedList<ChulWoo.Models.FactoryWorkUnit>
+@using PagedList.Mvc;
+@using ChulWoo.Models;
+@using ChulWoo.Helper;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm("Index", "FactoryWorkUnit", FormMethod.Get))
+{
+    <p>
+        Find by Name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        &nbsp; &nbsp;
+        @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
+        {
+            Write("Translate:  ");
+            @Html.CheckBox("translate", (bool?)Session["Translate"])
+        }
+        <input type="submit" value="Search" />
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Resource.Note
+        </th>
+        <th>
+            @Resource.ProjectName
+        </th>
+        <th>
+            @Resource.WorkType
+        </th>
+        <th>
+            @Resource.EquipCount
+        </th>
+        <th>
+            @Resource.Note
+        </th>
+        <th>
+            @Resource.Note
+        </th>
+        <th>
+            @Resource.Translate
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FactoryDailyWork.NoteVn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Project.NameVn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EquipCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoteVn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoteKr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Translate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, translate = (bool?)Session["Translate"] }))

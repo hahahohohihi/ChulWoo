@@ -1,0 +1,90 @@
+﻿@model ChulWoo.Models.WorkUnit
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>WorkUnit</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.NameVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.NameVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Complete)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Complete)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkNameVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WorkNameVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkNameKr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WorkNameKr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoteVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoteVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoteKr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoteKr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Translate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Translate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

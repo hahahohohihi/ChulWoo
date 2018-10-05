@@ -1,0 +1,80 @@
+﻿@model ChulWoo.Models.FactoryWorkUnit
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>FactoryWorkUnit</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FactoryDailyWork.NoteVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FactoryDailyWork.NoteVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.NameVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.NameVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EquipCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EquipCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoteVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoteVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoteKr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoteKr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Translate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Translate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

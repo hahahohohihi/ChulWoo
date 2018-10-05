@@ -249,13 +249,16 @@
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\DailyWorkController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\EquipmentUnitController.cs" />
     <Compile Include="Controllers\FactoryDailyWorkController.cs" />
+    <Compile Include="Controllers\FactoryWorkUnitController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialBuyController.cs" />
     <Compile Include="Controllers\MaterialNameController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PersonnelController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\WorkUnitController.cs" />
     <Compile Include="DAL\ChulWooContext.cs" />
     <Compile Include="DAL\ChulWooInitializer.cs" />
     <Compile Include="Global.asax.cs">
@@ -420,6 +423,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Image\logo.jpg" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -544,6 +548,21 @@
     <Content Include="Views\Project\EditAddMakeReceipt.cshtml" />
     <Content Include="Views\Project\EditEditMakeReceipt.cshtml" />
     <Content Include="Views\Personnel\DetailsPersonnel.cshtml" />
+    <Content Include="Views\FactoryWorkUnit\Create.cshtml" />
+    <Content Include="Views\FactoryWorkUnit\Delete.cshtml" />
+    <Content Include="Views\FactoryWorkUnit\Details.cshtml" />
+    <Content Include="Views\FactoryWorkUnit\Edit.cshtml" />
+    <Content Include="Views\FactoryWorkUnit\Index.cshtml" />
+    <Content Include="Views\WorkUnit\Create.cshtml" />
+    <Content Include="Views\WorkUnit\Delete.cshtml" />
+    <Content Include="Views\WorkUnit\Details.cshtml" />
+    <Content Include="Views\WorkUnit\Edit.cshtml" />
+    <Content Include="Views\WorkUnit\Index.cshtml" />
+    <Content Include="Views\EquipmentUnit\Create.cshtml" />
+    <Content Include="Views\EquipmentUnit\Delete.cshtml" />
+    <Content Include="Views\EquipmentUnit\Details.cshtml" />
+    <Content Include="Views\EquipmentUnit\Edit.cshtml" />
+    <Content Include="Views\EquipmentUnit\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\App_Data\" />

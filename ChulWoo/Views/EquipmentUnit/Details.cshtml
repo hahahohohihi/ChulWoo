@@ -1,0 +1,82 @@
+﻿@model ChulWoo.Models.EquipmentUnit
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EquipmentUnit</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DailyWork.WeatherVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DailyWork.WeatherVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NameVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NameVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NameKr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NameKr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoteVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoteVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoteKr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoteKr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EquipCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EquipCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Translate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Translate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

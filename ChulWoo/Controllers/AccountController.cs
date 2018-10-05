@@ -39,6 +39,7 @@ namespace ChulWoo.Controllers
                         Session["LoginUserEmployeeID"] = user.EmployeeID;
                         Session["LoginUserEmployeeName"] = user.Employee.Name;
                         Session["LoginUserSecurity"] = user.Security;
+                        Session["LastLogin"] = user.LastLogin;
 
                         user.LastLogin = DateTime.Now;
 
@@ -62,6 +63,8 @@ namespace ChulWoo.Controllers
             Session.Remove("LoginUserEmployeeID");
             Session.Remove("LoginUserEmployeeName");
             Session.Remove("LoginUserSecurity");
+            Session.Remove("LastLogin");
+
 
             return RedirectToAction("Index", "Home");
         }

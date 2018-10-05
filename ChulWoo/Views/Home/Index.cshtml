@@ -128,6 +128,12 @@
                     @ViewBag.tranDailyWorkReport
                 </dd>
                 <dt>
+                    @Html.ActionLink("FactoryWorkUnit", "Index", "FactoryWorkUnit", new { page = 1, currentFilter = "", searchString = "", translate = true }, null)
+                </dt>
+                <dd>
+                    @ViewBag.tranFactoryWorkUnit
+                </dd>
+                <dt>
                     @Html.ActionLink("WorkUnit", "Index", "WorkUnit", new { page = 1, currentFilter = "", searchString = "", translate = true }, null)
                 </dt>
                 <dd>

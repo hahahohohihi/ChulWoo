@@ -1,0 +1,74 @@
+﻿@model ChulWoo.Models.FactoryWorkUnit
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>FactoryWorkUnit</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FactoryDailyWork.NoteVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FactoryDailyWork.NoteVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.NameVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.NameVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EquipCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EquipCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoteVn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoteVn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoteKr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoteKr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Translate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Translate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

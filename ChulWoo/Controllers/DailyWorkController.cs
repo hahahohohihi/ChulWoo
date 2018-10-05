@@ -324,9 +324,11 @@ namespace ChulWoo.Controllers
                 DailyWork dailyWork = db.DailyWorks.FirstOrDefault(m => m.ID == dailyWorkUnitData.DailyWork.ID);
                 WorkUnit workUnit = await db.WorkUnits.FindAsync(workid);
 
-                if ( workUnit.NoteVn != dailyWorkUnitData.WorkUnit.NoteVn)
+                if (workUnit.WorkNameVn != dailyWorkUnitData.WorkUnit.WorkNameVn)
                     workUnit.Translate = false;
-                if(workUnit.Complete != dailyWorkUnitData.WorkUnit.Complete)
+                if (workUnit.NoteVn != dailyWorkUnitData.WorkUnit.NoteVn)
+                    workUnit.Translate = false;
+                if (workUnit.Complete != dailyWorkUnitData.WorkUnit.Complete)
                 {
                     if(dailyWorkUnitData.WorkUnit.Complete == true)
                         workUnit.EndDate = dailyWorkUnitData.DailyWork.Date;
@@ -400,8 +402,10 @@ namespace ChulWoo.Controllers
                 if( equipTemp != null )
                 {
                     dailyWorkEquipmentData.EquipmentUnit.NameKr = equipTemp.NameKr;
+                    if(dailyWorkEquipmentData.EquipmentUnit.NoteVn == null)
+                        dailyWorkEquipmentData.EquipmentUnit.Translate = equipTemp.Translate;
                 }
-                
+
 
                 db.EquipmentUnits.Add(dailyWorkEquipmentData.EquipmentUnit);
                 dailyWork.EquipmentUnits.Add(dailyWorkEquipmentData.EquipmentUnit);

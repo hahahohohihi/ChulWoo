@@ -52,97 +52,112 @@
     </script>
 
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("ChulWoo VINA", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
-                    @*<li>@Html.ActionLink("정보", "About", "Home")</li>*@
-                    @*<li>@Html.ActionLink("연락처", "Contact", "Home")</li>*@
-                    @if (Context.Session["LoginUserID"] != null)
-                    {
-                        <li>@Html.ActionLink("Board", "Index", "Board") </li>
-                        <li>@Html.ActionLink("Employee", "Index", "Employee")</li>
-                        <li>@Html.ActionLink("Personnel", "Index", "Personnel")</li>
-                        <li>@Html.ActionLink("Factory", "Index", "FactoryDailyWork")</li>
-                        <li>@Html.ActionLink("Company", "Index", "Company")</li>
-                        <li>@Html.ActionLink("MaterialBuy", "Index", "MaterialBuy")</li>
-                        <li>@Html.ActionLink("Project", "Index", "Project")</li>
-                        if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
-                        {
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    Translate
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>@Html.ActionLink("MaterialName", "Index", "MaterialName")</li>
-                                    <li>@Html.ActionLink("Payment", "Index", "Payment")</li>
-                                    <li>@Html.ActionLink("DailyWorkReport", "Index", "DailyWork")</li>
-                                    <li>@Html.ActionLink("WorkUnit", "Index", "WorkUnit")</li>
-                                    <li>@Html.ActionLink("EquipmentUnit", "Index", "EquipmentUnit")</li>
-                                </ul>
-                            </li>
-                        }
-                    }
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    @*{
-                            CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
-
-                            <li><a href="/Home/ChangeCurrentCulture/0">English</a></li>
-
-                            <li><a href="/Home/ChangeCurrentCulture/1">Vietnam</a></li>
-
-                            <li><a href="/Home/ChangeCurrentCulture/2">Korean</a></li>
-                        }*@
-                    @{
-                        if (Context.Session["LoginUserID"] == null)
-                        {
-                            <li>@Html.ActionLink("Login", "Login", "Account")</li>
-                        }
-                        else
-                        {
-                            <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
-                            Security sec = (Security)Context.Session["LoginUserSecurity"];
-                            if (sec == Security.Admin)
+<style>
+    body {
+        content: "";
+        background-image: url(../../Content/Image/logo.jpg);
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-position: bottom;
+        background-attachment:fixed;
+    }
+</style>
+<body >
+    <div id="background">
+        <div class="main">
+            <div class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        @Html.ActionLink("ChulWoo VINA", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
+                            @*<li>@Html.ActionLink("정보", "About", "Home")</li>*@
+                            @*<li>@Html.ActionLink("연락처", "Contact", "Home")</li>*@
+                            @if (Context.Session["LoginUserID"] != null)
                             {
-                                <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
+                                <li>@Html.ActionLink("Board", "Index", "Board") </li>
+                                <li>@Html.ActionLink("Employee", "Index", "Employee")</li>
+                                <li>@Html.ActionLink("Personnel", "Index", "Personnel")</li>
+                                <li>@Html.ActionLink("Factory", "Index", "FactoryDailyWork")</li>
+                                <li>@Html.ActionLink("Company", "Index", "Company")</li>
+                                <li>@Html.ActionLink("MaterialBuy", "Index", "MaterialBuy")</li>
+                                <li>@Html.ActionLink("Project", "Index", "Project")</li>
+                                if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
+                                {
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                            Translate
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("MaterialName", "Index", "MaterialName")</li>
+                                            <li>@Html.ActionLink("Payment", "Index", "Payment")</li>
+                                            <li>@Html.ActionLink("DailyWorkReport", "Index", "DailyWork")</li>
+                                            <li>@Html.ActionLink("FactoryWorkUnit", "Index", "FactoryWorkUnit")</li>
+                                            <li>@Html.ActionLink("WorkUnit", "Index", "WorkUnit")</li>
+                                            <li>@Html.ActionLink("EquipmentUnit", "Index", "EquipmentUnit")</li>
+                                        </ul>
+                                    </li>
+                                }
                             }
-                        }
-                    }
-                    <li style="margin-top:12pt">
-                        @Html.DropDownList("DropDownProductList", new List<SelectListItem>
-                           {
-                             new SelectListItem { Text = "English", Value = "0"},
-                             new SelectListItem { Text = "Vietnam", Value = "1"},
-                             new SelectListItem { Text = "Korean", Value = "2"}
-                          }, "-- Choose --", new { @onchange = "DropDownProductList();" });
-                    </li>
-                </ul>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            @*{
+                                CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+
+                                <li><a href="/Home/ChangeCurrentCulture/0">English</a></li>
+
+                                <li><a href="/Home/ChangeCurrentCulture/1">Vietnam</a></li>
+
+                                <li><a href="/Home/ChangeCurrentCulture/2">Korean</a></li>
+                            }*@
+                            @{
+                                if (Context.Session["LoginUserID"] == null)
+                                {
+                                    <li>@Html.ActionLink("Login", "Login", "Account")</li>
+                                }
+                                else
+                                {
+                                    <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                                    Security sec = (Security)Context.Session["LoginUserSecurity"];
+                                    if (sec == Security.Admin)
+                                    {
+                                        <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
+                                    }
+                                }
+                            }
+                            <li style="margin-top:12pt">
+                                @Html.DropDownList("DropDownProductList", new List<SelectListItem>
+                                   {
+                                     new SelectListItem { Text = "English", Value = "0"},
+                                     new SelectListItem { Text = "Vietnam", Value = "1"},
+                                     new SelectListItem { Text = "Korean", Value = "2"}
+                                  }, "-- Choose --", new { @onchange = "DropDownProductList();" });
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+            <div class="container body-content">
+                @RenderBody()
+                <hr />
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - ChulWoo VINA</p>
+                </footer>
+            </div>
+
+            @*Scripts.Render("~/bundles/jquery-3.3.1.js")*@
+            @Scripts.Render("~/bundles/bootstrap")
+            @RenderSection("scripts", required: false)
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - ChulWoo VINA</p>
-        </footer>
-    </div>
-
-    @*Scripts.Render("~/bundles/jquery-3.3.1.js")*@
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
 </body>
 
 </html>
