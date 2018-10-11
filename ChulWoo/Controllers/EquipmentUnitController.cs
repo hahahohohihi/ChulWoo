@@ -113,7 +113,7 @@ namespace ChulWoo.Controllers
             {
                 db.Entry(equipmentUnit).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { translate = Session["Translate"] });
             }
             ViewBag.DailyWorkID = new SelectList(db.DailyWorks, "ID", "WeatherVn", equipmentUnit.DailyWorkID);
             return View(equipmentUnit);

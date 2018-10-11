@@ -130,7 +130,7 @@ namespace ChulWoo.Controllers
             {
                 db.Entry(factoryDailyWork).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { translate = Session["Translate"] });
             }
             var employees = db.Employees.Where(e => e.ResignID == null);
             ViewBag.ProparingPersonID = new SelectList(employees, "ID", "Name", factoryDailyWork.ProparingPersonID);

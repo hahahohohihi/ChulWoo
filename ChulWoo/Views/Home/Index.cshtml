@@ -65,6 +65,15 @@
             <dd>
                 @ViewBag.newProject
             </dd>
+            @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Power))
+            {
+                <dt>
+                    @Html.ActionLink("Payment", "Index", "Payment")
+                </dt>
+                <dd>
+                    @ViewBag.newPayment
+                </dd>
+            }
         </dl>
     </div>
     @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))

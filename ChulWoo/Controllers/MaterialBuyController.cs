@@ -39,7 +39,7 @@ namespace ChulWoo.Controllers
             Session["Translate"] = translate;
 
             var materialBuys = db.MaterialBuys.Include(m => m.Company).Include(m => m.Project)
-                .OrderByDescending(m => m.ID).OrderByDescending(m => m.Date);
+                .OrderByDescending(m => m.Date).ThenByDescending(m => m.ID);
 
             if (!String.IsNullOrEmpty(searchString))
                 materialBuys = (IOrderedQueryable<MaterialBuy>)materialBuys.Where(m => m.Company.Name.Contains(searchString) || 

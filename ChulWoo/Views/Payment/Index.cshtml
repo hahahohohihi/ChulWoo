@@ -59,7 +59,7 @@
                 @EnumExtensions.GetDisplayName(item.StatementType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Company.Name)
+                @Html.ActionLink(item.Company.Name, "Details", "Company", new { id = item.CompanyID }, null)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Type)
@@ -68,13 +68,22 @@
                 @Html.DisplayFor(modelItem => item.Amount)
             </td>
             <td>
-                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
-                {
-                    @Html.DisplayFor(modelItem => item.NoteKr)
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.NoteVn)
+                @{
+                    foreach (var mb in item.MaterialBuys)
+                    {
+                        foreach (var u in mb.MaterialBuyUnits)
+                        {
+                            if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                            {
+                                @Html.ActionLink(u.MaterialUnitPrice.MaterialName.NameKr, "Details", "MaterialBuy", new { id = mb.ID }, null)
+                            }
+                            else
+                            {
+                                @Html.ActionLink(u.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = mb.ID }, null)
+                            }
+                            <br />
+                        }
+                    }
                 }
             </td>
             <td>

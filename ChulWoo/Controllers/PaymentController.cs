@@ -37,7 +37,8 @@ namespace ChulWoo.Controllers
             var payments = db.Payments.Include(p => p.Company)
                 .Include(p => p.Employee)
 //                .Include(p => p.MaterialBuy)
-                .OrderByDescending(p => p.Date);
+                .OrderByDescending(p => p.Date)
+                .ThenByDescending(m => m.ID);
 
             if (!String.IsNullOrEmpty(searchString))
                 payments = (IOrderedQueryable<Payment>)payments.Where(p => p.Company.Name.Contains(searchString));

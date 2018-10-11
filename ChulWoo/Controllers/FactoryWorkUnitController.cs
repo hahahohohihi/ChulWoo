@@ -117,7 +117,7 @@ namespace ChulWoo.Controllers
             {
                 db.Entry(factoryWorkUnit).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { translate = Session["Translate"] });
             }
             ViewBag.FactoryDailyWorkID = new SelectList(db.FactoryDailyWorks, "ID", "NoteVn", factoryWorkUnit.FactoryDailyWorkID);
             ViewBag.ProjectID = new SelectList(db.Projects, "ID", "NameVn", factoryWorkUnit.ProjectID);

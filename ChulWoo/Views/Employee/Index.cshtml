@@ -25,6 +25,8 @@
             Write("Translate:  ");
             @Html.CheckBox("translate", (bool?)Session["Translate"])
         }
+        Resign: 
+        @Html.CheckBox("resign", (bool?)ViewBag.Resign)
         <input type="submit" value="Search" />
     </p>
 }
@@ -105,4 +107,4 @@
 
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, translate = (bool?)Session["Translate"] }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, translate = (bool?)Session["Translate"], resign = (bool?)ViewBag.Resign }))

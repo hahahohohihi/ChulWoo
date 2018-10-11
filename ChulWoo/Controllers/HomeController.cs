@@ -25,6 +25,7 @@ namespace ChulWoo.Controllers
             ViewBag.newFactory = db.FactoryDailyWorks.Count(f => f.Date >= lastLogin);
             ViewBag.newMaterialBuy = db.MaterialBuys.Count(m => m.Date >= lastLogin);
             ViewBag.newProject = db.Projects.Count(p => p.Date >= lastLogin);
+            ViewBag.newPayment = db.Payments.Count(p => p.Date >= lastLogin);
 
             ViewBag.tranBoard = db.Boards.Count(b => b.Translate == false);
             ViewBag.tranEmployee = db.Employees.Count(e => e.Translate == false);

@@ -63,7 +63,7 @@
     {
         <table width="100%">
             <tr>
-                <td>
+                <td width="50%">
                     <ul class="attachment">
                         @foreach (var item in Model.UploadFiles)
                         {
@@ -79,7 +79,7 @@
                 </td>
                 @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Power))
                 {
-                    <td>
+                    <td width="50%">
                         <div class="editor-field">
                             <div class="col-md-offset-2 col-md-10">
                                 <input type="file" name="file" multiple="multiple" />

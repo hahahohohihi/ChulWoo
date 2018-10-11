@@ -157,11 +157,14 @@
                 <ul class="attachment">
                     @foreach (var item in Model.UploadFiles)
                     {
-                        <li>
-                            <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a>
-                            <a class="title" href="/Board/Download/?SFilename=@(item.FolderName+"/"+ item.SaveFileName)&Filename=@item.FileName">Download</a>
-                            <a href="javascript:void(0);" data-id="@item.ID" id="deleteitem" class="deleteitem">Delete</a>
-                        </li>
+                        if (item.Security == false)
+                        {
+                            <li>
+                                <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a>
+                                <a class="title" href="/Board/Download/?SFilename=@(item.FolderName+"/"+ item.SaveFileName)&Filename=@item.FileName">Download</a>
+                                <a href="javascript:void(0);" data-id="@item.ID" id="deleteitem" class="deleteitem">Delete</a>
+                            </li>
+                        }
                     }
                 </ul>
             </div>

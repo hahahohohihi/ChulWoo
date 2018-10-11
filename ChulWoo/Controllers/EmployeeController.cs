@@ -21,7 +21,7 @@ namespace ChulWoo.Controllers
         private int deleteContractID;
          
         // GET: Employee
-        public async Task<ActionResult> Index(int? page, string currentFilter, string searchString, bool? translate)
+        public async Task<ActionResult> Index(int? page, string currentFilter, string searchString, bool? translate, bool? resign)
         {
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
@@ -37,6 +37,7 @@ namespace ChulWoo.Controllers
 
             ViewBag.CurrentFilter = searchString;
             Session["Translate"] = translate;
+            ViewBag.Resign = resign;
 
             var employees = db.Employees.Include(e => e.Resign)
                                         .Include(e => e.Contracts.Select(c => c.Employee))
@@ -47,6 +48,9 @@ namespace ChulWoo.Controllers
 
             if (translate == true)
                 employees = (IOrderedQueryable<Employee>)employees.Where(e => !e.Translate);
+
+            if (resign == false)
+                employees = (IOrderedQueryable<Employee>)employees.Where(e => e.Resign == null);
 
             return View(employees.ToPagedList(pageNumber, pageSize));
         }

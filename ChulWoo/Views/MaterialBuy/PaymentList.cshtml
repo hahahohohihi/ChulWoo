@@ -86,14 +86,24 @@
                 }
             </td>
             <td>
-                @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
-                {
-                    @Html.DisplayFor(modelItem => item.MaterialBuy.NoteKr)
+                @{
+                    foreach (var mb in item.MaterialBuys)
+                    {
+                        foreach (var u in mb.MaterialBuyUnits)
+                        {
+                            if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                            {
+                                @Html.DisplayFor(modelItem => u.MaterialUnitPrice.MaterialName.NameKr)
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => u.MaterialUnitPrice.MaterialName.NameVn)
+                            }
+                            <br />
+                        }
+                    }
                 }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.MaterialBuy.NoteVn)
-                }
+
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |

@@ -194,7 +194,7 @@ namespace ChulWoo.Controllers
                 }
 
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index", new { projectid = dailyWork.ProjectID });
+                return RedirectToAction("Index", new { projectid = dailyWork.ProjectID, translate = Session["Translate"] });
             }
             ViewBag.ProjectID = new SelectList(db.Projects, "ID", "NameVn", dailyWork.ProjectID);
             ViewBag.ProparingPersonID = new SelectList(db.Employees, "ID", "Name", dailyWork.ProparingPersonID);

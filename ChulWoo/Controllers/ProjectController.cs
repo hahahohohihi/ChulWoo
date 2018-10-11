@@ -131,7 +131,7 @@ namespace ChulWoo.Controllers
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
 
-            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Translation))
+            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Manager))
                 return RedirectToAction("Index", "Home");
 
             Project sproject = await db.Projects.FindAsync(project.ID);
@@ -347,7 +347,7 @@ namespace ChulWoo.Controllers
             if (Session["LoginUserID"] == null)
                 return RedirectToAction("Login", "Account");
 
-            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Translation))
+            if (Convert.ToInt32(Session["LoginUserSecurity"]) < Convert.ToInt32(Security.Manager))
                 return RedirectToAction("Index", "Home");
 
             Project sproject = await db.Projects.FindAsync(project.ID);
