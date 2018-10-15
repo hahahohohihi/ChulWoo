@@ -402,4 +402,7 @@
   <data name="MaterialBuy" xml:space="preserve">
     <value>mua vật tư</value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>tiền tệ</value>
+  </data>
 </root>

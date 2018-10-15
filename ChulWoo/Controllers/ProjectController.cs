@@ -570,6 +570,7 @@ namespace ChulWoo.Controllers
                 payment.Date = projectDepositData.Deposit.Date;
                 payment.Type = projectDepositData.Deposit.Type;
                 payment.Amount = projectDepositData.Deposit.Amount;
+                payment.Currency = projectDepositData.Deposit.Currency;
                 payment.CompanyID = projectDepositData.Porject.CompanyID;
                 payment.ProjectID = projectDepositData.Porject.ID;
 
@@ -665,6 +666,7 @@ namespace ChulWoo.Controllers
                     muPrice.Date = projectMakeReceiptData.Date;
                     muPrice.UnitString = "Set";
                     muPrice.Price = projectMakeReceiptData.Price;
+                    muPrice.Currency = projectMakeReceiptData.Currency;
 
                     db.MaterialUnitPrices.Add(muPrice);
                 }
@@ -712,6 +714,7 @@ namespace ChulWoo.Controllers
             projectMakeReceiptData.NoteVn = makeReceipt.NoteVn;
             projectMakeReceiptData.NameVn = makeReceipt.MaterialBuyUnits.FirstOrDefault().MaterialUnitPrice.MaterialName.NameVn;
             projectMakeReceiptData.Price = makeReceipt.MaterialBuyUnits.FirstOrDefault().MaterialUnitPrice.Price;
+            projectMakeReceiptData.Currency = makeReceipt.MaterialBuyUnits.FirstOrDefault().MaterialUnitPrice.Currency;
             projectMakeReceiptData.VATPer = makeReceipt.VATPer;
 
             ViewBag.MakeReceiptID = makereceiptid;
@@ -757,9 +760,11 @@ namespace ChulWoo.Controllers
                     makeReceipt.Translate = false;
                 }
 
-                if(makeReceipt.MaterialBuyUnits.FirstOrDefault().MaterialUnitPrice.Price != projectMakeReceiptData.Price )
+                if(makeReceipt.MaterialBuyUnits.FirstOrDefault().MaterialUnitPrice.Price != projectMakeReceiptData.Price ||
+                    makeReceipt.MaterialBuyUnits.FirstOrDefault().MaterialUnitPrice.Currency != projectMakeReceiptData.Currency )
                 {
                     makeReceipt.MaterialBuyUnits.FirstOrDefault().MaterialUnitPrice.Price = projectMakeReceiptData.Price;
+                    makeReceipt.MaterialBuyUnits.FirstOrDefault().MaterialUnitPrice.Currency = projectMakeReceiptData.Currency;
                 }
 
                 if ((projectMakeReceiptData.NameVn != null && !projectMakeReceiptData.NameVn.Equals(makeReceipt.MaterialBuyUnits.FirstOrDefault().MaterialUnitPrice.MaterialName.NameVn)) ||
@@ -892,6 +897,7 @@ namespace ChulWoo.Controllers
                 payment.StatementType = Models.StatementType.Deposit;
                 payment.Type = PaymentType.Bank;
                 payment.Amount = (double)amount;
+                payment.Currency = makeReceipt.MaterialBuyUnits.FirstOrDefault().MaterialUnitPrice.Currency;
 
                 db.Payments.Add(payment);
                 makeReceipt.Payments.Add(payment);

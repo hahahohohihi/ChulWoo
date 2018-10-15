@@ -402,4 +402,7 @@
   <data name="MaterialBuy" xml:space="preserve">
     <value />
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value />
+  </data>
 </root>

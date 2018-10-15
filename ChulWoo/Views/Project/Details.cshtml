@@ -126,10 +126,11 @@
         <th width="8%">@Resource.Date</th>
         <th width="20%">@Resource.Name</th>
         <th width="10%">@Resource.Amount</th>
+        <th width="6%">@Resource.Currency</th>
         <th width="8%">VATPer</th>
         <th width="10%">@Resource.Deposit</th>
         <th width="30%">@Resource.Note</th>
-        <th width="14%"></th>
+        <th width="8%"></th>
     </tr>
     @if (Model.MaterialBuys != null && Model.MaterialBuys.Count != 0)
     {
@@ -147,6 +148,9 @@
                     </td>
                     <td>
                         @Html.DisplayFor(model => item.MaterialBuyUnits.FirstOrDefault().MaterialUnitPrice.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.MaterialBuyUnits.FirstOrDefault().MaterialUnitPrice.Currency)
                     </td>
                     <td>
                         @Html.DisplayFor(model => item.VATPer)
@@ -199,6 +203,7 @@
         <th>@Resource.Date</th>
         <th>@Resource.PaymentType</th>
         <th>@Resource.Amount</th>
+        <th>@Resource.Currency</th>
         <th>@Resource.Note</th>
         <th></th>
     </tr>
@@ -218,6 +223,9 @@
                     </td>
                     <td>
                         @Html.DisplayFor(model => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Currency)
                     </td>
                     <td>
                         @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)

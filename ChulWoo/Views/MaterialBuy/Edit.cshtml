@@ -132,6 +132,7 @@
                 <th>@Resource.Unit</th>
                 <th>@Resource.Quantity</th>
                 <th>@Resource.UnitPrice</th>
+                <th>@Resource.Currency</th>
                 <th>@Resource.Price</th>
                 <th></th>
             </tr>
@@ -167,6 +168,9 @@
                         </td>
                         <td>
                             @Html.DisplayFor(model => item.MaterialUnitPrice.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.MaterialUnitPrice.Currency)
                         </td>
                         <td>
                             @{
@@ -206,6 +210,7 @@
                 <th>@Resource.Date</th>
                 <th>@Resource.PaymentType</th>
                 <th>@Resource.Amount</th>
+                <th>@Resource.Currency</th>
                 <th>@Resource.AmountString</th>
                 <th>@Resource.Note</th>
                 <th></th>
@@ -224,6 +229,9 @@
                         </td>
                         <td>
                             @Html.DisplayFor(model => item.Amount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Currency)
                         </td>
                         <td>
                             @Html.DisplayFor(model => item.AmountString)

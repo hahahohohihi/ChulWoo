@@ -12,6 +12,11 @@ namespace ChulWoo.Models
         Quantity, Weight, Set, Time
     }
 
+    public enum Currency
+    {
+        VND, KRW, USD
+    }
+
     public class MaterialUnitPrice
     {
         public int ID { get; set; }
@@ -31,8 +36,8 @@ namespace ChulWoo.Models
         public DateTime? Date { get; set; }
 
         // 단위 단위
-        [Display(Name = "Unit", ResourceType = typeof(Resource))]
-        public Unit Unit { get; set; }
+        [Display(Name = "Currency", ResourceType = typeof(Resource))]
+        public Currency Currency { get; set; }
 
         // 가격 가격
         [Display(Name = "UnitPrice", ResourceType = typeof(Resource))]

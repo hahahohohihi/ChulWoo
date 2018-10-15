@@ -90,7 +90,7 @@ namespace ChulWoo.Controllers
                 dailyWork.ProjectID = (int)projectid;
             }
 
-            ViewBag.ProparingPersonID = new SelectList(db.Employees, "ID", "Name");
+            ViewBag.ProparingPersonID = new SelectList(db.Employees.Where(e => e.ResignID == null), "ID", "Name");
             return View(dailyWork);
         }
 
@@ -135,7 +135,7 @@ namespace ChulWoo.Controllers
             }
 
             ViewBag.ProjectID = new SelectList(db.Projects, "ID", "NameVn", dailyWork.ProjectID);
-            ViewBag.ProparingPersonID = new SelectList(db.Employees, "ID", "Name", dailyWork.ProparingPersonID);
+            ViewBag.ProparingPersonID = new SelectList(db.Employees.Where(e => e.ResignID == null), "ID", "Name", dailyWork.ProparingPersonID);
             return View(dailyWork);
         }
 
@@ -152,7 +152,7 @@ namespace ChulWoo.Controllers
                 return HttpNotFound();
             }
             ViewBag.ProjectID = new SelectList(db.Projects, "ID", "NameVn", dailyWork.ProjectID);
-            ViewBag.ProparingPersonID = new SelectList(db.Employees, "ID", "Name", dailyWork.ProparingPersonID);
+            ViewBag.ProparingPersonID = new SelectList(db.Employees.Where(e => e.ResignID == null), "ID", "Name", dailyWork.ProparingPersonID);
             ViewBag.WorkUnits = db.WorkUnits.Where(w => w.StartDate <= dailyWork.Date && (w.Complete == false || w.EndDate >= dailyWork.Date)).ToList();
             return View(dailyWork);
         }
@@ -197,7 +197,7 @@ namespace ChulWoo.Controllers
                 return RedirectToAction("Index", new { projectid = dailyWork.ProjectID, translate = Session["Translate"] });
             }
             ViewBag.ProjectID = new SelectList(db.Projects, "ID", "NameVn", dailyWork.ProjectID);
-            ViewBag.ProparingPersonID = new SelectList(db.Employees, "ID", "Name", dailyWork.ProparingPersonID);
+            ViewBag.ProparingPersonID = new SelectList(db.Employees.Where(e => e.ResignID == null), "ID", "Name", dailyWork.ProparingPersonID);
             return View(dailyWork);
         }
 

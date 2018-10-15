@@ -26,6 +26,9 @@ namespace ChulWoo.Viewmodel
         [DisplayFormat(DataFormatString = "{0:0,0.00}", ApplyFormatInEditMode = true)]
         public double Price { get; set; }
 
+        [Display(Name = "Currency", ResourceType = typeof(Resource))]
+        public Currency Currency { get; set; }
+
         public double VATPer { get; set; }
 
         [Display(Name = "SubNote", ResourceType = typeof(Resource))]

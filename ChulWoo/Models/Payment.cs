@@ -56,6 +56,9 @@ namespace ChulWoo.Models
         [DisplayFormat(DataFormatString = "{0:0,0}", ApplyFormatInEditMode = true)]
         public double Amount { get; set; }
 
+        [Display(Name = "Currency", ResourceType = typeof(Resource))]
+        public Currency Currency { get; set; }
+
         [Display(Name = "AmountString", ResourceType = typeof(Resource))]
         [StringLength(50, ErrorMessage = "Cannot be longer than 50 characters.")]
         public string AmountString { get; set; }

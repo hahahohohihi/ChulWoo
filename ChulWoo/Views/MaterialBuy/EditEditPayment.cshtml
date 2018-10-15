@@ -65,6 +65,7 @@
                 <th>@Resource.Unit</th>
                 <th>@Resource.Quantity</th>
                 <th>@Resource.UnitPrice</th>
+                <th>@Resource.Currency</th>
                 <th>@Resource.Price</th>
                 <th></th>
             </tr>
@@ -94,6 +95,9 @@
                             @Html.DisplayFor(model => item.MaterialUnitPrice.Price)
                         </td>
                         <td>
+                            @Html.DisplayFor(model => item.MaterialUnitPrice.Currency)
+                        </td>
+                        <td>
                             @{
                                 var price = item.Quantity * item.MaterialUnitPrice.Price;
                                 totalPrice = totalPrice + (double)price;
@@ -106,6 +110,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
                         <th>VAT</th>
                         <th>
                             @String.Format("{0:0,0}", totalPrice * Model.MaterialBuy.VATPer)
@@ -113,6 +118,7 @@
                         <th></th>
                     </tr>
                     <tr>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -132,6 +138,7 @@
                 <th>@Resource.Date</th>
                 <th>@Resource.PaymentType</th>
                 <th>@Resource.Amount</th>
+                <th>@Resource.Currency</th>
                 <th>@Resource.AmountString</th>
                 <th>@Resource.Note</th>
                 <th></th>
@@ -151,6 +158,9 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(model => item.Amount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.Currency)
                             </td>
                             <td>
                                 @Html.DisplayFor(model => item.AmountString)
@@ -185,6 +195,10 @@
                             <th>
                                 @Html.TextBoxFor(model => model.Payment.Amount, "{0:0.00}", new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.Payment.Amount, "", new { @class = "text-danger" })
+                            </th>
+                            <th>
+                                @Html.EnumDropDownListFor(model => model.Payment.Currency, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Payment.Currency, "", new { @class = "text-danger" })
                             </th>
                             <th>
                                 @Html.EditorFor(model => model.Payment.AmountString, new { htmlAttributes = new { @class = "form-control" } })

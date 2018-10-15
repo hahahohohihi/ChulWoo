@@ -88,6 +88,7 @@
                 <th>@Resource.Quantity</th>
                 <th>@Resource.UnitPrice</th>
                 <th>@Resource.Price</th>
+                <th>@Resource.Currency</th>
                 <th></th>
             </tr>
             @if (Model.MaterialBuy.MaterialBuyUnits != null && Model.MaterialBuy.MaterialBuyUnits.Count != 0)
@@ -120,6 +121,9 @@
                                 @Html.DisplayFor(model => item.MaterialUnitPrice.Price)
                             </td>
                             <td>
+                                @Html.DisplayFor(model => item.MaterialUnitPrice.Currency)
+                            </td>
+                            <td>
                                 @{
                                     var price = item.Quantity * item.MaterialUnitPrice.Price;
                                 }
@@ -143,12 +147,16 @@
                                 @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.UnitString, "", new { @class = "text-danger" })
                             </th>
                             <th>
-                                @Html.TextBoxFor(model => model.MaterialBuyUnit.Quantity,"{0:0.00}", new { @class = "form-control" } )
+                                @Html.TextBoxFor(model => model.MaterialBuyUnit.Quantity, "{0:0.00}", new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.MaterialBuyUnit.Quantity, "", new { @class = "text-danger" })
                             </th>
                             <th>
-                                @Html.TextBoxFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Price, "{0:0.00}", new { @class = "form-control" } )
+                                @Html.TextBoxFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Price, "{0:0.00}", new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Price, "", new { @class = "text-danger" })
+                            </th>
+                            <th>
+                                @Html.EnumDropDownListFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Currency, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.MaterialBuyUnit.MaterialUnitPrice.Currency, "", new { @class = "text-danger" })
                             </th>
                             <th>
                             </th>

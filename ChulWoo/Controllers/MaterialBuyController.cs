@@ -214,6 +214,7 @@ namespace ChulWoo.Controllers
                 payment.Date = materialBuyPaymentData.Payment.Date;
                 payment.Type = materialBuyPaymentData.Payment.Type;
                 payment.Amount = materialBuyPaymentData.Payment.Amount;
+                payment.Currency = materialBuyPaymentData.Payment.Currency;
                 payment.AmountString = materialBuyPaymentData.Payment.AmountString;
                 payment.CompanyID = materialBuyPaymentData.MaterialBuy.CompanyID;
                 payment.ProjectID = materialBuyPaymentData.MaterialBuy.ProjectID;
@@ -394,7 +395,37 @@ namespace ChulWoo.Controllers
                 //                db.Entry(materialBuyData).State = EntityState.Modified;
                 MaterialBuyUnit sUnit = db.MaterialBuyUnits.FirstOrDefault(mbu => mbu.ID == unitid);
                 MaterialName sName = db.MaterialNames.FirstOrDefault(m => m.NameVn.Equals(sUnit.MaterialUnitPrice.MaterialName.NameVn));
+
                 int  nameCount = db.MaterialUnitPrices.Where(m => m.MaterialName.NameVn.Equals(sUnit.MaterialUnitPrice.MaterialName.NameVn)).Count();
+                int sunitCount = db.MaterialBuyUnits.Where(u => u.MaterialUnitPriceID == sUnit.MaterialUnitPriceID).Count();
+
+                if(materialBuyData.MaterialBuyUnit.MaterialUnitPrice.Price != sUnit.MaterialUnitPrice.Price ||
+                    materialBuyData.MaterialBuyUnit.MaterialUnitPrice.Currency != sUnit.MaterialUnitPrice.Currency ||
+                    !materialBuyData.MaterialBuyUnit.MaterialUnitPrice.UnitString.Equals(sUnit.MaterialUnitPrice.UnitString))
+                {
+                    if (sunitCount == 1)
+                    {
+                        sUnit.MaterialUnitPrice.UnitString = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.UnitString;
+                        sUnit.MaterialUnitPrice.Price = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.Price;
+                        sUnit.MaterialUnitPrice.Currency = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.Currency;
+                        sUnit.MaterialUnitPrice.Date = DateTime.Today;
+                    }
+                    else
+                    {
+                        MaterialUnitPrice muPrice = new MaterialUnitPrice();
+                        muPrice.MaterialName = sUnit.MaterialUnitPrice.MaterialName;
+                        muPrice.MaterialNameID = sUnit.MaterialUnitPrice.MaterialNameID;
+                        muPrice.Company = sUnit.MaterialUnitPrice.Company;
+                        muPrice.CompanyID = sUnit.MaterialUnitPrice.CompanyID;
+                        muPrice.UnitString = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.UnitString;
+                        muPrice.Price = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.Price;
+                        muPrice.Currency = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.Currency;
+                        muPrice.Date = DateTime.Today;
+
+                        db.MaterialUnitPrices.Add(muPrice);
+                        sUnit.MaterialUnitPrice = muPrice;
+                    }
+                }
 
                 MaterialName newName = db.MaterialNames.FirstOrDefault(m => m.NameVn.Equals(materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn));
 
@@ -404,6 +435,7 @@ namespace ChulWoo.Controllers
                     {
                         if( newName == null)
                         {
+                            newName = new MaterialName();
                             sUnit.MaterialUnitPrice.MaterialName.NameVn = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn;
                             sUnit.MaterialUnitPrice.MaterialName.NameKr = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.NameVn;
                             materialBuyData.MaterialBuyUnit.MaterialUnitPrice.MaterialName.Translate = false;
@@ -434,9 +466,6 @@ namespace ChulWoo.Controllers
                 }
 
                 MaterialBuy materialBuy = db.MaterialBuys.FirstOrDefault(m => m.ID == materialBuyData.MaterialBuy.ID);
-                MaterialUnitPrice muPrice = sUnit.MaterialUnitPrice;
-                muPrice.UnitString = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.UnitString;
-                muPrice.Price = materialBuyData.MaterialBuyUnit.MaterialUnitPrice.Price;
                 sUnit.Quantity = materialBuyData.MaterialBuyUnit.Quantity;
 
                 await db.SaveChangesAsync();

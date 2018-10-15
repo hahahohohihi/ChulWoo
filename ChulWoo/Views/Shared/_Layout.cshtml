@@ -83,7 +83,7 @@
                             @if (Context.Session["LoginUserID"] != null)
                             {
                                 <li>@Html.ActionLink("Board", "Index", "Board") </li>
-                                <li>@Html.ActionLink("Employee", "Index", "Employee")</li>
+                                <li>@Html.ActionLink("Employee", "Index", "Employee", new { page = 1, currentFilter = "", searchString = "", translate = false, resign = false }, null)</li>
                                 <li>@Html.ActionLink("Personnel", "Index", "Personnel")</li>
                                 <li>@Html.ActionLink("Factory", "Index", "FactoryDailyWork")</li>
                                 <li>@Html.ActionLink("Company", "Index", "Company")</li>
