@@ -120,6 +120,8 @@ namespace ChulWoo.Controllers
 
                 board.UploadFiles = UploadFiles;
                 board.Date = (DateTime)DateTime.Now;
+                board.TitleKr = board.TitleVn;
+                board.NoteKr = board.NoteVn;
                 board.EmployeeID = (int)Session["LoginUserEmployeeID"];
                 db.Boards.Add(board);
                 await db.SaveChangesAsync();

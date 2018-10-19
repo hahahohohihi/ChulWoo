@@ -1,55 +1,47 @@
-﻿<div>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <div class="form-group">
-        <div style="position:relative;">
-            <label>Image</label>
-            <a class='btn' href='javascript:;'>
-                Choose File...
-                <input class="uploadjs" type="file" name="Image" size="40"
-                       style="position:absolute;z-index:2;top:0;left:0;filter:alpha(opacity=0);opacity:0;background-color:transparent;color:transparent;"
-                       onchange="document.getElementById('pdf').src = window.URL.createObjectURL(this.files[0])">
-            </a>
-            <span class='label label-info' id="upload-file-info"></span>
-        </div>
+﻿
+    <style type="text/css">
+        p {
+            width: 400px;
+            display: none;
+        }
+    </style>
+    <script src="http://cdn.jquerytools.org/1.2.5/jquery.tools.min.js"></script>
 
-        <a onclick="window.open(document.getElementById('pdf').src);">
-            <embed id="pdf" width="100%" height="100%" />
-        </a>
-        <img id="image" class="img-thumbnail" width="150" height="150" />
 
+        <button id="b1">slideDown</button>
+        <button id="b2">slideUp</button>
+        <button id="b3">fadeIn</button>
+        <button id="b4">fadeOut</button>
+        <p id="p1">
+            Only I can change my life. No one can do it for me.<br />
+            Well begun is <em>half</em> done.
+            <img width="300" src="https://t1.daumcdn.net/daumtop_chanel/op/20170315064553027.png" />
+        </p>
+
+        <p id="p2">
+            Lovely Drinking<br />
+            Chocolate Drinking.
+        </p>
         <script>
-            function readURL(input, id) {
-                var mime = input.files[0].type;
-
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        if (mime.split("/")[0] == "image") {
-                            $('#pdf').attr('src', '');
-                            $('#image').attr('src', e.target.result);
-
-                        }
-                        else {
-                            $('#image').attr('src', '');
-                            $('#pdf').attr('src', e.target.result);
-                        }
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
-                }
+            $(b1).click(function () {
+                $(p1).slideDown("slow");
             }
-
-            $(function () {
-                $(".uploadjs").change(function () {
-                    var id = $(this).data('id')
-                    readURL(this, id);
-                });
-            })
+            );
+            $(b2).click(function () {
+                $(p1).slideUp("slow");
+            }
+            );
+            $(b3).click(function () {
+                $(p1).fadeIn(3000, function () {
+                    $(p2).fadeIn(100);
+                }
+                );
+                return false;
+            });
+            $(b4).click(function () {
+                $(p1).fadeOut("slow");
+            }
+            );
         </script>
+
+

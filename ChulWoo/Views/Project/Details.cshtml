@@ -55,55 +55,59 @@
 </dl>
 
 
+<button id="b1" class="btn btn-default">slideDown</button>
+<button id="b2" class="btn btn-default" style="display:none">slideUp</button>
 @using (Html.BeginForm("Details", "Project", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
     if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Personnel))
     {
-        <table width="100%">
-            <tr>
-                <td width="50%">
-                    <ul class="attachment">
-                        @foreach (var item in Model.UploadFiles)
-                        {
-                            if (item.Security == false)
-                            {
-                                <li>
-                                    <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a>  |
-                                    <a class="title" href="/Board/Download/?SFilename=@(item.FolderName + "/" + item.SaveFileName)&Filename=@item.FileName">Download</a>
-                                </li>
-                            }
-                        }
-                    </ul>
-                </td>
-                @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Power))
-                {
+        <div id="p1" style="display:none;">
+            <table width="100%">
+                <tr>
                     <td width="50%">
-                        <div class="editor-field">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="file" name="file" multiple="multiple" />
-                                <input type="submit" value="Save" class="btn btn-default" />
-
-                                <ul class="attachment">
-                                    @foreach (var item in Model.UploadFiles)
-                                    {
-                                        if (item.Security == true)
-                                        {
-                                            <li>
-                                                <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a> |
-                                                <a class="title" href="/Board/Download/?SFilename=@(item.FolderName + "/" + item.SaveFileName)&Filename=@item.FileName">Download</a> |
-                                                <a href="javascript:void(0);" data-id="@item.ID" id="deleteitem" class="deleteitem">Delete</a>
-                                            </li>
-                                        }
-                                    }
-                                </ul>
-                            </div>
-                        </div>
+                        <ul class="attachment">
+                            @foreach (var item in Model.UploadFiles)
+                            {
+                                if (item.Security == false)
+                                {
+                                    <li>
+                                        <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a>  |
+                                        <a class="title" href="/Board/Download/?SFilename=@(item.FolderName + "/" + item.SaveFileName)&Filename=@item.FileName">Download</a>
+                                    </li>
+                                }
+                            }
+                        </ul>
                     </td>
-                }
-            </tr>
-        </table>
+                    @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Power))
+                    {
+                        <td width="50%">
+                            <div class="editor-field">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="file" name="file" multiple="multiple" />
+                                    <input type="submit" value="Save" class="btn btn-default" />
+
+                                    <ul class="attachment">
+                                        @foreach (var item in Model.UploadFiles)
+                                        {
+                                            if (item.Security == true)
+                                            {
+                                                <li>
+                                                    <a class="title" href="/UploadFile/@item.FolderName/@item.SaveFileName">@item.FileName</a> |
+                                                    <a class="title" href="/Board/Download/?SFilename=@(item.FolderName + "/" + item.SaveFileName)&Filename=@item.FileName">Download</a> |
+                                                    <a href="javascript:void(0);" data-id="@item.ID" id="deleteitem" class="deleteitem">Delete</a>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    }
+                </tr>
+            </table>
+        </div>
     }
 }
 
@@ -157,7 +161,7 @@
                     </td>
                     <td>
                         @{
-                            var deposit = item.Payments.Where(p=>p.StatementType == StatementType.Deposit && p.MaterialBuys.Count(m=>m.ID == item.ID)>0)
+                            var deposit = item.Payments.Where(p => p.StatementType == StatementType.Deposit && p.MaterialBuys.Count(m => m.ID == item.ID) > 0)
                                 .Sum(p => p.Amount);
                         }
                         @String.Format("{0:0,0}", deposit)
@@ -190,9 +194,9 @@
             <h4>Deposit</h4>
         </th>
         @*
-        <th valign="bottom" style="padding-bottom:5pt">
-            @Html.ActionLink("Add", "EditAddDeposit", new { id = Model.ID })
-        </th>
+            <th valign="bottom" style="padding-bottom:5pt">
+                @Html.ActionLink("Add", "EditAddDeposit", new { id = Model.ID })
+            </th>
         *@
     </tr>
 </table>
@@ -312,13 +316,13 @@
                                     @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = item.ID }, null)
                                 }
                                 @*if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
-                                {
-                                    @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameKr, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
-                                }
-                                else
-                                {
-                                    @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
-                                }*@
+                                    {
+                                        @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameKr, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink(unit.MaterialUnitPrice.MaterialName.NameVn, "Details", "MaterialBuy", new { id = unit.MaterialBuyID }, null)
+                                    }*@
                             </td>
                             <td>
                                 @unit.MaterialUnitPrice.UnitString
@@ -341,17 +345,17 @@
 
                         </tr>
                     }
-                    foreach( var pay in item.Payments)
+                    foreach (var pay in item.Payments)
                     {
-                        if( pay.MaterialBuys.Count() > 1 )
+                        if (pay.MaterialBuys.Count() > 1)
                         {
-                            foreach( var mb in pay.MaterialBuys)
+                            foreach (var mb in pay.MaterialBuys)
                             {
-                                if( mb.ProjectID == Model.ID )
+                                if (mb.ProjectID == Model.ID)
                                 {
                                     foreach (var u in mb.MaterialBuyUnits)
                                     {
-                                        payment = payment + (double)((u.Quantity * u.MaterialUnitPrice.Price) * (double)(1+u.MaterialBuy.VATPer));
+                                        payment = payment + (double)((u.Quantity * u.MaterialUnitPrice.Price) * (double)(1 + u.MaterialBuy.VATPer));
                                     }
                                 }
                             }
@@ -383,3 +387,17 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<script>
+    $(b1).click(function () {
+        $(p1).slideDown("fast");
+        $(b1).hide();
+        $(b2).show();
+    });
+
+    $(b2).click(function () {
+        $(p1).slideUp("slow");
+        $(b2).hide();
+        $(b1).show();
+    });
+</script>
