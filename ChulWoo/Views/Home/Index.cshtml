@@ -1,86 +1,150 @@
-﻿@model IEnumerable<ChulWoo.Models.Personnel>
+﻿@model ChulWoo.Viewmodel.HomeInfoData
+
 @using ChulWoo.Models;
 @using ChulWoo.Helper;
 @using PagedList.Mvc;
 
 @{
+    /**/
+
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
+<div class="jumbotron" style="padding-top:15px;padding-bottom:15px;margin-bottom:15px;">
     <h1>ChulWoo VINA</h1>
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>오늘의 인사정보</h2>
-        <table class="table">
-            <tr>
-                <th>@Resource.Name</th>
-                <th>@Resource.Type</th>
-            </tr>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.ActionLink(item.Employee.Name, "Details", "Employee", new { id = item.EmployeeID }, null)
-                    </td>
-                    <td>
-                        @EnumExtensions.GetDisplayName(item.Type)
-                    </td>
-                </tr>
-            }
-        </table>
-    </div>
-    <div class="col-md-4">
-        <h2>새로 추가된 글</h2>
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.ActionLink("Board", "Index", "Board")
-            </dt>
-            <dd>
-                @ViewBag.newBoard
-            </dd>
-            <dt>
-                @Html.ActionLink("Personnel", "Index", "Personnel")
-            </dt>
-            <dd>
-                @ViewBag.newPersonnel
-            </dd>
-            <dt>
-                @Html.ActionLink("Factory", "Index", "FactoryDailyWork")
-            </dt>
-            <dd>
-                @ViewBag.newFactory
-            </dd>
-            <dt>
-                @Html.ActionLink("MaterialBuy", "Index", "MaterialBuy")
-            </dt>
-            <dd>
-                @ViewBag.newMaterialBuy
-            </dd>
-            <dt>
-                @Html.ActionLink("Project", "Index", "Project")
-            </dt>
-            <dd>
-                @ViewBag.newProject
-            </dd>
-            @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Power))
-            {
-                <dt>
-                    @Html.ActionLink("Payment", "Index", "Payment")
-                </dt>
-                <dd>
-                    @ViewBag.newPayment
-                </dd>
-            }
-        </dl>
-    </div>
+    @{
+        if (Model.WorkUnits.Count() > 0)
+        {
+            <div class="col-md-4">
+                <h2>미완료 작업</h2>
+                <table class="table">
+                    <tr>
+                        <th>@Resource.ProjectName</th>
+                        <th>@Resource.WorkName</th>
+                        <th>@Resource.Date</th>
+                    </tr>
+                    @{
+                        var temp = Model.WorkUnits.GroupBy(w => w.ProjectID).ToList();
+                        foreach (var unit in temp)
+                        {
+                            for (var idx = 0; idx < unit.Count(); idx++)
+                            {
+                                <tr>
+                                    @if (idx == 0)
+                                    {
+                                        <td rowspan="@unit.Count()">
+                                            @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                                            {
+                                                @unit.ElementAt(idx).Project.NameKr
+                                            }
+                                            else
+                                            {
+                                                @unit.ElementAt(idx).Project.NameVn
+                                            }
+                                        </td>
+                                    }
+                                    <td>
+                                        @if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+                                        {
+                                            @unit.ElementAt(idx).WorkNameKr
+                                        }
+                                        else
+                                        {
+                                            @unit.ElementAt(idx).WorkNameVn
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => @unit.ElementAt(idx).EndDate)
+                                    </td>
+                                </tr>
+
+                            }
+                        }
+                    }
+                </table>
+            </div>
+        }
+    }
+    @{
+        if (Model.Personnels.Count() > 0)
+        {
+            <div class="col-md-4">
+                <h2>오늘의 인사정보</h2>
+                <table class="table">
+                    <tr>
+                        <th>@Resource.Name</th>
+                        <th>@Resource.Type</th>
+                    </tr>
+                    @foreach (var item in Model.Personnels)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(item.Employee.Name, "Details", "Employee", new { id = item.EmployeeID }, null)
+                            </td>
+                            <td>
+                                @EnumExtensions.GetDisplayName(item.Type)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
+    }
+            <div class="col-md-4">
+                <fieldset>
+                    <legend><h2>새로 추가된 글</h2></legend>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.ActionLink("Board", "Index", "Board")
+                        </dt>
+                        <dd>
+                            @ViewBag.newBoard
+                        </dd>
+                        <dt>
+                            @Html.ActionLink("Personnel", "Index", "Personnel")
+                        </dt>
+                        <dd>
+                            @ViewBag.newPersonnel
+                        </dd>
+                        <dt>
+                            @Html.ActionLink("Factory", "Index", "FactoryDailyWork")
+                        </dt>
+                        <dd>
+                            @ViewBag.newFactory
+                        </dd>
+                        <dt>
+                            @Html.ActionLink("MaterialBuy", "Index", "MaterialBuy")
+                        </dt>
+                        <dd>
+                            @ViewBag.newMaterialBuy
+                        </dd>
+                        <dt>
+                            @Html.ActionLink("Project", "Index", "Project")
+                        </dt>
+                        <dd>
+                            @ViewBag.newProject
+                        </dd>
+                        @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Power))
+                        {
+                            <dt>
+                                @Html.ActionLink("Payment", "Index", "Payment")
+                            </dt>
+                            <dd>
+                                @ViewBag.newPayment
+                            </dd>
+                        }
+                    </dl>
+                </fieldset>
+            </div>
     @if (Convert.ToInt32(Context.Session["LoginUserSecurity"]) >= Convert.ToInt32(Security.Translation))
     {
 
-        <div class="col-md-4">
-            <h2>미 번역된 글</h2>
+    <div class="col-md-4">
+        <fieldset>
+            <legend><h2>미 번역된 글</h2></legend>
             <dl class="dl-horizontal">
                 <dt>
                     @Html.ActionLink("Board", "Index", "Board", new { page = 1, currentFilter = "", searchString = "", translate = true }, null)
@@ -155,6 +219,7 @@
                     @ViewBag.tranEquipmentUnit
                 </dd>
             </dl>
-        </div>
+        </fieldset>
+    </div>
     }
 </div>

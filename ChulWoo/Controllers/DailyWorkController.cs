@@ -70,7 +70,8 @@ namespace ChulWoo.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.WorkUnits = db.WorkUnits.Where(w => w.StartDate <= dailyWork.Date && (w.Complete == false || w.EndDate >= dailyWork.Date)).ToList();
+            ViewBag.WorkUnits = db.WorkUnits.Where(w => w.ProjectID == dailyWork.ProjectID && w.StartDate <= dailyWork.Date && 
+                                                    (w.Complete == false || w.EndDate >= dailyWork.Date)).ToList();
             ViewBag.AllEquips = db.EquipmentUnits.Where(e=>e.ID > 0).ToList();
             return View(dailyWork);
         }
@@ -153,7 +154,8 @@ namespace ChulWoo.Controllers
             }
             ViewBag.ProjectID = new SelectList(db.Projects, "ID", "NameVn", dailyWork.ProjectID);
             ViewBag.ProparingPersonID = new SelectList(db.Employees.Where(e => e.ResignID == null), "ID", "Name", dailyWork.ProparingPersonID);
-            ViewBag.WorkUnits = db.WorkUnits.Where(w => w.StartDate <= dailyWork.Date && (w.Complete == false || w.EndDate >= dailyWork.Date)).ToList();
+            ViewBag.WorkUnits = db.WorkUnits.Where(w => w.ProjectID == dailyWork.ProjectID && w.StartDate <= dailyWork.Date && 
+                                                    (w.Complete == false || w.EndDate >= dailyWork.Date)).ToList();
             return View(dailyWork);
         }
 
@@ -246,7 +248,8 @@ namespace ChulWoo.Controllers
             var dailyWorkUnitData = new DailyWorkUnitData();
             dailyWorkUnitData.DailyWork = dailyWork;
 
-            ViewBag.WorkUnits = db.WorkUnits.Where(w => w.StartDate <= dailyWork.Date && (w.Complete == false || w.EndDate >= dailyWork.Date)).ToList();
+            ViewBag.WorkUnits = db.WorkUnits.Where(w => w.ProjectID == dailyWork.ProjectID && w.StartDate <= dailyWork.Date && 
+                                                    (w.Complete == false || w.EndDate >= dailyWork.Date)).ToList();
 
             return View(dailyWorkUnitData);
         }
@@ -270,6 +273,9 @@ namespace ChulWoo.Controllers
                     dailyWorkUnitData.WorkUnit.EndDate = dailyWorkUnitData.DailyWork.Date;
                 else
                     dailyWorkUnitData.WorkUnit.EndDate = null;
+
+                dailyWorkUnitData.WorkUnit.WorkNameKr = dailyWorkUnitData.WorkUnit.WorkNameVn;
+                dailyWorkUnitData.WorkUnit.NoteKr = dailyWorkUnitData.WorkUnit.NoteVn;
 
                 db.WorkUnits.Add(dailyWorkUnitData.WorkUnit);
                 dailyWork.Project.WorkUnits.Add(dailyWorkUnitData.WorkUnit);
@@ -303,7 +309,8 @@ namespace ChulWoo.Controllers
             dailyWorkUnitData.DailyWork = dailyWork;
             dailyWorkUnitData.WorkUnit = workUnit;
 
-            ViewBag.WorkUnits = db.WorkUnits.Where(w => w.StartDate <= dailyWork.Date && (w.Complete == false || w.EndDate >= dailyWork.Date)).ToList();
+            ViewBag.WorkUnits = db.WorkUnits.Where(w => w.ProjectID == dailyWork.ProjectID && w.StartDate <= dailyWork.Date && 
+                                                    (w.Complete == false || w.EndDate >= dailyWork.Date)).ToList();
 
             return View(dailyWorkUnitData);
         }
@@ -375,7 +382,8 @@ namespace ChulWoo.Controllers
             var dailyWorkEquipmentData = new DailyWorkEquipmentData();
             dailyWorkEquipmentData.DailyWork = dailyWork;
 
-            ViewBag.WorkUnits = db.WorkUnits.Where(w => w.StartDate <= dailyWork.Date && (w.Complete == false || w.EndDate >= dailyWork.Date)).ToList();
+            ViewBag.WorkUnits = db.WorkUnits.Where(w => w.ProjectID == dailyWork.ProjectID && w.StartDate <= dailyWork.Date && 
+                                                    (w.Complete == false || w.EndDate >= dailyWork.Date)).ToList();
 
             return View(dailyWorkEquipmentData);
         }
@@ -441,7 +449,8 @@ namespace ChulWoo.Controllers
 
             dailyWorkEquipmentData.DailyWork.EquipmentUnits = dailyWorkEquipmentData.DailyWork.EquipmentUnits.OrderBy(p => p.ID).ToList();
 
-            ViewBag.WorkUnits = db.WorkUnits.Where(w => w.StartDate <= dailyWork.Date && (w.Complete == false || w.EndDate >= dailyWork.Date)).ToList();
+            ViewBag.WorkUnits = db.WorkUnits.Where(w => w.ProjectID == dailyWork.ProjectID && w.StartDate <= dailyWork.Date && 
+                                                    (w.Complete == false || w.EndDate >= dailyWork.Date)).ToList();
 
             return View(dailyWorkEquipmentData);
         }

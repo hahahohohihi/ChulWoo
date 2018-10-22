@@ -14,13 +14,20 @@
 else
 {
     var dailyWork = Model.FirstOrDefault(m => m.ProjectID == ViewBag.ProjectID);
-    if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+    if (dailyWork != null)
     {
-        <h2>Daily Work List - @dailyWork.Project.NameKr</h2>
+        if (Convert.ToInt32(Context.Session["CurrentCulture"]) == 2)
+        {
+            <h2>Daily Work List - @dailyWork.Project.NameKr</h2>
+        }
+        else
+        {
+            <h2>Daily Work List - @dailyWork.Project.NameVn</h2>
+        }
     }
     else
     {
-        <h2>Daily Work List - @dailyWork.Project.NameVn</h2>
+        <h2>Daily Work List</h2>
     }
 }
 
@@ -45,7 +52,7 @@ else
 <table class="table">
     <tr>
         @if (ViewBag.ProjectID == null)
-        { 
+        {
             <th>
                 @Resource.ProjectName
             </th>
@@ -75,7 +82,7 @@ else
     {
         <tr>
             @if (ViewBag.ProjectID == null)
-            { 
+            {
                 <td>
                     @Html.DisplayFor(Item => item.Project.NameVn)
                 </td>

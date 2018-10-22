@@ -416,6 +416,7 @@
     <Compile Include="Viewmodel\DailyWorkUnitData.cs" />
     <Compile Include="Viewmodel\EmployeeExtendData.cs" />
     <Compile Include="Viewmodel\FactoryDailyWorkUnitData.cs" />
+    <Compile Include="Viewmodel\HomeInfoData.cs" />
     <Compile Include="Viewmodel\MaterialBuyData.cs" />
     <Compile Include="Viewmodel\MaterialBuyPaymentData.cs" />
     <Compile Include="Viewmodel\PaymentListData.cs" />

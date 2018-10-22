@@ -107,8 +107,8 @@
             </tr>
             <tr>
                 <td height="77" width="50%">
-                    Name ( Tên ) : @ViewBag.eName<br />
-                    Department ( Bộ phận ) : @ViewBag.DepartmentVn<br />
+                    Name ( Tên ) : @Html.DisplayFor(model => model.Employee.Name)<br />
+                    Department ( Bộ phận ) : @Html.DisplayFor(model => model.Employee.DepartmentVn)<br />
                     Used purpose(Mục đích sử dụng) : @Html.DisplayFor(model => model.Project.NameVn)
                 </td>
                 <td>

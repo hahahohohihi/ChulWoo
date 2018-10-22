@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using ChulWoo.DAL;
 using ChulWoo.Helper;
 using ChulWoo.Models;
+using ChulWoo.Viewmodel;
 
 namespace ChulWoo.Controllers
 {
@@ -40,9 +41,12 @@ namespace ChulWoo.Controllers
             ViewBag.tranWorkUnit = db.WorkUnits.Count(w => w.Translate == false);
             ViewBag.tranEquipmentUnit = db.EquipmentUnits.Count(e => e.Translate == false);
 
-            var personnels = db.Personnels.Where(p => p.StartDate <= DateTime.Today && p.EndDate >= DateTime.Today);
+            var homeInfoData = new HomeInfoData();
+            homeInfoData.Personnels = db.Personnels.Where(p => p.StartDate <= DateTime.Today && p.EndDate >= DateTime.Today).ToList();
 
-            return View(personnels);
+            homeInfoData.WorkUnits = db.WorkUnits.Where(w => w.Complete == false || (w.EndDate != null && w.EndDate >= DateTime.Today)).ToList();
+
+            return View(homeInfoData);
         }
 
         [HttpPost]
