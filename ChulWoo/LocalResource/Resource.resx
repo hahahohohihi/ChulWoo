@@ -405,4 +405,19 @@
   <data name="Currency" xml:space="preserve">
     <value />
   </data>
+  <data name="ExpectDate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="IncompleteWork" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NewMessage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NotTranslate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TodayPersonnel" xml:space="preserve">
+    <value />
+  </data>
 </root>

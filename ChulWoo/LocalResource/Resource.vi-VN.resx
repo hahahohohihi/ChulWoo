@@ -405,4 +405,19 @@
   <data name="Currency" xml:space="preserve">
     <value>tiền tệ</value>
   </data>
+  <data name="ExpectDate" xml:space="preserve">
+    <value>ngày hoàn thành dự kiến</value>
+  </data>
+  <data name="IncompleteWork" xml:space="preserve">
+    <value>chưa hoàn thành</value>
+  </data>
+  <data name="NewMessage" xml:space="preserve">
+    <value>bài viết được thêm mới</value>
+  </data>
+  <data name="NotTranslate" xml:space="preserve">
+    <value>bài viết chưa dịch</value>
+  </data>
+  <data name="TodayPersonnel" xml:space="preserve">
+    <value>nhân sự của hôm nay</value>
+  </data>
 </root>

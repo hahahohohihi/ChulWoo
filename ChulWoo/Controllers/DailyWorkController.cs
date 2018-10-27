@@ -269,11 +269,6 @@ namespace ChulWoo.Controllers
                 //                db.Entry(materialBuyData).State = EntityState.Modified;
                 DailyWork dailyWork = db.DailyWorks.FirstOrDefault(m => m.ID == dailyWorkUnitData.DailyWork.ID);
 
-                if (dailyWorkUnitData.WorkUnit.Complete == true)
-                    dailyWorkUnitData.WorkUnit.EndDate = dailyWorkUnitData.DailyWork.Date;
-                else
-                    dailyWorkUnitData.WorkUnit.EndDate = null;
-
                 dailyWorkUnitData.WorkUnit.WorkNameKr = dailyWorkUnitData.WorkUnit.WorkNameVn;
                 dailyWorkUnitData.WorkUnit.NoteKr = dailyWorkUnitData.WorkUnit.NoteVn;
 
@@ -335,15 +330,8 @@ namespace ChulWoo.Controllers
                     workUnit.Translate = false;
                 if (workUnit.NoteVn != dailyWorkUnitData.WorkUnit.NoteVn)
                     workUnit.Translate = false;
-                if (workUnit.Complete != dailyWorkUnitData.WorkUnit.Complete)
-                {
-                    if(dailyWorkUnitData.WorkUnit.Complete == true)
-                        workUnit.EndDate = dailyWorkUnitData.DailyWork.Date;
-                    else
-                        workUnit.EndDate = null;
-                }
                 workUnit.StartDate = dailyWorkUnitData.WorkUnit.StartDate;
-//                workUnit.EndDate = dailyWorkUnitData.WorkUnit.EndDate;
+                workUnit.EndDate = dailyWorkUnitData.WorkUnit.EndDate;
                 workUnit.Complete = dailyWorkUnitData.WorkUnit.Complete;
                 workUnit.WorkNameVn = dailyWorkUnitData.WorkUnit.WorkNameVn;
                 workUnit.NoteVn = dailyWorkUnitData.WorkUnit.NoteVn;

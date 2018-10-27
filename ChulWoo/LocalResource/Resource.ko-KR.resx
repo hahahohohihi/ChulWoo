@@ -175,7 +175,7 @@
     <value>직원번호</value>
   </data>
   <data name="EndDate" xml:space="preserve">
-    <value>마지막날짜</value>
+    <value>끝날짜</value>
   </data>
   <data name="HospitalizationLeave" xml:space="preserve">
     <value>입원휴가</value>
@@ -404,5 +404,20 @@
   </data>
   <data name="Currency" xml:space="preserve">
     <value>통화</value>
+  </data>
+  <data name="ExpectDate" xml:space="preserve">
+    <value>예상완료날짜</value>
+  </data>
+  <data name="IncompleteWork" xml:space="preserve">
+    <value>미완료작업</value>
+  </data>
+  <data name="NewMessage" xml:space="preserve">
+    <value>새로 추가된 글</value>
+  </data>
+  <data name="NotTranslate" xml:space="preserve">
+    <value>미 번역된 글</value>
+  </data>
+  <data name="TodayPersonnel" xml:space="preserve">
+    <value>오늘의 인사정보</value>
   </data>
 </root>

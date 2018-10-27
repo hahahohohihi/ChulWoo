@@ -19,12 +19,12 @@
         if (Model.WorkUnits.Count() > 0)
         {
             <div class="col-md-4">
-                <h2>미완료 작업</h2>
+                <h2>@Resource.IncompleteWork</h2>
                 <table class="table">
                     <tr>
                         <th>@Resource.ProjectName</th>
                         <th>@Resource.WorkName</th>
-                        <th>@Resource.Date</th>
+                        <th>@Resource.EndDate</th>
                     </tr>
                     @{
                         var temp = Model.WorkUnits.GroupBy(w => w.ProjectID).ToList();
@@ -72,7 +72,7 @@
         if (Model.Personnels.Count() > 0)
         {
             <div class="col-md-4">
-                <h2>오늘의 인사정보</h2>
+                <h2>@Resource.TodayPersonnel</h2>
                 <table class="table">
                     <tr>
                         <th>@Resource.Name</th>
@@ -95,7 +95,7 @@
     }
             <div class="col-md-4">
                 <fieldset>
-                    <legend><h2>새로 추가된 글</h2></legend>
+                    <legend><h2>@Resource.NewMessage</h2></legend>
                     <dl class="dl-horizontal">
                         <dt>
                             @Html.ActionLink("Board", "Index", "Board")
@@ -144,7 +144,7 @@
 
     <div class="col-md-4">
         <fieldset>
-            <legend><h2>미 번역된 글</h2></legend>
+            <legend><h2>@Resource.NotTranslate</h2></legend>
             <dl class="dl-horizontal">
                 <dt>
                     @Html.ActionLink("Board", "Index", "Board", new { page = 1, currentFilter = "", searchString = "", translate = true }, null)

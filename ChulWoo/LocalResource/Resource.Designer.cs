@@ -351,6 +351,15 @@ namespace ChulWoo.LocalResource {
         /// <summary>
         ///   과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
+        public static string ExpectDate {
+            get {
+                return ResourceManager.GetString("ExpectDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
         public static string FeMale {
             get {
                 return ResourceManager.GetString("FeMale", resourceCulture);
@@ -372,6 +381,15 @@ namespace ChulWoo.LocalResource {
         public static string HospitalizationLeave {
             get {
                 return ResourceManager.GetString("HospitalizationLeave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string IncompleteWork {
+            get {
+                return ResourceManager.GetString("IncompleteWork", resourceCulture);
             }
         }
         
@@ -495,6 +513,15 @@ namespace ChulWoo.LocalResource {
         /// <summary>
         ///   과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
+        public static string NewMessage {
+            get {
+                return ResourceManager.GetString("NewMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
         public static string NightOvertime {
             get {
                 return ResourceManager.GetString("NightOvertime", resourceCulture);
@@ -525,6 +552,15 @@ namespace ChulWoo.LocalResource {
         public static string Note {
             get {
                 return ResourceManager.GetString("Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string NotTranslate {
+            get {
+                return ResourceManager.GetString("NotTranslate", resourceCulture);
             }
         }
         
@@ -804,6 +840,15 @@ namespace ChulWoo.LocalResource {
         public static string TexNo {
             get {
                 return ResourceManager.GetString("TexNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string TodayPersonnel {
+            get {
+                return ResourceManager.GetString("TodayPersonnel", resourceCulture);
             }
         }
         
